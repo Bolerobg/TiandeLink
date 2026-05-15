@@ -7,8 +7,16 @@ import { requireUserProfile } from "@/lib/profile";
 import { defaultTheme } from "@/lib/theme";
 
 const profileSchema = z.object({
+  username: z
+    .string()
+    .min(3)
+    .max(32)
+    .regex(/^[a-z0-9-]+$/),
   displayName: z.string().min(2).max(80),
   bio: z.string().max(180).optional(),
+  avatarUrl: z.string().url().max(400).optional().or(z.literal("")),
+  footerBrand: z.boolean(),
+  isPublished: z.boolean(),
   background: z.string().min(4).max(24),
   surface: z.string().min(4).max(24),
   text: z.string().min(4).max(24),
@@ -40,20 +48,40 @@ function refreshProfile(username: string) {
 export async function updateProfile(formData: FormData) {
   const { profile } = await requireUserProfile();
   const parsed = profileSchema.parse({
+    username: String(formData.get("username") || "").toLowerCase(),
     displayName: formData.get("displayName"),
     bio: formData.get("bio") || "",
+    avatarUrl: formData.get("avatarUrl") || "",
+    footerBrand: formData.get("footerBrand") === "on",
+    isPublished: formData.get("isPublished") === "on",
     background: formData.get("background") || defaultTheme.background,
     surface: formData.get("surface") || defaultTheme.surface,
     text: formData.get("text") || defaultTheme.text,
     accent: formData.get("accent") || defaultTheme.accent,
     buttonStyle: formData.get("buttonStyle") || defaultTheme.buttonStyle,
   });
+  const db = getDb();
 
-  await getDb().profile.update({
+  if (parsed.username !== profile.username) {
+    const usernameOwner = await db.profile.findUnique({
+      where: { username: parsed.username },
+      select: { id: true },
+    });
+
+    if (usernameOwner && usernameOwner.id !== profile.id) {
+      return;
+    }
+  }
+
+  await db.profile.update({
     where: { id: profile.id },
     data: {
+      username: parsed.username,
       displayName: parsed.displayName,
       bio: parsed.bio,
+      avatarUrl: parsed.avatarUrl || null,
+      footerBrand: parsed.footerBrand,
+      isPublished: parsed.isPublished,
       theme: {
         background: parsed.background,
         surface: parsed.surface,
@@ -65,6 +93,7 @@ export async function updateProfile(formData: FormData) {
   });
 
   refreshProfile(profile.username);
+  refreshProfile(parsed.username);
 }
 
 export async function createLink(formData: FormData) {

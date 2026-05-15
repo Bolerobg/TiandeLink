@@ -51,7 +51,9 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
     >
       <section className="bio-card" aria-label={`${profile.displayName} links`}>
         <header className="bio-header">
-          <div className="avatar">{profile.displayName.slice(0, 1).toUpperCase()}</div>
+          <div className="avatar">
+            {profile.avatarUrl ? <img alt="" src={profile.avatarUrl} /> : profile.displayName.slice(0, 1).toUpperCase()}
+          </div>
           <h1>{profile.displayName}</h1>
           {profile.bio ? <p>{profile.bio}</p> : null}
         </header>

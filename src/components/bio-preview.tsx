@@ -7,6 +7,8 @@ type PreviewLink = {
 type BioPreviewProps = {
   displayName?: string;
   bio?: string | null;
+  avatarUrl?: string | null;
+  footerBrand?: boolean;
   links?: PreviewLink[];
 };
 
@@ -28,6 +30,8 @@ const fallbackLinks: PreviewLink[] = [
 export function BioPreview({
   displayName = "SaasLink Demo",
   bio = "Всички важни линкове, продукти и кампании на едно място.",
+  avatarUrl,
+  footerBrand = true,
   links = fallbackLinks,
 }: BioPreviewProps) {
   return (
@@ -46,7 +50,9 @@ export function BioPreview({
     >
       <div className="bio-card">
         <div className="bio-header">
-          <div className="avatar">{displayName.slice(0, 1).toUpperCase()}</div>
+          <div className="avatar">
+            {avatarUrl ? <img alt="" src={avatarUrl} /> : displayName.slice(0, 1).toUpperCase()}
+          </div>
           <h1>{displayName}</h1>
           {bio ? <p>{bio}</p> : null}
         </div>
@@ -58,7 +64,7 @@ export function BioPreview({
             </div>
           ))}
         </div>
-        <div className="footer-brand">Made with SaasLink</div>
+        {footerBrand ? <div className="footer-brand">Made with SaasLink</div> : null}
       </div>
     </div>
   );

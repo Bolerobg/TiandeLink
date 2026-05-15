@@ -38,6 +38,7 @@ export default async function DashboardPage() {
       description: link.description,
       spotlight: link.spotlight,
     }));
+  const publicUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/${profile.username}`;
 
   return (
     <main className="app-shell">
@@ -63,6 +64,7 @@ export default async function DashboardPage() {
         <div className="stat-card">
           <span>Активни линкове</span>
           <strong>{activeLinks}</strong>
+          <small>{profile.isPublished ? "Публикуван" : "Скрит профил"}</small>
         </div>
         <div className="stat-card">
           <span>Общо кликове</span>
@@ -83,10 +85,30 @@ export default async function DashboardPage() {
         <div className="stack">
           <form className="panel form-grid" action={updateProfile}>
             <h2>Профил и тема</h2>
+            <div className="public-url">
+              <span>Публичен адрес</span>
+              <a href={`/${profile.username}`}>{publicUrl}</a>
+            </div>
             <div className="two-col">
               <div className="field">
                 <label htmlFor="displayName">Име</label>
                 <input id="displayName" name="displayName" defaultValue={profile.displayName} />
+              </div>
+              <div className="field">
+                <label htmlFor="username">Username</label>
+                <input
+                  id="username"
+                  name="username"
+                  defaultValue={profile.username}
+                  pattern="[a-z0-9-]{3,32}"
+                  required
+                />
+              </div>
+            </div>
+            <div className="two-col">
+              <div className="field">
+                <label htmlFor="avatarUrl">Avatar URL</label>
+                <input id="avatarUrl" name="avatarUrl" type="url" defaultValue={profile.avatarUrl || ""} />
               </div>
               <div className="field">
                 <label htmlFor="buttonStyle">Бутон стил</label>
@@ -100,6 +122,16 @@ export default async function DashboardPage() {
             <div className="field">
               <label htmlFor="bio">Bio</label>
               <textarea id="bio" name="bio" defaultValue={profile.bio || ""} />
+            </div>
+            <div className="toggle-grid">
+              <label className="check-row">
+                <input name="isPublished" type="checkbox" defaultChecked={profile.isPublished} />
+                <span>Профилът е публичен</span>
+              </label>
+              <label className="check-row">
+                <input name="footerBrand" type="checkbox" defaultChecked={profile.footerBrand} />
+                <span>Показвай SaasLink branding</span>
+              </label>
             </div>
             <div className="two-col">
               <div className="field">
@@ -273,7 +305,13 @@ export default async function DashboardPage() {
         </div>
 
         <aside className="phone-preview" aria-label="Live preview">
-          <BioPreview displayName={profile.displayName} bio={profile.bio} links={previewLinks} />
+          <BioPreview
+            avatarUrl={profile.avatarUrl}
+            displayName={profile.displayName}
+            bio={profile.bio}
+            footerBrand={profile.footerBrand}
+            links={previewLinks}
+          />
         </aside>
       </section>
     </main>

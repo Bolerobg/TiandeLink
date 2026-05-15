@@ -284,7 +284,37 @@ h1 {
   resize: vertical;
 }
 
+.public-url {
+  display: grid;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #090d16;
+  padding: 13px;
+}
+
+.public-url span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.public-url a {
+  color: var(--accent);
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .two-col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.toggle-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
@@ -366,6 +396,7 @@ h1 {
 }
 
 .avatar {
+  overflow: hidden;
   display: grid;
   place-items: center;
   width: 96px;
@@ -376,6 +407,12 @@ h1 {
   color: #052e2b;
   font-size: 2.3rem;
   font-weight: 900;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .bio-header h1 {
@@ -536,6 +573,7 @@ h1 {
   .nav-actions,
   .hero-actions,
   .two-col,
+  .toggle-grid,
   .feature-grid,
   .stats-grid {
     grid-template-columns: 1fr;
