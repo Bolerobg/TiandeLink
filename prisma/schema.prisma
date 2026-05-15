@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Plan {
+  FREE
+  STARTER
+  PRO
+  PREMIUM
+}
+
+enum LinkType {
+  URL
+  FEATURED
+  PRODUCT
+  BOOKING
+  EMAIL_CAPTURE
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  plan      Plan     @default(FREE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  profiles  Profile[]
+}
+
+model Profile {
+  id          String   @id @default(cuid())
+  ownerId     String
+  username    String   @unique
+  displayName String
+  bio         String?
+  avatarUrl   String?
+  theme       Json     @default("{\"background\":\"#0f172a\",\"surface\":\"#111827\",\"text\":\"#f8fafc\",\"accent\":\"#2dd4bf\",\"buttonStyle\":\"solid\"}")
+  footerBrand Boolean  @default(true)
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  links Link[]
+}
+
+model Link {
+  id          String    @id @default(cuid())
+  profileId   String
+  title       String
+  url         String
+  type        LinkType  @default(URL)
+  description String?
+  position    Int
+  isActive    Boolean   @default(true)
+  startsAt    DateTime?
+  endsAt      DateTime?
+  spotlight   Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  clicks  ClickEvent[]
+
+  @@index([profileId, position])
+}
+
+model ClickEvent {
+  id        String   @id @default(cuid())
+  linkId    String
+  profileId String
+  referrer  String?
+  userAgent String?
+  ipHash    String?
+  country   String?
+  createdAt DateTime @default(now())
+
+  link Link @relation(fields: [linkId], references: [id], onDelete: Cascade)
+
+  @@index([profileId, createdAt])
+  @@index([linkId, createdAt])
+}
