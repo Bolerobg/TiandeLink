@@ -7,15 +7,16 @@ import {
   updateLink,
   updateProfile,
 } from "@/app/dashboard/actions";
+import { logoutUser } from "@/app/(auth)/actions";
 import { BioPreview } from "@/components/bio-preview";
-import { ensureDemoProfile } from "@/lib/demo";
 import { getDb } from "@/lib/db";
+import { requireUserProfile } from "@/lib/profile";
 import { parseTheme } from "@/lib/theme";
 
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
-  const profile = await ensureDemoProfile();
+  const { user, profile } = await requireUserProfile();
   const db = getDb();
   const links = await db.link.findMany({
     where: { profileId: profile.id },
@@ -46,9 +47,15 @@ export default async function DashboardPage() {
           <span>SaasLink</span>
         </Link>
         <nav className="nav-actions" aria-label="Dashboard navigation">
+          <span className="user-pill">{user.email}</span>
           <Link className="button" href={`/${profile.username}`}>
             Публична страница
           </Link>
+          <form action={logoutUser}>
+            <button className="button" type="submit">
+              Изход
+            </button>
+          </form>
         </nav>
       </header>
 

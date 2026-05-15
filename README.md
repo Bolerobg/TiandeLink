@@ -8,7 +8,8 @@ SaasLink is a Docker-ready Linktree-style SaaS starter for Ubuntu servers.
 - PostgreSQL database via Docker Compose.
 - Prisma schema and initial migration.
 - Public profile page at `/:username`.
-- Demo dashboard at `/dashboard`.
+- Register/login/logout with httpOnly sessions.
+- User dashboard at `/dashboard`.
 - Link creation, inline editing, reorder, hide/show, delete and profile theme editing.
 - Click tracking through `/api/click/:linkId`.
 - Dashboard stats and per-link analytics.
@@ -26,6 +27,8 @@ npm run dev
 Open:
 
 - App: http://localhost:3000
+- Register: http://localhost:3000/register
+- Login: http://localhost:3000/login
 - Dashboard: http://localhost:3000/dashboard
 - Demo profile: http://localhost:3000/demo
 

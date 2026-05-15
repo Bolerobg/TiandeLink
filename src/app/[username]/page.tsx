@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getDb } from "@/lib/db";
+import { ensureDemoProfile } from "@/lib/demo";
 import { parseTheme } from "@/lib/theme";
 
 export const dynamic = "force-dynamic";
@@ -10,6 +11,10 @@ type PublicProfilePageProps = {
 
 export default async function PublicProfilePage({ params }: PublicProfilePageProps) {
   const { username } = await params;
+  if (username === "demo") {
+    await ensureDemoProfile();
+  }
+
   const profile = await getDb().profile.findUnique({
     where: { username },
     include: {

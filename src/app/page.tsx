@@ -20,8 +20,11 @@ export default function HomePage() {
           <Link className="button" href="/demo">
             Виж demo
           </Link>
-          <Link className="button primary" href="/dashboard">
-            Dashboard
+          <Link className="button" href="/login">
+            Вход
+          </Link>
+          <Link className="button primary" href="/register">
+            Създай акаунт
           </Link>
         </nav>
       </header>
@@ -35,8 +38,8 @@ export default function HomePage() {
             теми, link tracking и структура за бъдещи платени планове.
           </p>
           <div className="hero-actions">
-            <Link className="button primary" href="/dashboard">
-              Започни с demo профил
+            <Link className="button primary" href="/register">
+              Създай профил
             </Link>
             <Link className="button" href="/demo">
               Отвори публичната страница

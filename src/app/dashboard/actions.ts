@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { ensureDemoProfile } from "@/lib/demo";
 import { getDb } from "@/lib/db";
+import { requireUserProfile } from "@/lib/profile";
 import { defaultTheme } from "@/lib/theme";
 
 const profileSchema = z.object({
@@ -38,7 +38,7 @@ function refreshProfile(username: string) {
 }
 
 export async function updateProfile(formData: FormData) {
-  const profile = await ensureDemoProfile();
+  const { profile } = await requireUserProfile();
   const parsed = profileSchema.parse({
     displayName: formData.get("displayName"),
     bio: formData.get("bio") || "",
@@ -68,7 +68,7 @@ export async function updateProfile(formData: FormData) {
 }
 
 export async function createLink(formData: FormData) {
-  const profile = await ensureDemoProfile();
+  const { profile } = await requireUserProfile();
   const parsed = linkSchema.parse({
     title: formData.get("title"),
     url: formData.get("url"),
@@ -98,7 +98,7 @@ export async function createLink(formData: FormData) {
 }
 
 export async function updateLink(formData: FormData) {
-  const profile = await ensureDemoProfile();
+  const { profile } = await requireUserProfile();
   const parsedId = linkIdSchema.parse({ id: formData.get("id") });
   const parsed = linkSchema.parse({
     title: formData.get("title"),
@@ -124,7 +124,7 @@ export async function updateLink(formData: FormData) {
 
 export async function toggleLink(formData: FormData) {
   const active = formData.get("active") === "true";
-  const profile = await ensureDemoProfile();
+  const { profile } = await requireUserProfile();
   const parsed = linkIdSchema.parse({ id: formData.get("id") });
 
   await getDb().link.update({
@@ -136,7 +136,7 @@ export async function toggleLink(formData: FormData) {
 }
 
 export async function moveLink(formData: FormData) {
-  const profile = await ensureDemoProfile();
+  const { profile } = await requireUserProfile();
   const parsed = moveLinkSchema.parse({
     id: formData.get("id"),
     direction: formData.get("direction"),
@@ -172,7 +172,7 @@ export async function moveLink(formData: FormData) {
 }
 
 export async function deleteLink(formData: FormData) {
-  const profile = await ensureDemoProfile();
+  const { profile } = await requireUserProfile();
   const parsed = linkIdSchema.parse({ id: formData.get("id") });
 
   await getDb().link.delete({ where: { id: parsed.id, profileId: profile.id } });
