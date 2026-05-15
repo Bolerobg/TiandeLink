@@ -9,8 +9,9 @@ SaasLink is a Docker-ready Linktree-style SaaS starter for Ubuntu servers.
 - Prisma schema and initial migration.
 - Public profile page at `/:username`.
 - Demo dashboard at `/dashboard`.
-- Link creation, hide/show, delete and profile theme editing.
+- Link creation, inline editing, reorder, hide/show, delete and profile theme editing.
 - Click tracking through `/api/click/:linkId`.
+- Dashboard stats and per-link analytics.
 
 ## Local development
 
@@ -31,10 +32,25 @@ Open:
 ## Docker
 
 ```bash
-docker compose up --build
+docker compose up --build -d
 ```
 
 The web container runs Prisma migrations before starting Next.js.
+
+Useful commands:
+
+```bash
+docker compose ps
+docker compose logs -f web
+docker compose down
+```
+
+After pulling new code on a server:
+
+```bash
+git pull
+docker compose up --build -d
+```
 
 ## Product roadmap
 

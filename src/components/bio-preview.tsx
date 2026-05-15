@@ -1,4 +1,35 @@
-export function BioPreview() {
+type PreviewLink = {
+  title: string;
+  description?: string | null;
+  spotlight?: boolean;
+};
+
+type BioPreviewProps = {
+  displayName?: string;
+  bio?: string | null;
+  links?: PreviewLink[];
+};
+
+const fallbackLinks: PreviewLink[] = [
+  {
+    title: "Запази безплатна консултация",
+    description: "Booking CTA за услуги, коучинг или демо срещи.",
+    spotlight: true,
+  },
+  {
+    title: "Дигитален продукт",
+    description: "Място за PDF, курс или шаблон.",
+  },
+  {
+    title: "Instagram",
+  },
+];
+
+export function BioPreview({
+  displayName = "SaasLink Demo",
+  bio = "Всички важни линкове, продукти и кампании на едно място.",
+  links = fallbackLinks,
+}: BioPreviewProps) {
   return (
     <div
       className="bio-page"
@@ -15,22 +46,17 @@ export function BioPreview() {
     >
       <div className="bio-card">
         <div className="bio-header">
-          <div className="avatar">S</div>
-          <h1>SaasLink Demo</h1>
-          <p>Всички важни линкове, продукти и кампании на едно място.</p>
+          <div className="avatar">{displayName.slice(0, 1).toUpperCase()}</div>
+          <h1>{displayName}</h1>
+          {bio ? <p>{bio}</p> : null}
         </div>
         <div className="bio-links">
-          <div className="bio-link featured">
-            <strong>Запази безплатна консултация</strong>
-            <small>Booking CTA за услуги, коучинг или демо срещи.</small>
-          </div>
-          <div className="bio-link">
-            <strong>Дигитален продукт</strong>
-            <small>Място за PDF, курс или шаблон.</small>
-          </div>
-          <div className="bio-link">
-            <strong>Instagram</strong>
-          </div>
+          {links.map((link) => (
+            <div className={`bio-link ${link.spotlight ? "featured" : ""}`} key={link.title}>
+              <strong>{link.title}</strong>
+              {link.description ? <small>{link.description}</small> : null}
+            </div>
+          ))}
         </div>
         <div className="footer-brand">Made with SaasLink</div>
       </div>

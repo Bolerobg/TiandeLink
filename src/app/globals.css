@@ -276,6 +276,15 @@ h1 {
   font-size: 1.8rem;
 }
 
+.stat-card small {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .phone-preview {
   position: sticky;
   top: 18px;
@@ -352,6 +361,85 @@ h1 {
   color: color-mix(in srgb, var(--profile-text) 68%, transparent);
 }
 
+.link-editor {
+  margin-top: 12px;
+}
+
+.link-editor summary {
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.compact-form {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #dbeafe;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.check-row input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+.icon-button {
+  width: 42px;
+  padding: 0;
+  font-size: 1.15rem;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.analytics-table {
+  display: grid;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.analytics-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) 120px 100px 80px;
+  gap: 12px;
+  align-items: center;
+  padding: 13px 14px;
+  border-top: 1px solid var(--line);
+}
+
+.analytics-row:first-child {
+  border-top: 0;
+}
+
+.analytics-row.header {
+  background: var(--panel-strong);
+  color: #cbd5e1;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.analytics-row span,
+.analytics-row strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .footer-brand {
   margin-top: 22px;
   color: color-mix(in srgb, var(--profile-text) 56%, transparent);
@@ -406,5 +494,14 @@ h1 {
 
   .link-row {
     grid-template-columns: 1fr;
+  }
+
+  .analytics-row {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .analytics-row.header {
+    display: none;
   }
 }

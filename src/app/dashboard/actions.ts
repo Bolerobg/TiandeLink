@@ -24,6 +24,19 @@ const linkSchema = z.object({
   spotlight: z.coerce.boolean().optional(),
 });
 
+const linkIdSchema = z.object({
+  id: z.string().min(1),
+});
+
+const moveLinkSchema = linkIdSchema.extend({
+  direction: z.enum(["up", "down"]),
+});
+
+function refreshProfile(username: string) {
+  revalidatePath("/dashboard");
+  revalidatePath(`/${username}`);
+}
+
 export async function updateProfile(formData: FormData) {
   const profile = await ensureDemoProfile();
   const parsed = profileSchema.parse({
@@ -51,8 +64,7 @@ export async function updateProfile(formData: FormData) {
     },
   });
 
-  revalidatePath("/dashboard");
-  revalidatePath(`/${profile.username}`);
+  refreshProfile(profile.username);
 }
 
 export async function createLink(formData: FormData) {
@@ -82,30 +94,103 @@ export async function createLink(formData: FormData) {
     },
   });
 
-  revalidatePath("/dashboard");
-  revalidatePath(`/${profile.username}`);
+  refreshProfile(profile.username);
+}
+
+export async function updateLink(formData: FormData) {
+  const profile = await ensureDemoProfile();
+  const parsedId = linkIdSchema.parse({ id: formData.get("id") });
+  const parsed = linkSchema.parse({
+    title: formData.get("title"),
+    url: formData.get("url"),
+    description: formData.get("description") || "",
+    type: formData.get("type") || "URL",
+    spotlight: formData.get("spotlight") === "on",
+  });
+
+  await getDb().link.update({
+    where: { id: parsedId.id, profileId: profile.id },
+    data: {
+      title: parsed.title,
+      url: parsed.url,
+      description: parsed.description,
+      type: parsed.type,
+      spotlight: parsed.spotlight || parsed.type === "FEATURED",
+    },
+  });
+
+  refreshProfile(profile.username);
 }
 
 export async function toggleLink(formData: FormData) {
-  const id = String(formData.get("id") || "");
   const active = formData.get("active") === "true";
   const profile = await ensureDemoProfile();
+  const parsed = linkIdSchema.parse({ id: formData.get("id") });
 
   await getDb().link.update({
-    where: { id },
+    where: { id: parsed.id, profileId: profile.id },
     data: { isActive: !active },
   });
 
-  revalidatePath("/dashboard");
-  revalidatePath(`/${profile.username}`);
+  refreshProfile(profile.username);
+}
+
+export async function moveLink(formData: FormData) {
+  const profile = await ensureDemoProfile();
+  const parsed = moveLinkSchema.parse({
+    id: formData.get("id"),
+    direction: formData.get("direction"),
+  });
+
+  const links = await getDb().link.findMany({
+    where: { profileId: profile.id },
+    orderBy: { position: "asc" },
+    select: { id: true, position: true },
+  });
+  const currentIndex = links.findIndex((link) => link.id === parsed.id);
+  const targetIndex = parsed.direction === "up" ? currentIndex - 1 : currentIndex + 1;
+
+  if (currentIndex < 0 || targetIndex < 0 || targetIndex >= links.length) {
+    return;
+  }
+
+  const current = links[currentIndex];
+  const target = links[targetIndex];
+
+  await getDb().$transaction([
+    getDb().link.update({
+      where: { id: current.id, profileId: profile.id },
+      data: { position: target.position },
+    }),
+    getDb().link.update({
+      where: { id: target.id, profileId: profile.id },
+      data: { position: current.position },
+    }),
+  ]);
+
+  refreshProfile(profile.username);
 }
 
 export async function deleteLink(formData: FormData) {
-  const id = String(formData.get("id") || "");
   const profile = await ensureDemoProfile();
+  const parsed = linkIdSchema.parse({ id: formData.get("id") });
 
-  await getDb().link.delete({ where: { id } });
+  await getDb().link.delete({ where: { id: parsed.id, profileId: profile.id } });
 
-  revalidatePath("/dashboard");
-  revalidatePath(`/${profile.username}`);
+  const remainingLinks = await getDb().link.findMany({
+    where: { profileId: profile.id },
+    orderBy: { position: "asc" },
+    select: { id: true },
+  });
+
+  await getDb().$transaction(
+    remainingLinks.map((link, index) =>
+      getDb().link.update({
+        where: { id: link.id, profileId: profile.id },
+        data: { position: index + 1 },
+      }),
+    ),
+  );
+
+  refreshProfile(profile.username);
 }

@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { createLink, deleteLink, toggleLink, updateProfile } from "@/app/dashboard/actions";
+import {
+  createLink,
+  deleteLink,
+  moveLink,
+  toggleLink,
+  updateLink,
+  updateProfile,
+} from "@/app/dashboard/actions";
 import { BioPreview } from "@/components/bio-preview";
 import { ensureDemoProfile } from "@/lib/demo";
 import { getDb } from "@/lib/db";
@@ -16,8 +23,20 @@ export default async function DashboardPage() {
     include: { _count: { select: { clicks: true } } },
   });
   const clickCount = await db.clickEvent.count({ where: { profileId: profile.id } });
+  const lastWeek = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  const recentClickCount = await db.clickEvent.count({
+    where: { profileId: profile.id, createdAt: { gte: lastWeek } },
+  });
   const activeLinks = links.filter((link) => link.isActive).length;
+  const topLink = [...links].sort((a, b) => b._count.clicks - a._count.clicks)[0];
   const theme = parseTheme(profile.theme);
+  const previewLinks = links
+    .filter((link) => link.isActive)
+    .map((link) => ({
+      title: link.title,
+      description: link.description,
+      spotlight: link.spotlight,
+    }));
 
   return (
     <main className="app-shell">
@@ -43,8 +62,13 @@ export default async function DashboardPage() {
           <strong>{clickCount}</strong>
         </div>
         <div className="stat-card">
-          <span>План</span>
-          <strong>PRO</strong>
+          <span>Последни 7 дни</span>
+          <strong>{recentClickCount}</strong>
+        </div>
+        <div className="stat-card">
+          <span>Топ линк</span>
+          <strong>{topLink ? topLink._count.clicks : 0}</strong>
+          <small>{topLink?.title || "Няма данни"}</small>
         </div>
       </section>
 
@@ -131,7 +155,7 @@ export default async function DashboardPage() {
           <section className="panel">
             <h2>Линкове</h2>
             <div className="stack">
-              {links.map((link) => (
+              {links.map((link, index) => (
                 <article className="link-row" key={link.id}>
                   <div>
                     <strong>{link.title}</strong>
@@ -139,8 +163,68 @@ export default async function DashboardPage() {
                     <p>
                       {link.type} · {link._count.clicks} клика · {link.isActive ? "Активен" : "Скрит"}
                     </p>
+                    <details className="link-editor">
+                      <summary>Редактирай</summary>
+                      <form className="form-grid compact-form" action={updateLink}>
+                        <input type="hidden" name="id" value={link.id} />
+                        <div className="two-col">
+                          <div className="field">
+                            <label htmlFor={`title-${link.id}`}>Заглавие</label>
+                            <input id={`title-${link.id}`} name="title" defaultValue={link.title} required />
+                          </div>
+                          <div className="field">
+                            <label htmlFor={`type-${link.id}`}>Тип</label>
+                            <select id={`type-${link.id}`} name="type" defaultValue={link.type}>
+                              <option value="URL">URL</option>
+                              <option value="FEATURED">Featured</option>
+                              <option value="PRODUCT">Product</option>
+                              <option value="BOOKING">Booking</option>
+                              <option value="EMAIL_CAPTURE">Email capture</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="field">
+                          <label htmlFor={`url-${link.id}`}>URL</label>
+                          <input id={`url-${link.id}`} name="url" type="url" defaultValue={link.url} required />
+                        </div>
+                        <div className="field">
+                          <label htmlFor={`description-${link.id}`}>Описание</label>
+                          <input
+                            id={`description-${link.id}`}
+                            name="description"
+                            defaultValue={link.description || ""}
+                          />
+                        </div>
+                        <label className="check-row">
+                          <input name="spotlight" type="checkbox" defaultChecked={link.spotlight} />
+                          <span>Spotlight линк</span>
+                        </label>
+                        <button className="button primary" type="submit">
+                          Запази линка
+                        </button>
+                      </form>
+                    </details>
                   </div>
                   <div className="link-actions">
+                    <form action={moveLink}>
+                      <input type="hidden" name="id" value={link.id} />
+                      <input type="hidden" name="direction" value="up" />
+                      <button className="button icon-button" disabled={index === 0} title="Премести нагоре" type="submit">
+                        ↑
+                      </button>
+                    </form>
+                    <form action={moveLink}>
+                      <input type="hidden" name="id" value={link.id} />
+                      <input type="hidden" name="direction" value="down" />
+                      <button
+                        className="button icon-button"
+                        disabled={index === links.length - 1}
+                        title="Премести надолу"
+                        type="submit"
+                      >
+                        ↓
+                      </button>
+                    </form>
                     <form action={toggleLink}>
                       <input type="hidden" name="id" value={link.id} />
                       <input type="hidden" name="active" value={String(link.isActive)} />
@@ -159,10 +243,30 @@ export default async function DashboardPage() {
               ))}
             </div>
           </section>
+
+          <section className="panel">
+            <h2>Аналитика по линк</h2>
+            <div className="analytics-table" role="table" aria-label="Link analytics">
+              <div className="analytics-row header" role="row">
+                <span role="columnheader">Линк</span>
+                <span role="columnheader">Тип</span>
+                <span role="columnheader">Статус</span>
+                <span role="columnheader">Кликове</span>
+              </div>
+              {links.map((link) => (
+                <div className="analytics-row" role="row" key={`analytics-${link.id}`}>
+                  <span role="cell">{link.title}</span>
+                  <span role="cell">{link.type}</span>
+                  <span role="cell">{link.isActive ? "Активен" : "Скрит"}</span>
+                  <strong role="cell">{link._count.clicks}</strong>
+                </div>
+              ))}
+            </div>
+          </section>
         </div>
 
         <aside className="phone-preview" aria-label="Live preview">
-          <BioPreview />
+          <BioPreview displayName={profile.displayName} bio={profile.bio} links={previewLinks} />
         </aside>
       </section>
     </main>
