@@ -327,9 +327,40 @@ h1 {
 
 .link-row {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto 1fr auto;
   gap: 14px;
   padding: 16px;
+  align-items: start;
+}
+
+.sortable-row {
+  cursor: default;
+}
+
+.sortable-row.is-dragging {
+  opacity: 0.4;
+}
+
+.drag-handle {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  color: var(--muted);
+  cursor: grab;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+  background: var(--panel-strong);
+}
+
+.drag-handle:hover {
+  color: var(--foreground);
+  background: var(--panel-strong);
 }
 
 .link-row p {
