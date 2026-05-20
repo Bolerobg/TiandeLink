@@ -29,7 +29,7 @@ services:
       - "127.0.0.1:3000:3000"
     networks:
       - default
-      - n8n_proxy
+      - my-n8n_proxy
     command: sh -c "./node_modules/.bin/prisma migrate deploy && node server.js"
 
 volumes:
@@ -37,5 +37,5 @@ volumes:
 
 networks:
   default:
-  n8n_proxy:
+  my-n8n_proxy:
     external: true
