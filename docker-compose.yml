@@ -13,8 +13,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-    networks:
-      - internal
 
   web:
     build: .
@@ -27,29 +25,9 @@ services:
       NEXT_PUBLIC_APP_URL: https://lookthis.info
       HOSTNAME: 0.0.0.0
       PORT: 3000
-    networks:
-      - internal
-      - proxy
-    command: sh -c "./node_modules/.bin/prisma migrate deploy && node server.js"
-
-  nginx-proxy:
-    image: jc21/nginx-proxy-manager:latest
-    restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
-      - "81:81"
-    volumes:
-      - npm-data:/data
-      - npm-letsencrypt:/etc/letsencrypt
-    networks:
-      - proxy
+      - "127.0.0.1:3000:3000"
+    command: sh -c "./node_modules/.bin/prisma migrate deploy && node server.js"
 
 volumes:
   postgres-data:
-  npm-data:
-  npm-letsencrypt:
-
-networks:
-  internal:
-  proxy:
