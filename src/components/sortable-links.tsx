@@ -77,13 +77,16 @@ export function SortableLinks({
           <article
             className={`link-row sortable-row ${isDragged ? "is-dragging" : ""}`}
             key={link.id}
-            draggable
-            onDragStart={(e) => onDragStart(e, index)}
             onDragOver={(e) => onDragOver(e, index)}
-            onDragEnd={onDragEnd}
             onDrop={onDrop}
           >
-            <div className="drag-handle" title="Дръпни за пренареждане">
+            <div
+              className="drag-handle"
+              title="Дръпни за пренареждане"
+              draggable
+              onDragStart={(e) => onDragStart(e, index)}
+              onDragEnd={onDragEnd}
+            >
               <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                 <circle cx="9" cy="5" r="1.5" /><circle cx="15" cy="5" r="1.5" />
                 <circle cx="9" cy="12" r="1.5" /><circle cx="15" cy="12" r="1.5" />
