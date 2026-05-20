@@ -160,6 +160,25 @@ export default async function DashboardPage() {
               <label htmlFor="bio">Bio</label>
               <textarea id="bio" name="bio" defaultValue={profile.bio || ""} />
             </div>
+            <h3 style={{ marginBottom: 4, fontSize: "1rem" }}>Социални мрежи</h3>
+            <div className="two-col">
+              <div className="field">
+                <label htmlFor="socialInstagram">Instagram URL</label>
+                <input id="socialInstagram" name="socialInstagram" placeholder="https://instagram.com/username" defaultValue={profile.socialInstagram || ""} />
+              </div>
+              <div className="field">
+                <label htmlFor="socialFacebook">Facebook URL</label>
+                <input id="socialFacebook" name="socialFacebook" placeholder="https://facebook.com/profile" defaultValue={profile.socialFacebook || ""} />
+              </div>
+              <div className="field">
+                <label htmlFor="socialWhatsapp">WhatsApp</label>
+                <input id="socialWhatsapp" name="socialWhatsapp" placeholder="https://wa.me/359..." defaultValue={profile.socialWhatsapp || ""} />
+              </div>
+              <div className="field">
+                <label htmlFor="socialViber">Viber</label>
+                <input id="socialViber" name="socialViber" placeholder="viber://chat?number=..." defaultValue={profile.socialViber || ""} />
+              </div>
+            </div>
             <div className="toggle-grid">
               <label className="check-row">
                 <input name="isPublished" type="checkbox" defaultChecked={profile.isPublished} />

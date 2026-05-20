@@ -48,19 +48,23 @@ model Session {
 }
 
 model Profile {
-  id           String   @id @default(cuid())
-  ownerId      String
-  username     String   @unique
-  customDomain String?  @unique
-  displayName  String
-  bio          String?
-  avatarUrl    String?
-  timezone     String   @default("Europe/Sofia")
-  theme        Json     @default("{\"background\":\"#b7aa7e\",\"surface\":\"#c7b98b\",\"text\":\"#35231e\",\"accent\":\"#655b39\",\"buttonStyle\":\"solid\"}")
-  footerBrand  Boolean  @default(true)
-  isPublished  Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id              String   @id @default(cuid())
+  ownerId         String
+  username        String   @unique
+  customDomain    String?  @unique
+  displayName     String
+  bio             String?
+  avatarUrl       String?
+  timezone        String   @default("Europe/Sofia")
+  socialInstagram String?
+  socialFacebook  String?
+  socialWhatsapp  String?
+  socialViber     String?
+  theme           Json     @default("{\"background\":\"#b7aa7e\",\"surface\":\"#c7b98b\",\"text\":\"#35231e\",\"accent\":\"#655b39\",\"buttonStyle\":\"solid\"}")
+  footerBrand     Boolean  @default(true)
+  isPublished     Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   links Link[]

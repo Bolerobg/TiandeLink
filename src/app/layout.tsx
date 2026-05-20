@@ -2,8 +2,22 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SaasLink",
-  description: "Link-in-bio SaaS platform for creators and small businesses.",
+  title: "SaasLink — Вашата линк страница",
+  description: "Създайте своя Linktree-style профил с линкове, продукти и кампании на едно място. Безплатна регистрация.",
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+  },
+  openGraph: {
+    title: "SaasLink — Вашата линк страница",
+    description: "Създайте своя Linktree-style профил с линкове, продукти и кампании на едно място.",
+    type: "website",
+    locale: "bg_BG",
+  },
+  twitter: {
+    card: "summary",
+    title: "SaasLink",
+    description: "Link-in-bio платформа за всички ваши линкове.",
+  },
 };
 
 export default function RootLayout({

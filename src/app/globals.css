@@ -387,6 +387,26 @@ h1 {
   font-family: Georgia, "Times New Roman", serif;
 }
 
+.bio-frame {
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  padding: 32px 20px 20px;
+  min-height: 100vh;
+}
+
+@media (max-width: 600px) {
+  .bio-frame {
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
 .bio-card {
   width: 100%;
   max-width: 580px;
@@ -686,6 +706,39 @@ h1 {
   color: color-mix(in srgb, var(--profile-text) 56%, transparent);
   text-align: center;
   font-size: 0.84rem;
+}
+
+.bio-tools {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+
+.tool-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 2px solid #655b39;
+  border-radius: 28px;
+  background: #c7b98b;
+  color: #35231e;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  transition: transform 80ms ease;
+}
+
+.tool-button:hover {
+  transform: translateY(-1px);
+}
+
+.tool-button:active {
+  transform: translateY(1px);
 }
 
 @media (max-width: 900px) {
