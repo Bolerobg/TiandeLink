@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { createLink, updateProfile } from "@/app/dashboard/actions";
+import { createLink, updateProfile, updateLink, moveLink, toggleLink, deleteLink } from "@/app/dashboard/actions";
 import { logoutUser } from "@/app/(auth)/actions";
 import { BioPreview } from "@/components/bio-preview";
 import { SortableLinks } from "@/components/sortable-links";
@@ -264,6 +264,83 @@ export default async function DashboardPage() {
           <section className="panel">
             <h2>Линкове (drag & drop за пренареждане)</h2>
             <SortableLinks links={linkItems} />
+            <div className="link-actions-row" style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 8 }}>
+              {links.map((link, index) => (
+                <div key={`btns-${link.id}`} className="link-row" style={{ border: 0, padding: "8px 0", display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <strong style={{ fontSize: "0.9rem" }}>{link.title}</strong>
+                  </span>
+                  <details className="link-editor" style={{ margin: 0, display: "inline" }}>
+                    <summary style={{ fontSize: "0.82rem" }}>Редактирай</summary>
+                    <form className="form-grid compact-form" action={updateLink} style={{ marginTop: 8, paddingTop: 8 }}>
+                      <input type="hidden" name="id" value={link.id} />
+                      <div className="two-col">
+                        <div className="field">
+                          <label htmlFor={`title-${link.id}`}>Заглавие</label>
+                          <input id={`title-${link.id}`} name="title" defaultValue={link.title} required />
+                        </div>
+                        <div className="field">
+                          <label htmlFor={`type-${link.id}`}>Тип</label>
+                          <select id={`type-${link.id}`} name="type" defaultValue={link.type}>
+                            <option value="URL">URL</option>
+                            <option value="FEATURED">Featured</option>
+                            <option value="PRODUCT">Product</option>
+                            <option value="BOOKING">Booking</option>
+                            <option value="EMAIL_CAPTURE">Email capture</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="field">
+                        <label htmlFor={`url-${link.id}`}>URL</label>
+                        <input id={`url-${link.id}`} name="url" type="url" defaultValue={link.url} required />
+                      </div>
+                      <div className="field">
+                        <label htmlFor={`description-${link.id}`}>Описание</label>
+                        <input id={`description-${link.id}`} name="description" defaultValue={link.description || ""} />
+                      </div>
+                      <div className="field">
+                        <label htmlFor={`imageUrl-${link.id}`}>Картинка URL</label>
+                        <input id={`imageUrl-${link.id}`} name="imageUrl" type="url" defaultValue={link.imageUrl || ""} />
+                      </div>
+                      <div className="two-col">
+                        <div className="field">
+                          <label htmlFor={`startsAt-${link.id}`}>От (дата)</label>
+                          <input id={`startsAt-${link.id}`} name="startsAt" type="datetime-local" defaultValue={link.startsAt ? link.startsAt.toISOString().slice(0, 16) : ""} />
+                        </div>
+                        <div className="field">
+                          <label htmlFor={`endsAt-${link.id}`}>До (дата)</label>
+                          <input id={`endsAt-${link.id}`} name="endsAt" type="datetime-local" defaultValue={link.endsAt ? link.endsAt.toISOString().slice(0, 16) : ""} />
+                        </div>
+                      </div>
+                      <label className="check-row">
+                        <input name="spotlight" type="checkbox" defaultChecked={link.spotlight} />
+                        <span>Spotlight</span>
+                      </label>
+                      <button className="button primary" type="submit">Запази</button>
+                    </form>
+                  </details>
+                  <form action={moveLink}>
+                    <input type="hidden" name="id" value={link.id} />
+                    <input type="hidden" name="direction" value="up" />
+                    <button className="button icon-button" disabled={index === 0} type="submit">↑</button>
+                  </form>
+                  <form action={moveLink}>
+                    <input type="hidden" name="id" value={link.id} />
+                    <input type="hidden" name="direction" value="down" />
+                    <button className="button icon-button" disabled={index === links.length - 1} type="submit">↓</button>
+                  </form>
+                  <form action={toggleLink}>
+                    <input type="hidden" name="id" value={link.id} />
+                    <input type="hidden" name="active" value={String(link.isActive)} />
+                    <button className="button" type="submit">{link.isActive ? "Скрий" : "Покажи"}</button>
+                  </form>
+                  <form action={deleteLink}>
+                    <input type="hidden" name="id" value={link.id} />
+                    <button className="button danger" type="submit">Изтрий</button>
+                  </form>
+                </div>
+              ))}
+            </div>
           </section>
 
           <section className="panel">
