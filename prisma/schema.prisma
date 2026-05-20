@@ -48,20 +48,23 @@ model Session {
 }
 
 model Profile {
-  id          String   @id @default(cuid())
-  ownerId     String
-  username    String   @unique
-  displayName String
-  bio         String?
-  avatarUrl   String?
-  theme       Json     @default("{\"background\":\"#b7aa7e\",\"surface\":\"#c7b98b\",\"text\":\"#35231e\",\"accent\":\"#655b39\",\"buttonStyle\":\"solid\"}")
-  footerBrand Boolean  @default(true)
-  isPublished Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(cuid())
+  ownerId      String
+  username     String   @unique
+  customDomain String?  @unique
+  displayName  String
+  bio          String?
+  avatarUrl    String?
+  timezone     String   @default("Europe/Sofia")
+  theme        Json     @default("{\"background\":\"#b7aa7e\",\"surface\":\"#c7b98b\",\"text\":\"#35231e\",\"accent\":\"#655b39\",\"buttonStyle\":\"solid\"}")
+  footerBrand  Boolean  @default(true)
+  isPublished  Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   links Link[]
+  subscribers EmailSubscriber[]
 }
 
 model Link {
@@ -82,6 +85,7 @@ model Link {
 
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   clicks  ClickEvent[]
+  subscribers EmailSubscriber[]
 
   @@index([profileId, position])
 }
@@ -100,4 +104,19 @@ model ClickEvent {
 
   @@index([profileId, createdAt])
   @@index([linkId, createdAt])
+}
+
+model EmailSubscriber {
+  id        String   @id @default(cuid())
+  profileId String
+  linkId    String
+  email     String
+  createdAt DateTime @default(now())
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  link    Link    @relation(fields: [linkId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
+  @@index([linkId])
+  @@unique([linkId, email])
 }

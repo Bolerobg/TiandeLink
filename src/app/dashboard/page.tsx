@@ -1,14 +1,8 @@
 import Link from "next/link";
-import {
-  createLink,
-  deleteLink,
-  moveLink,
-  toggleLink,
-  updateLink,
-  updateProfile,
-} from "@/app/dashboard/actions";
+import { createLink, updateProfile } from "@/app/dashboard/actions";
 import { logoutUser } from "@/app/(auth)/actions";
 import { BioPreview } from "@/components/bio-preview";
+import { SortableLinks } from "@/components/sortable-links";
 import { getDb } from "@/lib/db";
 import { requireUserProfile } from "@/lib/profile";
 import { parseTheme } from "@/lib/theme";
@@ -28,6 +22,7 @@ export default async function DashboardPage() {
   const recentClickCount = await db.clickEvent.count({
     where: { profileId: profile.id, createdAt: { gte: lastWeek } },
   });
+  const subscriberCount = await db.emailSubscriber.count({ where: { profileId: profile.id } });
   const activeLinks = links.filter((link) => link.isActive).length;
   const topLink = [...links].sort((a, b) => b._count.clicks - a._count.clicks)[0];
   const theme = parseTheme(profile.theme);
@@ -39,7 +34,23 @@ export default async function DashboardPage() {
       imageUrl: link.imageUrl,
       spotlight: link.spotlight,
     }));
-  const publicUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/${profile.username}`;
+  const publicUrl = profile.customDomain
+    ? `https://${profile.customDomain}`
+    : `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/${profile.username}`;
+
+  const linkItems = links.map((link) => ({
+    id: link.id,
+    title: link.title,
+    url: link.url,
+    type: link.type,
+    description: link.description,
+    imageUrl: link.imageUrl,
+    spotlight: link.spotlight,
+    isActive: link.isActive,
+    startsAt: link.startsAt ? link.startsAt.toISOString().slice(0, 16) : "",
+    endsAt: link.endsAt ? link.endsAt.toISOString().slice(0, 16) : "",
+    clickCount: link._count.clicks,
+  }));
 
   return (
     <main className="app-shell">
@@ -50,6 +61,9 @@ export default async function DashboardPage() {
         </Link>
         <nav className="nav-actions" aria-label="Dashboard navigation">
           <span className="user-pill">{user.email}</span>
+          <Link className="button" href="/dashboard/analytics">
+            Аналитика
+          </Link>
           <Link className="button" href={`/${profile.username}`}>
             Публична страница
           </Link>
@@ -80,6 +94,11 @@ export default async function DashboardPage() {
           <strong>{topLink ? topLink._count.clicks : 0}</strong>
           <small>{topLink?.title || "Няма данни"}</small>
         </div>
+        <div className="stat-card">
+          <span>Абонати</span>
+          <strong>{subscriberCount}</strong>
+          <small>От email capture форми</small>
+        </div>
       </section>
 
       <section className="dashboard">
@@ -104,6 +123,23 @@ export default async function DashboardPage() {
                   pattern="[a-z0-9-]{3,32}"
                   required
                 />
+              </div>
+            </div>
+            <div className="two-col">
+              <div className="field">
+                <label htmlFor="customDomain">Собствен домейн (CNAME)</label>
+                <input id="customDomain" name="customDomain" placeholder="lookthis.info" defaultValue={profile.customDomain || ""} />
+              </div>
+              <div className="field">
+                <label htmlFor="timezone">Часова зона</label>
+                <select id="timezone" name="timezone" defaultValue={profile.timezone}>
+                  <option value="Europe/Sofia">Europe/Sofia (GMT+2/+3)</option>
+                  <option value="Europe/London">Europe/London (GMT)</option>
+                  <option value="America/New_York">America/New York (EST)</option>
+                  <option value="America/Chicago">America/Chicago (CST)</option>
+                  <option value="America/Denver">America/Denver (MST)</option>
+                  <option value="America/Los_Angeles">America/Los Angeles (PST)</option>
+                </select>
               </div>
             </div>
             <div className="two-col">
@@ -187,6 +223,16 @@ export default async function DashboardPage() {
               <label htmlFor="imageUrl">Картинка URL (thumbnail)</label>
               <input id="imageUrl" name="imageUrl" type="url" placeholder="https://example.com/image.jpg" />
             </div>
+            <div className="two-col">
+              <div className="field">
+                <label htmlFor="startsAt">От (дата)</label>
+                <input id="startsAt" name="startsAt" type="datetime-local" />
+              </div>
+              <div className="field">
+                <label htmlFor="endsAt">До (дата)</label>
+                <input id="endsAt" name="endsAt" type="datetime-local" />
+              </div>
+            </div>
             <label className="check-row">
               <input name="spotlight" type="checkbox" />
               <span>Spotlight</span>
@@ -197,104 +243,8 @@ export default async function DashboardPage() {
           </form>
 
           <section className="panel">
-            <h2>Линкове</h2>
-            <div className="stack">
-              {links.map((link, index) => (
-                <article className="link-row" key={link.id}>
-                  <div>
-                    <strong>{link.title}</strong>
-                    <p>{link.description || link.url}</p>
-                    <p>
-                      {link.type} · {link._count.clicks} клика · {link.isActive ? "Активен" : "Скрит"}
-                    </p>
-                    <details className="link-editor">
-                      <summary>Редактирай</summary>
-                      <form className="form-grid compact-form" action={updateLink}>
-                        <input type="hidden" name="id" value={link.id} />
-                        <div className="two-col">
-                          <div className="field">
-                            <label htmlFor={`title-${link.id}`}>Заглавие</label>
-                            <input id={`title-${link.id}`} name="title" defaultValue={link.title} required />
-                          </div>
-                          <div className="field">
-                            <label htmlFor={`type-${link.id}`}>Тип</label>
-                            <select id={`type-${link.id}`} name="type" defaultValue={link.type}>
-                              <option value="URL">URL</option>
-                              <option value="FEATURED">Featured</option>
-                              <option value="PRODUCT">Product</option>
-                              <option value="BOOKING">Booking</option>
-                              <option value="EMAIL_CAPTURE">Email capture</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="field">
-                          <label htmlFor={`url-${link.id}`}>URL</label>
-                          <input id={`url-${link.id}`} name="url" type="url" defaultValue={link.url} required />
-                        </div>
-                        <div className="field">
-                          <label htmlFor={`description-${link.id}`}>Описание</label>
-                          <input
-                            id={`description-${link.id}`}
-                            name="description"
-                            defaultValue={link.description || ""}
-                          />
-                        </div>
-                        <div className="field">
-                          <label htmlFor={`imageUrl-${link.id}`}>Картинка URL</label>
-                          <input
-                            id={`imageUrl-${link.id}`}
-                            name="imageUrl"
-                            type="url"
-                            defaultValue={link.imageUrl || ""}
-                          />
-                        </div>
-                        <label className="check-row">
-                          <input name="spotlight" type="checkbox" defaultChecked={link.spotlight} />
-                          <span>Spotlight линк</span>
-                        </label>
-                        <button className="button primary" type="submit">
-                          Запази линка
-                        </button>
-                      </form>
-                    </details>
-                  </div>
-                  <div className="link-actions">
-                    <form action={moveLink}>
-                      <input type="hidden" name="id" value={link.id} />
-                      <input type="hidden" name="direction" value="up" />
-                      <button className="button icon-button" disabled={index === 0} title="Премести нагоре" type="submit">
-                        ↑
-                      </button>
-                    </form>
-                    <form action={moveLink}>
-                      <input type="hidden" name="id" value={link.id} />
-                      <input type="hidden" name="direction" value="down" />
-                      <button
-                        className="button icon-button"
-                        disabled={index === links.length - 1}
-                        title="Премести надолу"
-                        type="submit"
-                      >
-                        ↓
-                      </button>
-                    </form>
-                    <form action={toggleLink}>
-                      <input type="hidden" name="id" value={link.id} />
-                      <input type="hidden" name="active" value={String(link.isActive)} />
-                      <button className="button" type="submit">
-                        {link.isActive ? "Скрий" : "Покажи"}
-                      </button>
-                    </form>
-                    <form action={deleteLink}>
-                      <input type="hidden" name="id" value={link.id} />
-                      <button className="button danger" type="submit">
-                        Изтрий
-                      </button>
-                    </form>
-                  </div>
-                </article>
-              ))}
-            </div>
+            <h2>Линкове (drag & drop за пренареждане)</h2>
+            <SortableLinks links={linkItems} />
           </section>
 
           <section className="panel">

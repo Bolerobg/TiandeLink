@@ -15,6 +15,8 @@ const profileSchema = z.object({
   displayName: z.string().min(2).max(80),
   bio: z.string().max(180).optional(),
   avatarUrl: z.string().url().max(400).optional().or(z.literal("")),
+  customDomain: z.string().max(100).optional().or(z.literal("")),
+  timezone: z.string().max(50),
   footerBrand: z.boolean(),
   isPublished: z.boolean(),
   background: z.string().min(4).max(24),
@@ -31,6 +33,8 @@ const linkSchema = z.object({
   imageUrl: z.string().url().max(400).optional().or(z.literal("")),
   type: z.enum(["URL", "FEATURED", "PRODUCT", "BOOKING", "EMAIL_CAPTURE"]),
   spotlight: z.coerce.boolean().optional(),
+  startsAt: z.string().optional().or(z.literal("")),
+  endsAt: z.string().optional().or(z.literal("")),
 });
 
 const linkIdSchema = z.object({
@@ -41,9 +45,19 @@ const moveLinkSchema = linkIdSchema.extend({
   direction: z.enum(["up", "down"]),
 });
 
-function refreshProfile(username: string) {
+const reorderSchema = z.object({
+  ids: z.array(z.string()),
+});
+
+const emailSchema = z.object({
+  linkId: z.string().min(1),
+  email: z.string().email(),
+});
+
+function refreshProfile(username: string, customDomain?: string | null) {
   revalidatePath("/dashboard");
   revalidatePath(`/${username}`);
+  if (customDomain) revalidatePath("/", "layout");
 }
 
 export async function updateProfile(formData: FormData) {
@@ -53,6 +67,8 @@ export async function updateProfile(formData: FormData) {
     displayName: formData.get("displayName"),
     bio: formData.get("bio") || "",
     avatarUrl: formData.get("avatarUrl") || "",
+    customDomain: formData.get("customDomain") || "",
+    timezone: formData.get("timezone") || "Europe/Sofia",
     footerBrand: formData.get("footerBrand") === "on",
     isPublished: formData.get("isPublished") === "on",
     background: formData.get("background") || defaultTheme.background,
@@ -74,6 +90,20 @@ export async function updateProfile(formData: FormData) {
     }
   }
 
+  const cleanDomain = parsed.customDomain
+    ? parsed.customDomain.replace(/^https?:\/\//, "").replace(/\/$/, "").toLowerCase()
+    : null;
+
+  if (cleanDomain) {
+    const domainOwner = await db.profile.findUnique({
+      where: { customDomain: cleanDomain },
+      select: { id: true },
+    });
+    if (domainOwner && domainOwner.id !== profile.id) {
+      return;
+    }
+  }
+
   await db.profile.update({
     where: { id: profile.id },
     data: {
@@ -81,6 +111,8 @@ export async function updateProfile(formData: FormData) {
       displayName: parsed.displayName,
       bio: parsed.bio,
       avatarUrl: parsed.avatarUrl || null,
+      customDomain: cleanDomain,
+      timezone: parsed.timezone,
       footerBrand: parsed.footerBrand,
       isPublished: parsed.isPublished,
       theme: {
@@ -93,7 +125,7 @@ export async function updateProfile(formData: FormData) {
     },
   });
 
-  refreshProfile(profile.username);
+  refreshProfile(profile.username, cleanDomain);
   refreshProfile(parsed.username);
 }
 
@@ -106,6 +138,8 @@ export async function createLink(formData: FormData) {
     imageUrl: formData.get("imageUrl") || "",
     type: formData.get("type") || "URL",
     spotlight: formData.get("spotlight") === "on",
+    startsAt: formData.get("startsAt") || "",
+    endsAt: formData.get("endsAt") || "",
   });
 
   const maxPosition = await getDb().link.aggregate({
@@ -122,6 +156,8 @@ export async function createLink(formData: FormData) {
       imageUrl: parsed.imageUrl || null,
       type: parsed.type,
       spotlight: parsed.spotlight || parsed.type === "FEATURED",
+      startsAt: parsed.startsAt ? new Date(parsed.startsAt) : null,
+      endsAt: parsed.endsAt ? new Date(parsed.endsAt) : null,
       position: (maxPosition._max.position || 0) + 1,
     },
   });
@@ -139,6 +175,8 @@ export async function updateLink(formData: FormData) {
     imageUrl: formData.get("imageUrl") || "",
     type: formData.get("type") || "URL",
     spotlight: formData.get("spotlight") === "on",
+    startsAt: formData.get("startsAt") || "",
+    endsAt: formData.get("endsAt") || "",
   });
 
   await getDb().link.update({
@@ -150,6 +188,8 @@ export async function updateLink(formData: FormData) {
       imageUrl: parsed.imageUrl || null,
       type: parsed.type,
       spotlight: parsed.spotlight || parsed.type === "FEATURED",
+      startsAt: parsed.startsAt ? new Date(parsed.startsAt) : null,
+      endsAt: parsed.endsAt ? new Date(parsed.endsAt) : null,
     },
   });
 
@@ -205,6 +245,24 @@ export async function moveLink(formData: FormData) {
   refreshProfile(profile.username);
 }
 
+export async function reorderLinks(formData: FormData) {
+  const { profile } = await requireUserProfile();
+  const parsed = reorderSchema.parse({
+    ids: JSON.parse(String(formData.get("ids") || "[]")),
+  });
+
+  await getDb().$transaction(
+    parsed.ids.map((id, index) =>
+      getDb().link.update({
+        where: { id, profileId: profile.id },
+        data: { position: index + 1 },
+      }),
+    ),
+  );
+
+  refreshProfile(profile.username);
+}
+
 export async function deleteLink(formData: FormData) {
   const { profile } = await requireUserProfile();
   const parsed = linkIdSchema.parse({ id: formData.get("id") });
@@ -227,4 +285,32 @@ export async function deleteLink(formData: FormData) {
   );
 
   refreshProfile(profile.username);
+}
+
+export async function subscribeEmail(formData: FormData) {
+  const parsed = emailSchema.parse({
+    linkId: formData.get("linkId"),
+    email: formData.get("email"),
+  });
+
+  const db = getDb();
+  const link = await db.link.findUnique({
+    where: { id: parsed.linkId },
+    select: { profileId: true, profile: { select: { username: true } } },
+  });
+  if (!link) return { error: "Link not found" };
+
+  try {
+    await db.emailSubscriber.create({
+      data: {
+        profileId: link.profileId,
+        linkId: parsed.linkId,
+        email: parsed.email,
+      },
+    });
+    refreshProfile(link.profile.username);
+    return { ok: true };
+  } catch {
+    return { error: "Вече сте абонирани" };
+  }
 }

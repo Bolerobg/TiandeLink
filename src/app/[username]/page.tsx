@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getDb } from "@/lib/db";
 import { ensureDemoProfile } from "@/lib/demo";
 import { parseTheme } from "@/lib/theme";
+import { EmailCapture } from "@/components/email-capture";
 
 export const dynamic = "force-dynamic";
 
@@ -22,6 +23,31 @@ function detectPlatform(url: string): SocialPlatform | null {
   if (u.includes("facebook.com") || u.includes("fb.com")) return "facebook";
   if (u.includes("wa.me") || u.includes("whatsapp.com")) return "whatsapp";
   if (u.startsWith("tel:") || u.includes("phone")) return "phone";
+  return null;
+}
+
+type EmbedType = "spotify" | "youtube" | null;
+
+function detectEmbed(url: string): EmbedType {
+  const u = url.toLowerCase();
+  if (u.includes("spotify.com")) return "spotify";
+  if (u.includes("youtube.com") || u.includes("youtu.be")) return "youtube";
+  return null;
+}
+
+function spotifyEmbedId(url: string): string | null {
+  const m = url.match(/spotify\.com\/(?:embed\/)?(track|album|playlist|episode|show)\/([\w]+)/);
+  if (m) return `${m[1]}/${m[2]}`;
+  return null;
+}
+
+function youtubeEmbedId(url: string): string | null {
+  const short = url.match(/youtu\.be\/([\w-]+)/);
+  if (short) return short[1];
+  const long = url.match(/youtube\.com\/watch\?v=([\w-]+)/);
+  if (long) return long[1];
+  const embed = url.match(/youtube\.com\/embed\/([\w-]+)/);
+  if (embed) return embed[1];
   return null;
 }
 
@@ -110,24 +136,76 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
         ) : null}
 
         <div className="bio-links">
-          {mainLinks.map((link) => (
-            <a
-              className={`linktree-card ${!link.imageUrl ? "no-image" : ""}`}
-              href={`/api/click/${link.id}`}
-              key={link.id}
-              rel="nofollow"
-            >
-              {link.imageUrl ? (
-                <div className="linktree-thumb">
-                  <img alt="" src={link.imageUrl} loading="lazy" />
+          {mainLinks.map((link) => {
+            const embed = detectEmbed(link.url);
+
+            if (link.type === "EMAIL_CAPTURE") {
+              return (
+                <div className="linktree-card no-image" key={link.id}>
+                  <div className="linktree-body" style={{ width: "100%" }}>
+                    <strong>{link.title}</strong>
+                    {link.description ? <small>{link.description}</small> : null}
+                    <EmailCapture linkId={link.id} />
+                  </div>
                 </div>
-              ) : null}
-              <div className="linktree-body">
-                <strong>{link.title}</strong>
-                {link.description ? <small>{link.description}</small> : null}
-              </div>
-            </a>
-          ))}
+              );
+            }
+
+            if (embed === "spotify") {
+              const sid = spotifyEmbedId(link.url);
+              return sid ? (
+                <div className="linktree-embed" key={link.id}>
+                  <iframe
+                    src={`https://open.spotify.com/embed/${sid}`}
+                    width="100%"
+                    height="152"
+                    frameBorder="0"
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                    title={link.title}
+                  />
+                </div>
+              ) : null;
+            }
+
+            if (embed === "youtube") {
+              const yid = youtubeEmbedId(link.url);
+              return yid ? (
+                <div className="linktree-embed" key={link.id}>
+                  <iframe
+                    src={`https://www.youtube.com/embed/${yid}`}
+                    width="100%"
+                    height="200"
+                    frameBorder="0"
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    allowFullScreen
+                    loading="lazy"
+                    title={link.title}
+                    style={{ borderRadius: 18 }}
+                  />
+                </div>
+              ) : null;
+            }
+
+            return (
+              <a
+                className={`linktree-card ${!link.imageUrl ? "no-image" : ""}`}
+                href={`/api/click/${link.id}`}
+                key={link.id}
+                rel="nofollow"
+              >
+                {link.imageUrl ? (
+                  <div className="linktree-thumb">
+                    <img alt="" src={link.imageUrl} loading="lazy" />
+                  </div>
+                ) : null}
+                <div className="linktree-body">
+                  <strong>{link.title}</strong>
+                  {link.description ? <small>{link.description}</small> : null}
+                </div>
+              </a>
+            );
+          })}
         </div>
 
         {profile.footerBrand ? <div className="footer-brand">Made with SaasLink</div> : null}
