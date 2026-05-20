@@ -45,11 +45,11 @@ export function BioPreview({
         minHeight: 620,
         border: "1px solid var(--line)",
         borderRadius: 8,
-        background: "#f5f0eb",
-        ["--profile-background" as string]: "#f5f0eb",
-        ["--profile-surface" as string]: "#ffffff",
-        ["--profile-text" as string]: "#1a1a2e",
-        ["--profile-accent" as string]: "#d4a574",
+        background: "#b7aa7e",
+        ["--profile-background" as string]: "#b7aa7e",
+        ["--profile-surface" as string]: "#c7b98b",
+        ["--profile-text" as string]: "#35231e",
+        ["--profile-accent" as string]: "#655b39",
       }}
     >
       <div className="bio-card">

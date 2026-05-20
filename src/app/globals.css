@@ -383,30 +383,34 @@ h1 {
   display: grid;
   place-items: center;
   min-height: 100vh;
-  padding: 48px 16px;
+  padding: 0;
+  font-family: Georgia, "Times New Roman", serif;
 }
 
 .bio-card {
-  width: min(680px, 100%);
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto;
 }
 
 .bio-header {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .avatar {
   overflow: hidden;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 18px;
+  border-radius: 999px;
+  background: #c7b98b;
+  color: #35231e;
+  font-size: 2.8rem;
+  font-weight: 900;
   display: grid;
   place-items: center;
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 16px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--profile-accent) 72%, white 8%);
-  color: #fff;
-  font-size: 2.3rem;
-  font-weight: 900;
+  border: 3px solid #655b39;
 }
 
 .avatar img {
@@ -417,22 +421,26 @@ h1 {
 
 .bio-header h1 {
   margin-bottom: 8px;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   line-height: 1.2;
-  font-weight: 800;
+  font-weight: 700;
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: -0.01em;
 }
 
 .bio-header p {
-  color: color-mix(in srgb, var(--profile-text) 70%, transparent);
+  color: #35231e;
   line-height: 1.5;
   font-size: 0.95rem;
+  font-weight: 500;
+  opacity: 0.85;
 }
 
 .bio-socials {
   display: flex;
   justify-content: center;
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
 .social-icon {
@@ -441,45 +449,56 @@ h1 {
   width: 44px;
   height: 44px;
   border-radius: 999px;
-  background: var(--profile-surface);
-  color: color-mix(in srgb, var(--profile-text) 60%, transparent);
-  transition: color 160ms ease, transform 160ms ease;
+  background: #c7b98b;
+  color: #35231e;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  border: 2px solid #655b39;
+  box-shadow: 2px 3px 0 #655b39;
 }
 
 .social-icon:hover {
-  color: var(--profile-text);
   transform: translateY(-2px);
+  box-shadow: 3px 4px 0 #655b39;
 }
 
 .bio-links {
   display: grid;
-  gap: 12px;
+  gap: 14px;
+  padding: 0 14px;
 }
 
 .linktree-card {
   display: flex;
   align-items: center;
   gap: 14px;
-  border-radius: 6px;
-  padding: 6px;
-  background: var(--profile-surface);
-  color: var(--profile-text);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 160ms ease, transform 160ms ease;
+  border-radius: 28px;
+  padding: 7px;
+  background: #c7b98b;
+  color: #35231e;
+  border: 2px solid #655b39;
+  box-shadow: 3px 4px 0 #655b39;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  cursor: pointer;
 }
 
 .linktree-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   transform: translateY(-1px);
+  box-shadow: 4px 5px 0 #655b39;
+}
+
+.linktree-card:active {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0 #655b39;
 }
 
 .linktree-thumb {
   flex-shrink: 0;
   overflow: hidden;
-  width: 72px;
-  height: 72px;
-  border-radius: 4px;
-  background: #f3f4f6;
+  width: 96px;
+  height: 96px;
+  border-radius: 22px;
+  background: #b7aa7e;
+  border: 2px solid #655b39;
 }
 
 .linktree-thumb img {
@@ -491,20 +510,23 @@ h1 {
 .linktree-body {
   flex: 1;
   min-width: 0;
+  padding-right: 8px;
 }
 
 .linktree-body strong {
   display: block;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   line-height: 1.25;
+  font-weight: 700;
 }
 
 .linktree-body small {
   display: block;
   margin-top: 4px;
-  color: color-mix(in srgb, var(--profile-text) 60%, transparent);
+  color: #35231e;
   font-size: 0.82rem;
   line-height: 1.35;
+  opacity: 0.7;
 }
 
 .link-editor {

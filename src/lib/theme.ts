@@ -7,10 +7,10 @@ export type ProfileTheme = {
 };
 
 export const defaultTheme: ProfileTheme = {
-  background: "#f5f0eb",
-  surface: "#ffffff",
-  text: "#1a1a2e",
-  accent: "#d4a574",
+  background: "#b7aa7e",
+  surface: "#c7b98b",
+  text: "#35231e",
+  accent: "#655b39",
   buttonStyle: "solid",
 };
 
