@@ -112,6 +112,12 @@ export async function updateProfile(formData: FormData) {
     }
   }
 
+  let viberUrl = parsed.socialViber || null;
+  if (viberUrl && /^\+?\d{5,18}$/.test(viberUrl)) {
+    const num = viberUrl.startsWith("+") ? viberUrl.slice(1) : viberUrl;
+    viberUrl = `viber://chat?number=%2B${num}`;
+  }
+
   await db.profile.update({
     where: { id: profile.id },
     data: {
@@ -124,7 +130,7 @@ export async function updateProfile(formData: FormData) {
       socialInstagram: parsed.socialInstagram || null,
       socialFacebook: parsed.socialFacebook || null,
       socialWhatsapp: parsed.socialWhatsapp || null,
-      socialViber: parsed.socialViber || null,
+      socialViber: viberUrl,
       footerBrand: parsed.footerBrand,
       isPublished: parsed.isPublished,
       theme: {

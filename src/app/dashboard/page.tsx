@@ -175,8 +175,8 @@ export default async function DashboardPage() {
                 <input id="socialWhatsapp" name="socialWhatsapp" placeholder="https://wa.me/359..." defaultValue={profile.socialWhatsapp || ""} />
               </div>
               <div className="field">
-                <label htmlFor="socialViber">Viber</label>
-                <input id="socialViber" name="socialViber" placeholder="viber://chat?number=..." defaultValue={profile.socialViber || ""} />
+                <label htmlFor="socialViber">Viber (само номер)</label>
+                <input id="socialViber" name="socialViber" placeholder="359887771911" defaultValue={profile.socialViber?.replace("viber://chat?number=%2B", "").replace("viber://chat?number=", "") || ""} />
               </div>
             </div>
             <div className="toggle-grid">
