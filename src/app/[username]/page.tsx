@@ -112,7 +112,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
         <div className="bio-links">
           {mainLinks.map((link) => (
             <a
-              className="linktree-card"
+              className={`linktree-card ${!link.imageUrl ? "no-image" : ""}`}
               href={`/api/click/${link.id}`}
               key={link.id}
               rel="nofollow"

@@ -62,7 +62,7 @@ export function BioPreview({
         </div>
         <div className="bio-links">
           {links.map((link) => (
-            <div className="linktree-card" key={link.title}>
+            <div className={`linktree-card ${!link.imageUrl ? "no-image" : ""}`} key={link.title}>
               {link.imageUrl ? (
                 <div className="linktree-thumb">
                   <img alt="" src={link.imageUrl} loading="lazy" />
