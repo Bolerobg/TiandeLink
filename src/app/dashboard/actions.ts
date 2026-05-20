@@ -28,6 +28,7 @@ const linkSchema = z.object({
   title: z.string().min(2).max(90),
   url: z.string().url(),
   description: z.string().max(140).optional(),
+  imageUrl: z.string().url().max(400).optional().or(z.literal("")),
   type: z.enum(["URL", "FEATURED", "PRODUCT", "BOOKING", "EMAIL_CAPTURE"]),
   spotlight: z.coerce.boolean().optional(),
 });
@@ -102,6 +103,7 @@ export async function createLink(formData: FormData) {
     title: formData.get("title"),
     url: formData.get("url"),
     description: formData.get("description") || "",
+    imageUrl: formData.get("imageUrl") || "",
     type: formData.get("type") || "URL",
     spotlight: formData.get("spotlight") === "on",
   });
@@ -117,6 +119,7 @@ export async function createLink(formData: FormData) {
       title: parsed.title,
       url: parsed.url,
       description: parsed.description,
+      imageUrl: parsed.imageUrl || null,
       type: parsed.type,
       spotlight: parsed.spotlight || parsed.type === "FEATURED",
       position: (maxPosition._max.position || 0) + 1,
@@ -133,6 +136,7 @@ export async function updateLink(formData: FormData) {
     title: formData.get("title"),
     url: formData.get("url"),
     description: formData.get("description") || "",
+    imageUrl: formData.get("imageUrl") || "",
     type: formData.get("type") || "URL",
     spotlight: formData.get("spotlight") === "on",
   });
@@ -143,6 +147,7 @@ export async function updateLink(formData: FormData) {
       title: parsed.title,
       url: parsed.url,
       description: parsed.description,
+      imageUrl: parsed.imageUrl || null,
       type: parsed.type,
       spotlight: parsed.spotlight || parsed.type === "FEATURED",
     },

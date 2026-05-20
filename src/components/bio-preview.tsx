@@ -1,6 +1,7 @@
 type PreviewLink = {
   title: string;
   description?: string | null;
+  imageUrl?: string | null;
   spotlight?: boolean;
 };
 
@@ -14,16 +15,19 @@ type BioPreviewProps = {
 
 const fallbackLinks: PreviewLink[] = [
   {
-    title: "Запази безплатна консултация",
-    description: "Booking CTA за услуги, коучинг или демо срещи.",
-    spotlight: true,
+    title: "ЖЪЛТИ ЗЪБИ (КАФЕ,ЦИГАРИ,ВИНО) ВЕЧЕ НЕ",
+    description: "Паста за зъби Extra White Pro",
+    imageUrl: "https://picsum.photos/seed/tooth/120/120",
   },
   {
-    title: "Дигитален продукт",
-    description: "Място за PDF, курс или шаблон.",
+    title: "СЕРИЯ ЗА БЪРЗ РАСТЕЖ НА КОСАТА",
+    description: "Против косопад",
+    imageUrl: "https://picsum.photos/seed/hair/120/120",
   },
   {
-    title: "Instagram",
+    title: "ГОРЕЛКА ЗА МАЗНИНИ",
+    description: "Премахва стрии и топи целулит",
+    imageUrl: "https://picsum.photos/seed/fatburn/120/120",
   },
 ];
 
@@ -41,11 +45,11 @@ export function BioPreview({
         minHeight: 620,
         border: "1px solid var(--line)",
         borderRadius: 8,
-        background: "#0b1120",
-        ["--profile-background" as string]: "#0b1120",
-        ["--profile-surface" as string]: "#111827",
-        ["--profile-text" as string]: "#f8fafc",
-        ["--profile-accent" as string]: "#22c55e",
+        background: "#f5f0eb",
+        ["--profile-background" as string]: "#f5f0eb",
+        ["--profile-surface" as string]: "#ffffff",
+        ["--profile-text" as string]: "#1a1a2e",
+        ["--profile-accent" as string]: "#d4a574",
       }}
     >
       <div className="bio-card">
@@ -58,9 +62,16 @@ export function BioPreview({
         </div>
         <div className="bio-links">
           {links.map((link) => (
-            <div className={`bio-link ${link.spotlight ? "featured" : ""}`} key={link.title}>
-              <strong>{link.title}</strong>
-              {link.description ? <small>{link.description}</small> : null}
+            <div className="linktree-card" key={link.title}>
+              {link.imageUrl ? (
+                <div className="linktree-thumb">
+                  <img alt="" src={link.imageUrl} loading="lazy" />
+                </div>
+              ) : null}
+              <div className="linktree-body">
+                <strong>{link.title}</strong>
+                {link.description ? <small>{link.description}</small> : null}
+              </div>
             </div>
           ))}
         </div>

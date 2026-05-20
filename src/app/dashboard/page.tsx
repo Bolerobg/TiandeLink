@@ -36,6 +36,7 @@ export default async function DashboardPage() {
     .map((link) => ({
       title: link.title,
       description: link.description,
+      imageUrl: link.imageUrl,
       spotlight: link.spotlight,
     }));
   const publicUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/${profile.username}`;
@@ -182,9 +183,13 @@ export default async function DashboardPage() {
               <label htmlFor="description">Описание</label>
               <input id="description" name="description" placeholder="Кратък контекст под бутона" />
             </div>
-            <label className="field">
-              <span>Spotlight</span>
+            <div className="field">
+              <label htmlFor="imageUrl">Картинка URL (thumbnail)</label>
+              <input id="imageUrl" name="imageUrl" type="url" placeholder="https://example.com/image.jpg" />
+            </div>
+            <label className="check-row">
               <input name="spotlight" type="checkbox" />
+              <span>Spotlight</span>
             </label>
             <button className="button primary" type="submit">
               Добави линк
@@ -232,6 +237,15 @@ export default async function DashboardPage() {
                             id={`description-${link.id}`}
                             name="description"
                             defaultValue={link.description || ""}
+                          />
+                        </div>
+                        <div className="field">
+                          <label htmlFor={`imageUrl-${link.id}`}>Картинка URL</label>
+                          <input
+                            id={`imageUrl-${link.id}`}
+                            name="imageUrl"
+                            type="url"
+                            defaultValue={link.imageUrl || ""}
                           />
                         </div>
                         <label className="check-row">

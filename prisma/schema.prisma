@@ -54,7 +54,7 @@ model Profile {
   displayName String
   bio         String?
   avatarUrl   String?
-  theme       Json     @default("{\"background\":\"#0f172a\",\"surface\":\"#111827\",\"text\":\"#f8fafc\",\"accent\":\"#2dd4bf\",\"buttonStyle\":\"solid\"}")
+  theme       Json     @default("{\"background\":\"#f5f0eb\",\"surface\":\"#ffffff\",\"text\":\"#1a1a2e\",\"accent\":\"#d4a574\",\"buttonStyle\":\"solid\"}")
   footerBrand Boolean  @default(true)
   isPublished Boolean  @default(true)
   createdAt   DateTime @default(now())
@@ -71,6 +71,7 @@ model Link {
   url         String
   type        LinkType  @default(URL)
   description String?
+  imageUrl    String?
   position    Int
   isActive    Boolean   @default(true)
   startsAt    DateTime?
