@@ -27,7 +27,15 @@ services:
       PORT: 3000
     ports:
       - "127.0.0.1:3000:3000"
+    networks:
+      - default
+      - n8n_proxy
     command: sh -c "./node_modules/.bin/prisma migrate deploy && node server.js"
 
 volumes:
   postgres-data:
+
+networks:
+  default:
+  n8n_proxy:
+    external: true
