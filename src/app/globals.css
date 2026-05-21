@@ -1128,7 +1128,7 @@ h1 {
 [data-template="bento"] .bio-page { background: #fbf9f4; font-family: 'Hanken Grotesk', sans-serif; }
 [data-template="bento"] .bio-frame { background: transparent; box-shadow: none; border-radius: 0; }
 [data-template="bento"] .bio-header h1 { font-family: 'EB Garamond', serif; font-size: 2rem; color: #1e0f0b; }
-[data-template="bento"] .bio-links { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  [data-template="bento"] .bio-links { display: grid !important; grid-template-columns: 1fr 1fr; gap: 12px; }
 [data-template="bento"] .linktree-card { background: #F2EFE9; border: 1px solid rgba(199,185,139,0.2); border-radius: 12px; box-shadow: 0 4px 20px rgba(30,15,11,0.05); }
 [data-template="bento"] .linktree-card:first-of-type { grid-column: 1/-1; }
 [data-template="bento"] .linktree-body strong { font-family: 'EB Garamond', serif; }
@@ -1173,16 +1173,16 @@ h1 {
 [data-template="blobs"] .linktree-body strong { font-family: 'EB Garamond', serif; }
 
 /* wellness - Wellness Brutalism */
-[data-template="wellness"] .bio-page { background: #fbf9f4; font-family: 'Hanken Grotesk', sans-serif; }
-[data-template="wellness"] .bio-frame { background: transparent; box-shadow: none; }
+[data-template="wellness"] .bio-page { background: #f4f0e6; font-family: 'Hanken Grotesk', sans-serif; }
+[data-template="wellness"] .bio-frame { background: transparent !important; box-shadow: none !important; }
 [data-template="wellness"] .bio-header h1 { text-transform: uppercase; letter-spacing: -1px; font-size: 2.5rem; }
-[data-template="wellness"] .linktree-card { border: 2px solid #1e0f0b; border-radius: 0; box-shadow: 4px 4px 0 #1e0f0b; background: #fff; text-transform: uppercase; }
-[data-template="wellness"] .avatar { border: 2px solid #1e0f0b; border-radius: 0; }
+[data-template="wellness"] .linktree-card { border: 2px solid #1e0f0b !important; border-radius: 0; box-shadow: 4px 4px 0 #1e0f0b !important; background: #fff; text-transform: uppercase; }
+[data-template="wellness"] .avatar { border: 2px solid #1e0f0b; border-radius: 0 !important; }
 
 /* masonry - Editorial Masonry */
 [data-template="masonry"] .bio-page { background: #fafaf9; font-family: 'EB Garamond', serif; }
 [data-template="masonry"] .bio-frame { background: transparent; box-shadow: none; }
-[data-template="masonry"] .bio-links { columns: 2; column-gap: 12px; display: block; }
+  [data-template="masonry"] .bio-links { columns: 2 !important; column-gap: 12px; display: block; }
 [data-template="masonry"] .linktree-card { break-inside: avoid; margin-bottom: 12px; border: 1px solid rgba(120,113,108,0.08); border-radius: 4px; background: #fff; box-shadow: 0 2px 12px rgba(30,15,11,0.03); }
 [data-template="masonry"] .bio-header h1 { font-size: 2.5rem; border-bottom: 2px solid rgba(120,113,108,0.2); padding-bottom: 12px; }
 
