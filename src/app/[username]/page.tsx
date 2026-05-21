@@ -4,6 +4,7 @@ import { ensureDemoProfile } from "@/lib/demo";
 import { parseTheme } from "@/lib/theme";
 import { EmailCapture } from "@/components/email-capture";
 import { CopyButton } from "@/components/copy-button";
+import { QrModal } from "@/components/qr-modal";
 
 export const dynamic = "force-dynamic";
 
@@ -225,16 +226,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
 
           <div className="bio-tools">
             <CopyButton profileUrl={profileUrl} />
-            <a className="tool-button" href={qrUrl} target="_blank" rel="nofollow noopener" title="QR код">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
-                <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" />
-                <rect x="3" y="14" width="7" height="7" /><rect x="15" y="15" width="1" height="1" />
-                <rect x="18" y="15" width="1" height="1" /><rect x="21" y="15" width="1" height="1" />
-                <rect x="15" y="18" width="1" height="1" /><rect x="18" y="18" width="3" height="1" />
-                <rect x="15" y="21" width="1" height="1" /><rect x="18" y="21" width="1" height="1" />
-              </svg>
-              QR
-            </a>
+            <QrModal qrUrl={qrUrl} profileUrl={profileUrl} />
             <a
               className="tool-button"
               href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(profileUrl)}`}

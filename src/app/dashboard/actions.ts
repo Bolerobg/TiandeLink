@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 import { getDb } from "@/lib/db";
 import { requireUserProfile } from "@/lib/profile";
@@ -145,6 +146,7 @@ export async function updateProfile(formData: FormData) {
 
   refreshProfile(profile.username, cleanDomain);
   refreshProfile(parsed.username);
+  redirect("/dashboard");
 }
 
 export async function createLink(formData: FormData) {
@@ -181,6 +183,7 @@ export async function createLink(formData: FormData) {
   });
 
   refreshProfile(profile.username);
+  redirect("/dashboard");
 }
 
 export async function updateLink(formData: FormData) {
@@ -212,6 +215,7 @@ export async function updateLink(formData: FormData) {
   });
 
   refreshProfile(profile.username);
+  redirect("/dashboard");
 }
 
 export async function toggleLink(formData: FormData) {
@@ -225,6 +229,7 @@ export async function toggleLink(formData: FormData) {
   });
 
   refreshProfile(profile.username);
+  redirect("/dashboard");
 }
 
 export async function moveLink(formData: FormData) {
@@ -261,6 +266,7 @@ export async function moveLink(formData: FormData) {
   ]);
 
   refreshProfile(profile.username);
+  redirect("/dashboard");
 }
 
 export async function reorderLinks(formData: FormData) {
@@ -303,6 +309,7 @@ export async function deleteLink(formData: FormData) {
   );
 
   refreshProfile(profile.username);
+  redirect("/dashboard");
 }
 
 export async function subscribeEmail(formData: FormData) {

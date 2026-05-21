@@ -416,6 +416,10 @@ h1 {
   min-height: 100vh;
   padding: 0;
   font-family: Georgia, "Times New Roman", serif;
+  --_s: var(--profile-surface, #c7b98b);
+  --_t: var(--profile-text, #35231e);
+  --_a: var(--profile-accent, #655b39);
+  --_bg: var(--profile-background, #b7aa7e);
 }
 
 .bio-frame {
@@ -461,7 +465,7 @@ h1 {
   font-weight: 900;
   display: grid;
   place-items: center;
-  border: 3px solid #655b39;
+  border: 3px solid var(--_a);
 }
 
 .avatar img {
@@ -477,10 +481,11 @@ h1 {
   font-weight: 700;
   font-family: Georgia, "Times New Roman", serif;
   letter-spacing: -0.01em;
+  color: var(--_t);
 }
 
 .bio-header p {
-  color: #35231e;
+  color: var(--_t);
   line-height: 1.5;
   font-size: 0.95rem;
   font-weight: 500;
@@ -500,16 +505,16 @@ h1 {
   width: 44px;
   height: 44px;
   border-radius: 999px;
-  background: #c7b98b;
-  color: #35231e;
+  background: var(--_s);
+  color: var(--_t);
   transition: transform 160ms ease, box-shadow 160ms ease;
-  border: 2px solid #655b39;
-  box-shadow: 2px 3px 0 #655b39;
+  border: 2px solid var(--_a);
+  box-shadow: 2px 3px 0 var(--_a);
 }
 
 .social-icon:hover {
   transform: translateY(-2px);
-  box-shadow: 3px 4px 0 #655b39;
+  box-shadow: 3px 4px 0 var(--_a);
 }
 
 .bio-links {
@@ -523,30 +528,30 @@ h1 {
   flex-direction: column;
   border-radius: 22px;
   overflow: hidden;
-  background: #c7b98b;
-  color: #35231e;
-  border: 2px solid #655b39;
-  box-shadow: 3px 4px 0 #655b39;
+  background: var(--_s);
+  color: var(--_t);
+  border: 2px solid var(--_a);
+  box-shadow: 3px 4px 0 var(--_a);
   transition: transform 120ms ease, box-shadow 120ms ease;
   cursor: pointer;
 }
 
 .linktree-card:hover {
   transform: translateY(-1px);
-  box-shadow: 4px 5px 0 #655b39;
+  box-shadow: 4px 5px 0 var(--_a);
 }
 
 .linktree-card:active {
   transform: translateY(1px);
-  box-shadow: 1px 1px 0 #655b39;
+  box-shadow: 1px 1px 0 var(--_a);
 }
 
 .linktree-thumb {
   overflow: hidden;
   width: 100%;
   aspect-ratio: 1 / 1;
-  background: #b7aa7e;
-  border-bottom: 2px solid #655b39;
+  background: var(--_bg);
+  border-bottom: 2px solid var(--_a);
 }
 
 .linktree-thumb img {
@@ -570,7 +575,7 @@ h1 {
 .linktree-body small {
   display: block;
   margin-top: 4px;
-  color: #35231e;
+  color: var(--_t);
   font-size: 0.82rem;
   line-height: 1.35;
   opacity: 0.7;
@@ -590,8 +595,8 @@ h1 {
 .linktree-embed {
   border-radius: 18px;
   overflow: hidden;
-  border: 2px solid #655b39;
-  box-shadow: 3px 4px 0 #655b39;
+  border: 2px solid var(--_a);
+  box-shadow: 3px 4px 0 var(--_a);
 }
 
 .linktree-embed iframe {
@@ -606,7 +611,7 @@ h1 {
 
 .email-capture-form input {
   flex: 1;
-  border: 2px solid #655b39;
+  border: 2px solid var(--_a);
   border-radius: 14px;
   padding: 8px 14px;
   font-size: 0.88rem;
@@ -616,31 +621,31 @@ h1 {
 }
 
 .email-capture-form button {
-  border: 2px solid #655b39;
+  border: 2px solid var(--_a);
   border-radius: 14px;
   padding: 8px 16px;
-  background: #655b39;
-  color: #fff;
+  background: var(--_a);
+  color: var(--_s);
   font-weight: 700;
   font-size: 0.88rem;
   cursor: pointer;
   font-family: inherit;
   white-space: nowrap;
-  box-shadow: 2px 3px 0 #35231e;
+  box-shadow: 2px 3px 0 var(--_t);
   transition: transform 100ms ease;
 }
 
 .email-capture-form button:active {
   transform: translateY(1px);
-  box-shadow: 1px 1px 0 #35231e;
+  box-shadow: 1px 1px 0 var(--_t);
 }
 
 .email-capture-ok {
   margin-top: 10px;
   padding: 10px 14px;
   border-radius: 14px;
-  background: #35231e;
-  color: #c7b98b;
+  background: var(--_t);
+  color: var(--_s);
   font-size: 0.9rem;
   font-weight: 700;
   text-align: center;
@@ -752,10 +757,10 @@ h1 {
   align-items: center;
   gap: 6px;
   padding: 8px 14px;
-  border: 2px solid #655b39;
+  border: 2px solid var(--_a);
   border-radius: 28px;
-  background: #c7b98b;
-  color: #35231e;
+  background: var(--_s);
+  color: var(--_t);
   font-size: 0.84rem;
   font-weight: 700;
   cursor: pointer;
@@ -770,6 +775,55 @@ h1 {
 
 .tool-button:active {
   transform: translateY(1px);
+}
+
+.qr-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  z-index: 999;
+}
+
+.qr-modal {
+  background: var(--_s, #fff);
+  border-radius: 20px;
+  padding: 32px 28px 24px;
+  max-width: 340px;
+  width: 90vw;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.qr-modal h3 {
+  margin: 0 0 18px;
+  font-size: 1.1rem;
+  color: var(--_t, #35231e);
+}
+
+.qr-modal img {
+  border-radius: 12px;
+  padding: 8px;
+  background: #fff;
+}
+
+.qr-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  border: 0;
+  background: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: var(--_t, #35231e);
+  opacity: 0.5;
+}
+
+.qr-close:hover {
+  opacity: 1;
 }
 
 @media (max-width: 900px) {
