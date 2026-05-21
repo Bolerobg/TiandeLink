@@ -176,7 +176,12 @@ export default async function DashboardPage() {
               </label>
             </div>
 
-            <details className="link-editor" open style={{ borderTop: "1px solid var(--line)", paddingTop: 14, marginTop: 14 }}>
+            <div style={{ marginBottom: 18, padding: "14px 16px", background: "var(--panel-strong)", borderRadius: 12 }}>
+              <h3 style={{ margin: "0 0 10px", fontSize: "0.95rem" }}>🎨 Избери темплейт</h3>
+              <TemplateGallery currentTemplate={theme.template} username={profile.username} />
+            </div>
+
+            <details className="link-editor" style={{ borderTop: "1px solid var(--line)", paddingTop: 14, marginTop: 14 }}>
               <summary>Допълнителни настройки</summary>
               <div style={{ paddingTop: 14, display: "grid", gap: 14 }}>
 
@@ -258,7 +263,6 @@ export default async function DashboardPage() {
                 <input type="hidden" name="cardShadow" defaultValue={theme.cardShadow} />
                 <input type="hidden" name="fontFamily" defaultValue={theme.fontFamily} />
                 <input type="hidden" name="template" defaultValue={theme.template} />
-                <TemplateGallery currentTemplate={theme.template} username={profile.username} />
               </div>
             </details>
 
