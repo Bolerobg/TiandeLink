@@ -1101,6 +1101,13 @@ h1 {
 [data-template="gradient"] .bio-page { background: linear-gradient(135deg, var(--_bg), color-mix(in srgb, var(--_s) 30%, var(--_bg))); }
 [data-template="gradient"] .bio-frame { background: transparent; box-shadow: none; }
 
+/* TYPE INDICATORS */
+[data-link-type="FEATURED"]::before { content: "⭐"; position: absolute; top: 6px; right: 10px; font-size: 0.75rem; }
+[data-link-type="PRODUCT"] .linktree-body strong::before { content: "🛍 "; }
+[data-link-type="BOOKING"] .linktree-body strong::before { content: "📅 "; }
+[data-link-type="TEXT"] { cursor: default; }
+[data-link-type="TEXT"] .linktree-body strong::before { content: "📄 "; }
+
 /* ─── STITCH BEAUTY PORTFOLIO (14 CSS templates) ─── */
 
 /* o1 - Organic Elegance v1: Playfair Display, DM Sans, extensive cream palette */

@@ -194,7 +194,13 @@ export default async function PublicProfilePage({
               }
 
               return (
-                <a className={`linktree-card ${!link.imageUrl ? "no-image" : ""}`} href={`/api/click/${link.id}`} key={link.id} rel="nofollow">
+                <a
+                  className={`linktree-card ${!link.imageUrl ? "no-image" : ""}`}
+                  data-link-type={link.type}
+                  href={`/api/click/${link.id}`}
+                  key={link.id}
+                  rel="nofollow"
+                >
                   {link.imageUrl ? (
                     <div className="linktree-thumb"><img alt="" src={link.imageUrl} loading="lazy" /></div>
                   ) : null}

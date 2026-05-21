@@ -25,43 +25,43 @@ export const defaultTheme: ProfileTheme = {
 export const presets: { name: string; theme: ProfileTheme }[] = [
   {
     name: "Classic Linktree",
-    theme: { template: "classic", background: "#b7aa7e", surface: "#c7b98b", text: "#35231e", accent: "#655b39", buttonStyle: "solid", cardRadius: "22px", cardShadow: "3px 4px 0", fontFamily: "Georgia, serif" },
+    theme: { template: "linktree", background: "#b7aa7e", surface: "#c7b98b", text: "#35231e", accent: "#655b39", buttonStyle: "solid", cardRadius: "22px", cardShadow: "3px 4px 0", fontFamily: "Georgia, serif" },
   },
   {
     name: "Dark Mode",
-    theme: { template: "classic", background: "#0f172a", surface: "#1e293b", text: "#f1f5f9", accent: "#38bdf8", buttonStyle: "solid", cardRadius: "22px", cardShadow: "3px 4px 0", fontFamily: "Georgia, serif" },
+    theme: { template: "dark", background: "#0f172a", surface: "#1e293b", text: "#f1f5f9", accent: "#38bdf8", buttonStyle: "solid", cardRadius: "22px", cardShadow: "3px 4px 0", fontFamily: "Georgia, serif" },
   },
   {
     name: "Rose Gold",
-    theme: { template: "classic", background: "#fdf2f8", surface: "#fce7f3", text: "#831843", accent: "#db2777", buttonStyle: "soft", cardRadius: "28px", cardShadow: "0 4px 16px -4px", fontFamily: "Georgia, serif" },
+    theme: { template: "rosegold", background: "#fdf2f8", surface: "#fce7f3", text: "#831843", accent: "#db2777", buttonStyle: "soft", cardRadius: "28px", cardShadow: "0 4px 16px -4px", fontFamily: "Georgia, serif" },
   },
   {
     name: "Forest Green",
-    theme: { template: "classic", background: "#ecfdf5", surface: "#d1fae5", text: "#064e3b", accent: "#10b981", buttonStyle: "solid", cardRadius: "22px", cardShadow: "3px 4px 0", fontFamily: "Georgia, serif" },
+    theme: { template: "forest", background: "#ecfdf5", surface: "#d1fae5", text: "#064e3b", accent: "#10b981", buttonStyle: "solid", cardRadius: "22px", cardShadow: "3px 4px 0", fontFamily: "Georgia, serif" },
   },
   {
     name: "Ocean Blue",
-    theme: { template: "classic", background: "#eff6ff", surface: "#dbeafe", text: "#1e3a5f", accent: "#3b82f6", buttonStyle: "outline", cardRadius: "22px", cardShadow: "3px 4px 0", fontFamily: "Georgia, serif" },
+    theme: { template: "ocean", background: "#eff6ff", surface: "#dbeafe", text: "#1e3a5f", accent: "#3b82f6", buttonStyle: "outline", cardRadius: "22px", cardShadow: "3px 4px 0", fontFamily: "Georgia, serif" },
   },
   {
     name: "Sunset Orange",
-    theme: { template: "classic", background: "#fff7ed", surface: "#ffedd5", text: "#7c2d12", accent: "#f97316", buttonStyle: "solid", cardRadius: "22px", cardShadow: "3px 4px 0", fontFamily: "Georgia, serif" },
+    theme: { template: "sunset", background: "#fff7ed", surface: "#ffedd5", text: "#7c2d12", accent: "#f97316", buttonStyle: "solid", cardRadius: "22px", cardShadow: "3px 4px 0", fontFamily: "Georgia, serif" },
   },
   {
     name: "Lavender Dream",
-    theme: { template: "classic", background: "#faf5ff", surface: "#f3e8ff", text: "#4c1d95", accent: "#a855f7", buttonStyle: "soft", cardRadius: "28px", cardShadow: "0 4px 16px -4px", fontFamily: "Georgia, serif" },
+    theme: { template: "lavender", background: "#faf5ff", surface: "#f3e8ff", text: "#4c1d95", accent: "#a855f7", buttonStyle: "soft", cardRadius: "28px", cardShadow: "0 4px 16px -4px", fontFamily: "Georgia, serif" },
   },
   {
     name: "Midnight Purple",
-    theme: { template: "classic", background: "#1e1b4b", surface: "#312e81", text: "#e0e7ff", accent: "#c084fc", buttonStyle: "solid", cardRadius: "22px", cardShadow: "3px 4px 0", fontFamily: "Georgia, serif" },
+    theme: { template: "midnight", background: "#1e1b4b", surface: "#312e81", text: "#e0e7ff", accent: "#c084fc", buttonStyle: "solid", cardRadius: "22px", cardShadow: "3px 4px 0", fontFamily: "Georgia, serif" },
   },
   {
     name: "Warm Neutral",
-    theme: { template: "classic", background: "#fafaf9", surface: "#f5f5f4", text: "#1c1917", accent: "#78716c", buttonStyle: "solid", cardRadius: "14px", cardShadow: "0 2px 8px -2px", fontFamily: "-apple-system, sans-serif" },
+    theme: { template: "warm", background: "#fafaf9", surface: "#f5f5f4", text: "#1c1917", accent: "#78716c", buttonStyle: "solid", cardRadius: "14px", cardShadow: "0 2px 8px -2px", fontFamily: "-apple-system, sans-serif" },
   },
   {
     name: "Retro Pop",
-    theme: { template: "classic", background: "#fefce8", surface: "#fef08a", text: "#422006", accent: "#eab308", buttonStyle: "outline", cardRadius: "22px", cardShadow: "3px 4px 0", fontFamily: "Georgia, serif" },
+    theme: { template: "retro", background: "#fefce8", surface: "#fef08a", text: "#422006", accent: "#eab308", buttonStyle: "outline", cardRadius: "22px", cardShadow: "3px 4px 0", fontFamily: "Georgia, serif" },
   },
   {
     name: "Neon Tokyo",
@@ -81,7 +81,7 @@ export const presets: { name: string; theme: ProfileTheme }[] = [
   },
   {
     name: "Golden Hour",
-    theme: { template: "classic", background: "#fff5e6", surface: "#ffe4b5", text: "#5c3d2e", accent: "#d97706", buttonStyle: "solid", cardRadius: "28px", cardShadow: "3px 4px 0", fontFamily: "Georgia, serif" },
+    theme: { template: "golden", background: "#fff5e6", surface: "#ffe4b5", text: "#5c3d2e", accent: "#d97706", buttonStyle: "solid", cardRadius: "28px", cardShadow: "3px 4px 0", fontFamily: "Georgia, serif" },
   },
   {
     name: "Mint Fresh",
