@@ -55,6 +55,9 @@ model Profile {
   displayName     String
   bio             String?
   avatarUrl       String?
+  backgroundVideo String?
+  password        String?
+  donationUrl     String?
   timezone        String   @default("Europe/Sofia")
   socialInstagram String?
   socialFacebook  String?
@@ -79,6 +82,7 @@ model Link {
   type        LinkType  @default(URL)
   description String?
   imageUrl    String?
+  icon        String?
   position    Int
   isActive    Boolean   @default(true)
   startsAt    DateTime?

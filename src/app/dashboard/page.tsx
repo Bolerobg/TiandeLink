@@ -190,28 +190,89 @@ export default async function DashboardPage() {
                 <span>Показвай SaasLink branding</span>
               </label>
             </div>
-            <div className="two-col">
-              <div className="field">
-                <label htmlFor="background">Фон</label>
-                <input id="background" name="background" defaultValue={theme.background} />
+
+            <details className="link-editor" style={{ borderTop: "1px solid var(--line)", paddingTop: 14, marginTop: 14 }}>
+              <summary>Допълнителни настройки</summary>
+              <div style={{ paddingTop: 14, display: "grid", gap: 14 }}>
+
+                <h3 style={{ margin: 0, fontSize: "0.95rem" }}>Социални мрежи</h3>
+                <div className="two-col">
+                  <div className="field">
+                    <label htmlFor="socialInstagram">Instagram URL</label>
+                    <input id="socialInstagram" name="socialInstagram" placeholder="https://instagram.com/username" defaultValue={profile.socialInstagram || ""} />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="socialFacebook">Facebook URL</label>
+                    <input id="socialFacebook" name="socialFacebook" placeholder="https://facebook.com/profile" defaultValue={profile.socialFacebook || ""} />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="socialWhatsapp">WhatsApp</label>
+                    <input id="socialWhatsapp" name="socialWhatsapp" placeholder="https://wa.me/359..." defaultValue={profile.socialWhatsapp || ""} />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="socialViber">Viber (само номер)</label>
+                    <input id="socialViber" name="socialViber" placeholder="359887771911" defaultValue={profile.socialViber?.replace("viber://chat?number=%2B", "").replace("viber://chat?number=", "") || ""} />
+                  </div>
+                </div>
+
+                <h3 style={{ margin: 0, fontSize: "0.95rem" }}>Домейн и часова зона</h3>
+                <div className="two-col">
+                  <div className="field">
+                    <label htmlFor="customDomain">Собствен домейн (CNAME)</label>
+                    <input id="customDomain" name="customDomain" placeholder="lookthis.info" defaultValue={profile.customDomain || ""} />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="timezone">Часова зона</label>
+                    <select id="timezone" name="timezone" defaultValue={profile.timezone}>
+                      <option value="Europe/Sofia">Europe/Sofia (GMT+2/+3)</option>
+                      <option value="Europe/London">Europe/London (GMT)</option>
+                      <option value="America/New_York">America/New York (EST)</option>
+                      <option value="America/Chicago">America/Chicago (CST)</option>
+                      <option value="America/Denver">America/Denver (MST)</option>
+                      <option value="America/Los_Angeles">America/Los Angeles (PST)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <h3 style={{ margin: 0, fontSize: "0.95rem" }}>Екстри</h3>
+                <div className="two-col">
+                  <div className="field">
+                    <label htmlFor="backgroundVideo">Фоново видео/GIF URL</label>
+                    <input id="backgroundVideo" name="backgroundVideo" placeholder="https://example.com/video.mp4" defaultValue={profile.backgroundVideo || ""} />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="donationUrl">Линк за дарение</label>
+                    <input id="donationUrl" name="donationUrl" placeholder="https://buymeacoffee.com/..." defaultValue={profile.donationUrl || ""} />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="password">Парола за профил (празно = свободен)</label>
+                    <input id="password" name="password" placeholder="********" defaultValue={profile.password || ""} />
+                  </div>
+                </div>
+
+                <h3 style={{ margin: 0, fontSize: "0.95rem" }}>Цветове</h3>
+                <div className="two-col">
+                  <div className="field">
+                    <label htmlFor="background">Фон</label>
+                    <input id="background" name="background" defaultValue={theme.background} />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="surface">Повърхност</label>
+                    <input id="surface" name="surface" defaultValue={theme.surface} />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="text">Текст</label>
+                    <input id="text" name="text" defaultValue={theme.text} />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="accent">Акцент</label>
+                    <input id="accent" name="accent" defaultValue={theme.accent} />
+                  </div>
+                </div>
+                <ThemePicker presets={presets} />
               </div>
-              <div className="field">
-                <label htmlFor="surface">Повърхност</label>
-                <input id="surface" name="surface" defaultValue={theme.surface} />
-              </div>
-              <div className="field">
-                <label htmlFor="text">Текст</label>
-                <input id="text" name="text" defaultValue={theme.text} />
-              </div>
-              <div className="field">
-                <label htmlFor="accent">Акцент</label>
-                <input id="accent" name="accent" defaultValue={theme.accent} />
-              </div>
-            </div>
-            <div style={{ marginBottom: 12 }}>
-              <label style={{ display: "block", marginBottom: 8, color: "#374151", fontSize: "0.88rem", fontWeight: 700 }}>Готови теми</label>
-              <ThemePicker presets={presets} />
-            </div>
+            </details>
+
             <button className="button primary" type="submit">
               Запази профила
             </button>
@@ -224,6 +285,12 @@ export default async function DashboardPage() {
                 <label htmlFor="title">Заглавие</label>
                 <input id="title" name="title" placeholder="Напр. Нов курс" required />
               </div>
+              <div className="field">
+                <label htmlFor="icon">Иконка (emoji)</label>
+                <input id="icon" name="icon" placeholder="🎵" maxLength={6} style={{ fontSize: "1.3rem" }} />
+              </div>
+            </div>
+            <div className="two-col">
               <div className="field">
                 <label htmlFor="type">Тип</label>
                 <select id="type" name="type" defaultValue="URL">
