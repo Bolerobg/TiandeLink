@@ -4,6 +4,7 @@ import { logoutUser } from "@/app/(auth)/actions";
 import { BioPreview } from "@/components/bio-preview";
 import { SortableLinks } from "@/components/sortable-links";
 import { ThemePicker } from "@/components/theme-picker";
+import { EmojiPicker } from "@/components/emoji-picker";
 import { getDb } from "@/lib/db";
 import { requireUserProfile } from "@/lib/profile";
 import { parseTheme, presets } from "@/lib/theme";
@@ -161,25 +162,6 @@ export default async function DashboardPage() {
               <label htmlFor="bio">Bio</label>
               <textarea id="bio" name="bio" defaultValue={profile.bio || ""} />
             </div>
-            <h3 style={{ marginBottom: 4, fontSize: "1rem" }}>Социални мрежи</h3>
-            <div className="two-col">
-              <div className="field">
-                <label htmlFor="socialInstagram">Instagram URL</label>
-                <input id="socialInstagram" name="socialInstagram" placeholder="https://instagram.com/username" defaultValue={profile.socialInstagram || ""} />
-              </div>
-              <div className="field">
-                <label htmlFor="socialFacebook">Facebook URL</label>
-                <input id="socialFacebook" name="socialFacebook" placeholder="https://facebook.com/profile" defaultValue={profile.socialFacebook || ""} />
-              </div>
-              <div className="field">
-                <label htmlFor="socialWhatsapp">WhatsApp</label>
-                <input id="socialWhatsapp" name="socialWhatsapp" placeholder="https://wa.me/359..." defaultValue={profile.socialWhatsapp || ""} />
-              </div>
-              <div className="field">
-                <label htmlFor="socialViber">Viber (само номер)</label>
-                <input id="socialViber" name="socialViber" placeholder="359887771911" defaultValue={profile.socialViber?.replace("viber://chat?number=%2B", "").replace("viber://chat?number=", "") || ""} />
-              </div>
-            </div>
             <div className="toggle-grid">
               <label className="check-row">
                 <input name="isPublished" type="checkbox" defaultChecked={profile.isPublished} />
@@ -287,7 +269,10 @@ export default async function DashboardPage() {
               </div>
               <div className="field">
                 <label htmlFor="icon">Иконка (emoji)</label>
-                <input id="icon" name="icon" placeholder="🎵" maxLength={6} style={{ fontSize: "1.3rem" }} />
+                <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                  <input id="icon" name="icon" placeholder="🎵" maxLength={6} style={{ fontSize: "1.3rem", flex: 1 }} />
+                  <EmojiPicker inputId="icon" />
+                </div>
               </div>
             </div>
             <div className="two-col">

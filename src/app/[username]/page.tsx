@@ -96,10 +96,13 @@ export default async function PublicProfilePage({
       style={{
         background: theme.background,
         color: theme.text,
+        fontFamily: theme.fontFamily,
         ["--profile-background" as string]: theme.background,
         ["--profile-surface" as string]: theme.surface,
         ["--profile-text" as string]: theme.text,
         ["--profile-accent" as string]: theme.accent,
+        ["--card-radius" as string]: theme.cardRadius,
+        ["--card-shadow" as string]: theme.cardShadow,
       }}
     >
       {profile.backgroundVideo ? (

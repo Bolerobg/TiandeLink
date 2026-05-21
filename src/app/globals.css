@@ -415,11 +415,13 @@ h1 {
   place-items: center;
   min-height: 100vh;
   padding: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--_font, Georgia, "Times New Roman", serif);
   --_s: var(--profile-surface, #c7b98b);
   --_t: var(--profile-text, #35231e);
   --_a: var(--profile-accent, #655b39);
   --_bg: var(--profile-background, #b7aa7e);
+  --_r: var(--card-radius, 22px);
+  --_sh: var(--card-shadow, 3px 4px 0);
 }
 
 .bio-frame {
@@ -526,19 +528,19 @@ h1 {
 .linktree-card {
   display: flex;
   flex-direction: column;
-  border-radius: 22px;
+  border-radius: var(--_r);
   overflow: hidden;
   background: var(--_s);
   color: var(--_t);
   border: 2px solid var(--_a);
-  box-shadow: 3px 4px 0 var(--_a);
+  box-shadow: var(--_sh) var(--_a);
   transition: transform 120ms ease, box-shadow 120ms ease;
   cursor: pointer;
 }
 
 .linktree-card:hover {
   transform: translateY(-1px);
-  box-shadow: 4px 5px 0 var(--_a);
+  box-shadow: var(--_sh) var(--_a);
 }
 
 .linktree-card:active {
