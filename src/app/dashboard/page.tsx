@@ -5,6 +5,7 @@ import { logoutUser } from "@/app/(auth)/actions";
 import { BioPreview } from "@/components/bio-preview";
 import { SortableLinks } from "@/components/sortable-links";
 import { ThemePicker } from "@/components/theme-picker";
+import { TemplateGallery } from "@/components/template-gallery";
 import { EmojiPicker } from "@/components/emoji-picker";
 import { getDb } from "@/lib/db";
 import { requireUserProfile } from "@/lib/profile";
@@ -257,7 +258,7 @@ export default async function DashboardPage() {
                 <input type="hidden" name="cardShadow" defaultValue={theme.cardShadow} />
                 <input type="hidden" name="fontFamily" defaultValue={theme.fontFamily} />
                 <input type="hidden" name="template" defaultValue={theme.template} />
-                <ThemePicker presets={presets} />
+                <TemplateGallery currentTemplate={theme.template} />
               </div>
             </details>
 
