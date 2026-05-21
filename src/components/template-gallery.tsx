@@ -54,7 +54,7 @@ function MiniPreview({ theme }: { theme: ProfileTheme }) {
   );
 }
 
-export function TemplateGallery({ currentTemplate }: { currentTemplate: string }) {
+export function TemplateGallery({ currentTemplate, username }: { currentTemplate: string; username: string }) {
   const [selected, setSelected] = useState(currentTemplate);
   const [showAll, setShowAll] = useState(false);
   const stitchedPresets = presets.slice(-13);
@@ -78,7 +78,28 @@ export function TemplateGallery({ currentTemplate }: { currentTemplate: string }
 
   return (
     <div>
-      <div style={{ display: "flex", gap: 6, marginBottom: 10, flexWrap: "wrap" }}>
+      <div style={{ display: "flex", gap: 6, marginBottom: 10, flexWrap: "wrap", alignItems: "center" }}>
+        <a
+          href={`/${username}`}
+          target="_blank"
+          rel="nofollow noopener"
+          style={{
+            padding: "6px 14px",
+            borderRadius: 8,
+            border: "1px solid var(--accent)",
+            background: "var(--accent)",
+            color: "#fff",
+            fontSize: "0.8rem",
+            cursor: "pointer",
+            fontWeight: 700,
+            textDecoration: "none",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 4,
+          }}
+        >
+          👁 Преглед на профила
+        </a>
         <button
           type="button"
           onClick={() => setShowAll(false)}

@@ -258,7 +258,7 @@ export default async function DashboardPage() {
                 <input type="hidden" name="cardShadow" defaultValue={theme.cardShadow} />
                 <input type="hidden" name="fontFamily" defaultValue={theme.fontFamily} />
                 <input type="hidden" name="template" defaultValue={theme.template} />
-                <TemplateGallery currentTemplate={theme.template} />
+                <TemplateGallery currentTemplate={theme.template} username={profile.username} />
               </div>
             </details>
 
