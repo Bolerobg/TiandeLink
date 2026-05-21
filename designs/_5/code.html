@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Silvia Nikolova - Link in Bio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#eae8e3",
+                        "tertiary-container": "#b8ab83",
+                        "surface-container-low": "#f5f3ee",
+                        "soft-gold": "#C7B98B",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#f0e2b6",
+                        "surface-container-highest": "#e4e2dd",
+                        "on-secondary-container": "#6e643e",
+                        "surface": "#fbf9f4",
+                        "primary-fixed-dim": "#dec0b8",
+                        "tertiary-fixed-dim": "#d4c69c",
+                        "on-surface-variant": "#4f4442",
+                        "on-surface": "#1b1c19",
+                        "error": "#ba1a1a",
+                        "primary-container": "#35231e",
+                        "on-tertiary-fixed": "#221b02",
+                        "surface-variant": "#e4e2dd",
+                        "surface-dim": "#dbdad5",
+                        "on-secondary-fixed-variant": "#504623",
+                        "inverse-primary": "#dec0b8",
+                        "on-tertiary-fixed-variant": "#4f4626",
+                        "on-primary-fixed": "#281713",
+                        "primary-fixed": "#fbdcd3",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#685e3c",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#57423c",
+                        "surface-tint": "#705953",
+                        "background": "#fbf9f4",
+                        "primary": "#1e0f0b",
+                        "on-tertiary-container": "#483f20",
+                        "on-primary-container": "#a38981",
+                        "on-secondary-fixed": "#221b00",
+                        "cream-surface": "#F2EFE9",
+                        "secondary-container": "#f1e2b2",
+                        "outline-variant": "#d3c3bf",
+                        "secondary-fixed": "#f1e2b2",
+                        "inverse-on-surface": "#f2f1ec",
+                        "secondary": "#685e38",
+                        "outline": "#817471",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#d4c698",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#f0eee9",
+                        "inverse-surface": "#30312e",
+                        "on-background": "#1b1c19",
+                        "surface-bright": "#fbf9f4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "container-max": "1200px",
+                        "margin-desktop": "48px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Hanken Grotesk"],
+                        "label-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "headline-md": ["EB Garamond"],
+                        "headline-lg-mobile": ["EB Garamond"],
+                        "headline-lg": ["EB Garamond"],
+                        "display-lg": ["EB Garamond"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Utilities for this avant-garde look */
+        .glass-panel {
+            background: rgba(242, 239, 233, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .soft-shadow {
+            box-shadow: 0px 4px 30px rgba(30, 15, 11, 0.08);
+        }
+        
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .offset-border-card {
+            position: relative;
+        }
+        
+        .offset-border-card::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: -10px;
+            bottom: -10px;
+            border: 1px solid var(--tw-colors-outline-variant);
+            border-radius: var(--tw-border-radius-xl);
+            z-index: -1;
+            transition: all 0.3s ease;
+        }
+
+        .offset-border-card:hover::before {
+            top: 15px;
+            left: 15px;
+            right: -15px;
+            bottom: -15px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden antialiased selection:bg-soft-gold selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md font-headline-md text-headline-md-mobile md:text-headline-md text-primary dark:text-primary-fixed tracking-tight docked full-width top-0 sticky flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 z-50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Silvia Nikolova portrait" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ug8p3uM_-0A9rkE_o9TQtrlv6zN970mbQ0wkvBGRGGBohw2_xOwougwODfGrKgUbRP4EtinGNpvjht2Cgva0C0Ir_UZSs_7dqWco4MWzOaiTW39osQlzGlkEYJwjisELbk6GWiN5geIvWFHVdda2f8_fOn3JiNXDGcp4luj27eRdlTxKpcr81WEe2eX4PYqNxBJXZXS9wLwmMipKyN9gFRWKVAsnVkx34Jw7_rKdAaBSjChab8F2LCe-Q"/>
+</div>
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md">Silvia Nikolova</h1>
+</div>
+<button class="text-primary hover:text-soft-gold transition-colors duration-300 flex items-center justify-center p-2 rounded-full hover:bg-surface-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">more_vert</span>
+</button>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-32 pt-8">
+<!-- Hero Section -->
+<section class="relative mb-24 md:mb-32 mt-8 md:mt-16 flex flex-col items-center text-center">
+<div class="relative w-full max-w-2xl mx-auto z-10">
+<h2 class="font-display-lg text-display-lg text-primary mb-6 relative z-20 mix-blend-multiply opacity-90">
+                    Доверието е най-голямата отговорност
+                </h2>
+<div class="absolute -top-12 -left-8 w-24 h-24 bg-soft-gold/20 rounded-full blur-2xl z-0"></div>
+<div class="absolute -bottom-8 -right-8 w-32 h-32 bg-primary-fixed-dim/30 rounded-full blur-3xl z-0"></div>
+</div>
+<div class="w-full max-w-4xl mx-auto relative mt-8">
+<div class="aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden soft-shadow group">
+<img alt="Silvia Nikolova lifestyle portrait in a soft organic setting" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida/ADBb0ug8p3uM_-0A9rkE_o9TQtrlv6zN970mbQ0wkvBGRGGBohw2_xOwougwODfGrKgUbRP4EtinGNpvjht2Cgva0C0Ir_UZSs_7dqWco4MWzOaiTW39osQlzGlkEYJwjisELbk6GWiN5geIvWFHVdda2f8_fOn3JiNXDGcp4luj27eRdlTxKpcr81WEe2eX4PYqNxBJXZXS9wLwmMipKyN9gFRWKVAsnVkx34Jw7_rKdAaBSjChab8F2LCe-Q"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+</div>
+<!-- Social Links Strip -->
+<div class="glass-panel absolute -bottom-6 left-1/2 -translate-x-1/2 px-8 py-4 rounded-full flex gap-6 items-center shadow-lg w-auto max-w-[90%] overflow-x-auto whitespace-nowrap hide-scrollbar">
+<a class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">photo_camera</span>
+</a>
+<div class="w-px h-4 bg-outline-variant"></div>
+<a class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+</a>
+<div class="w-px h-4 bg-outline-variant"></div>
+<a class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+</a>
+<div class="w-px h-4 bg-outline-variant"></div>
+<a class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mail</span>
+</a>
+</div>
+</div>
+</section>
+<!-- Featured Products - Asymmetrical Grid -->
+<section class="mb-24 md:mb-32">
+<div class="flex items-center gap-4 mb-12">
+<h3 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Любими Продукти</h3>
+<div class="h-px bg-outline-variant flex-grow"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
+<!-- Product 1 (Offset Left) -->
+<a class="col-span-1 md:col-span-7 group block offset-border-card bg-cream-surface rounded-xl p-4 md:p-6 transition-transform duration-300 hover:-translate-y-2" href="#">
+<div class="aspect-[1.78] rounded-lg overflow-hidden mb-6 relative">
+<img alt="Extra White PRO product styling" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ugpN-ELWlIhzrKGsFuiXEHzuZR5T43GRncXESHa0uDUrBdwZRdoNswXjoTimkYR_WfOEcUqqTHjIsC2W8gmwAvFpuztiFfRwJL9XP50L_HN8qX9oohGUqUAkSblWx9K877DQaL3Vk6ZT-8_YOd0lCOID8XfNMlM9bBYvJTnQT6WcJuLwex4xeq5w7ILG7aHTRnv1BTpx1UAxpH05kufjv7Dr8t_NzmngGnvBh_zbIuv7bD9dNkxJNKQfQ"/>
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-300"></div>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<span class="font-label-md text-label-md text-tertiary uppercase tracking-wider block mb-2">Грижа за усмивката</span>
+<h4 class="font-headline-md text-headline-md text-primary">ЖЪЛТИ ЗЪБИ (КАФЕ, ЦИГАРИ, ВИНО) ВЕЧЕ НЕ</h4>
+</div>
+<div class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined">arrow_forward</span>
+</div>
+</div>
+</a>
+<!-- Product 2 (Offset Right, smaller) -->
+<a class="col-span-1 md:col-span-5 md:mt-24 group block offset-border-card bg-surface-container-low rounded-xl p-4 md:p-6 transition-transform duration-300 hover:-translate-y-2" href="#">
+<div class="aspect-[1.78] rounded-lg overflow-hidden mb-6 relative">
+<img alt="Bio Rehab hair growth series" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ujyCtQaXYYLayjkj8bculmiAwbK5Bcm7hYuitGj6uPnJusmw_xGYToMRVxEr10Ff1Vuyy61aWk6hG9D7NT9xwiYM3833_dQ5LwFlWbZyp7KOgzszPedy17Zo8Emd_mHnSUBm-4BCv-6P9T4e9WcOIEmCaM6rYHFM_m2oCtIMyL3xgskts1l1hWp3OYgd0ZWde3QVlbrEZmuzn_X7pCyBJdJ1ZwbVkn4vcUadgosnYM5cW-U45y5PSEH"/>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<span class="font-label-md text-label-md text-tertiary uppercase tracking-wider block mb-2">Здрава коса</span>
+<h4 class="font-body-lg text-body-lg font-medium text-primary leading-tight">СЕРИЯ ЗА БЪРЗ РАСТЕЖ НА КОСАТА И ПРОТИВ КОСОПАД</h4>
+</div>
+<span class="material-symbols-outlined text-outline">north_east</span>
+</div>
+</a>
+</div>
+</section>
+<!-- Interactive Links List -->
+<section class="mb-24 md:mb-32 max-w-3xl mx-auto space-y-4">
+<a class="group flex items-center p-4 pr-6 bg-cream-surface rounded-xl hover:bg-surface-container transition-colors duration-300 soft-shadow" href="#">
+<div class="w-24 h-16 md:w-32 md:h-20 rounded-md overflow-hidden shrink-0 mr-6 relative">
+<img alt="Gel against tartar product shot" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uh7Y8tNTKtW6T_VwCSFCIWCl6yPRcgro_r_udYAdhn9xV-6JUNnYQ27sEIhOZ8rSGyMAVTMBIQIgz9kMF3lVuPu1va9xDqALRhAcPpTDqJgBhTkx4MBpp1o2_Msy4_GibBymT3xNSCMPwsnVStx6AftAkn01YT1rlE0TEMt45Pm2GbYfKcxtzDDV1FS5x6Mz3r_JSzw03FETf4zV1V3zDTkXYXxcR_1WZCr-OueZuzWu5FWmkd9V_V63Q"/>
+<div class="absolute inset-0 ring-1 ring-inset ring-black/5 rounded-md"></div>
+</div>
+<div class="flex-grow">
+<h5 class="font-body-lg text-body-lg font-medium text-primary group-hover:text-soft-gold transition-colors">ГЕЛ ПРОТИВ ЗЪБЕН КАМЪК</h5>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">Естествена грижа с бамбук</p>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors transform group-hover:translate-x-1">chevron_right</span>
+</a>
+<a class="group flex items-center p-4 pr-6 bg-cream-surface rounded-xl hover:bg-surface-container transition-colors duration-300 soft-shadow" href="#">
+<div class="w-24 h-16 md:w-32 md:h-20 rounded-md overflow-hidden shrink-0 mr-6 relative">
+<img alt="Mouth spray product display" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ug4OvfEJ1bDDWp1apUyXZEbK-P3G5JivtBL2dkwYCAXrA_pTueiNDOEMoToJrkD6o2aYisGxdb9ZNqADJSyUaYJBS2n253-TzGuKtmbrhWfZvHR1fbcmoV_5g16Mvp46C8qmS6BkPRnUcLpuUwETRsiKltxKqyTV21B9MgjufiIWpOcQjkKrENnzt9E0zUs-C0GkZ6vxC-riBXg4zj9cWeDAV0uPOUwrY_b5YxOre4HIt1HEB-5W-vZ"/>
+<div class="absolute inset-0 ring-1 ring-inset ring-black/5 rounded-md"></div>
+</div>
+<div class="flex-grow">
+<h5 class="font-body-lg text-body-lg font-medium text-primary group-hover:text-soft-gold transition-colors">СПРЕЙ ЗА УСТА</h5>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">Свежест през целия ден</p>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors transform group-hover:translate-x-1">chevron_right</span>
+</a>
+<!-- Text-only link -->
+<a class="group flex justify-between items-center p-6 bg-surface-container-low border border-outline-variant/30 rounded-xl hover:bg-surface-container transition-colors duration-300" href="#">
+<h5 class="font-body-lg text-body-lg font-medium text-primary group-hover:text-soft-gold transition-colors">Разгледай пълния каталог</h5>
+<div class="w-8 h-8 rounded-full bg-cream-surface flex items-center justify-center group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</a>
+</section>
+<!-- Recruitment Section (Full width break out) -->
+<section class="relative -mx-margin-mobile md:-mx-margin-desktop px-margin-mobile md:px-margin-desktop py-24 md:py-32 overflow-hidden flex items-center justify-center">
+<!-- Background Image -->
+<div class="absolute inset-0 z-0">
+<img alt="Silvia Nikolova background for recruitment section" class="w-full h-full object-cover object-center filter brightness-50" src="https://lh3.googleusercontent.com/aida/ADBb0ug8p3uM_-0A9rkE_o9TQtrlv6zN970mbQ0wkvBGRGGBohw2_xOwougwODfGrKgUbRP4EtinGNpvjht2Cgva0C0Ir_UZSs_7dqWco4MWzOaiTW39osQlzGlkEYJwjisELbk6GWiN5geIvWFHVdda2f8_fOn3JiNXDGcp4luj27eRdlTxKpcr81WEe2eX4PYqNxBJXZXS9wLwmMipKyN9gFRWKVAsnVkx34Jw7_rKdAaBSjChab8F2LCe-Q"/>
+</div>
+<!-- Content overlay -->
+<div class="relative z-10 w-full max-w-2xl text-center">
+<div class="glass-panel p-8 md:p-12 rounded-2xl flex flex-col items-center">
+<span class="font-label-lg text-label-lg text-tertiary-fixed uppercase tracking-widest mb-4">Присъедини се към екипа</span>
+<h2 class="font-display-lg text-display-lg text-on-primary mb-6">СТАНИ ЕДНА ОТ НАС</h2>
+<p class="font-body-lg text-body-lg text-surface-container-low mb-8 max-w-md">
+                        Изгради собствен бизнес, работи от всякъде и бъди част от общност, която те подкрепя.
+                    </p>
+<a class="inline-flex items-center justify-center bg-soft-gold hover:bg-tertiary-container text-primary font-label-lg text-label-lg uppercase tracking-wider py-4 px-8 rounded-lg transition-colors duration-300 w-full md:w-auto" href="#">
+                        Кандидатствай сега
+                    </a>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="bg-cream-surface/90 dark:bg-surface-container-highest/90 backdrop-blur-lg text-primary dark:text-primary-fixed font-label-lg text-label-lg uppercase tracking-widest docked full-width bottom-0 fixed rounded-t-xl shadow-[0px_-4px_20px_rgba(0,0,0,0.05)] md:hidden flex justify-center gap-gutter items-center py-4 px-margin-mobile z-50 left-0 w-full">
+<!-- Active Item (Shop is intent focus) -->
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed bg-secondary-container dark:bg-secondary-fixed-dim rounded-full px-8 py-2 hover:bg-surface-container-high transition-colors duration-300 scale-95 opacity-90" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+<span class="text-xs">Shop</span>
+</a>
+<!-- Inactive Item -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-8 py-2 hover:bg-surface-container-high transition-colors duration-300" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">group</span>
+<span class="text-xs">Team</span>
+</a>
+</nav>
+<!-- Footer -->
+<footer class="bg-surface dark:bg-surface-dim font-body-md text-body-md full-width pb-24 md:pb-8 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 flex flex-col items-center gap-4 text-center mt-12 border-t border-outline-variant/20">
+<div class="text-primary dark:text-primary-fixed font-headline-md mb-4">Silvia Nikolova</div>
+<div class="flex flex-wrap justify-center gap-6 mb-4">
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Privacy</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Terms</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Contact</a>
+</div>
+<p class="text-on-surface-variant dark:text-outline text-sm">© 2024 Silvia Nikolova. All Rights Reserved.</p>
+</footer>
+</body></html>

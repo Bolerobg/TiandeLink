@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Silvia Nikolova - Link in Bio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&amp;family=Hanken+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#fbf9f4",
+                        "soft-gold": "#C7B98B",
+                        "surface-bright": "#fbf9f4",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1b1c19",
+                        "on-primary-fixed": "#281713",
+                        "surface-container-high": "#eae8e3",
+                        "surface-dim": "#dbdad5",
+                        "secondary-container": "#f1e2b2",
+                        "primary": "#1e0f0b",
+                        "on-primary-fixed-variant": "#57423c",
+                        "surface-tint": "#705953",
+                        "surface-container": "#f0eee9",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#35231e",
+                        "primary-fixed": "#fbdcd3",
+                        "tertiary-fixed": "#f0e2b6",
+                        "surface-container-low": "#f5f3ee",
+                        "secondary-fixed-dim": "#d4c698",
+                        "tertiary": "#685e3c",
+                        "error": "#ba1a1a",
+                        "on-background": "#1b1c19",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#504623",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#221b00",
+                        "surface": "#fbf9f4",
+                        "outline": "#817471",
+                        "on-tertiary-container": "#483f20",
+                        "tertiary-container": "#b8ab83",
+                        "surface-container-highest": "#e4e2dd",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#d3c3bf",
+                        "on-primary-container": "#a38981",
+                        "on-secondary-container": "#6e643e",
+                        "inverse-surface": "#30312e",
+                        "on-tertiary-fixed": "#221b02",
+                        "secondary": "#685e38",
+                        "tertiary-fixed-dim": "#d4c69c",
+                        "inverse-primary": "#dec0b8",
+                        "cream-surface": "#F2EFE9",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#f1e2b2",
+                        "surface-variant": "#e4e2dd",
+                        "on-surface-variant": "#4f4442",
+                        "primary-fixed-dim": "#dec0b8",
+                        "on-tertiary-fixed-variant": "#4f4626",
+                        "inverse-on-surface": "#f2f1ec"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "48px",
+                        "container-max": "1200px",
+                        "base": "8px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Hanken Grotesk"],
+                        "headline-lg": ["EB Garamond"],
+                        "headline-md": ["EB Garamond"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "display-lg": ["EB Garamond"],
+                        "label-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["EB Garamond"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #fbf9f4;
+            color: #1b1c19;
+            overflow-x: hidden;
+        }
+        .organic-blob-1 {
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        }
+        .organic-blob-2 {
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+        .glass-card {
+            background: rgba(242, 239, 233, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(30, 15, 11, 0.05);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col items-center pb-24 md:pb-0">
+<!-- Top App Bar (Desktop only, hidden on mobile for bio link feel) -->
+<header class="hidden md:flex items-center justify-between px-margin-desktop py-base w-full fixed top-0 z-50 bg-transparent flat no shadows transition-all duration-300" id="top-bar">
+<div class="flex items-center gap-4">
+<img alt="Silvia Nikolova profile portrait" class="w-12 h-12 rounded-full object-cover shadow-sm" data-alt="A sophisticated close-up portrait of a woman with natural makeup, soft warm lighting, minimal background, high-end beauty aesthetic, warm creamy tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5FOdtggwExCq7YpfRPFC4mcQ9YsjHA7O-aVeYuAdC9ATqVt2EetLLakP4HgX3me1XREBeJtVqbyCjtUn0AxFZIkGqUzksuDivlwd0LZUQnACEwA6PHHV4axM_72b2AFB5UtXWDO0AZty07ENTBpkVjuPs4xn7gH79-JaESsbYBkyap0GulJvWyIvhaJN0TS6HcAh3Qz6F6a0q1Wx6ki4o_jDj7rqUd9uaf-avIzv7adqqWxB__RlsdIpMH-QAy5uKyU8S8ML0AQ"/>
+<h1 class="font-display-lg text-headline-lg tracking-tight text-primary">Silvia Nikolova</h1>
+</div>
+<button class="text-primary hover:opacity-80 transition-opacity scale-95 duration-200">
+<span class="material-symbols-outlined text-2xl">share</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="w-full max-w-container-max px-margin-mobile md:px-margin-desktop pt-12 md:pt-32 pb-24 relative flex flex-col items-center">
+<!-- Decorative Background Elements -->
+<div class="absolute top-20 left-[-10%] w-64 h-64 bg-secondary-container opacity-40 organic-blob-1 -z-10 blur-xl mix-blend-multiply"></div>
+<div class="absolute top-1/3 right-[-5%] w-80 h-80 bg-tertiary-container opacity-30 organic-blob-2 -z-10 blur-2xl mix-blend-multiply"></div>
+<!-- Profile Hero Section -->
+<section class="flex flex-col items-center text-center mb-16 relative w-full max-w-2xl">
+<div class="relative mb-8">
+<div class="absolute inset-0 bg-soft-gold opacity-20 rounded-full scale-110 organic-blob-1 animate-pulse" style="animation-duration: 4s;"></div>
+<img alt="Silvia Nikolova" class="w-32 h-32 md:w-48 md:h-48 object-cover organic-blob-2 shadow-lg relative z-10 border-4 border-surface" src="https://lh3.googleusercontent.com/aida/ADBb0ugXngh1Atx6iHMPQZkaPjRa-cOcE1EB2NPCd1U16T3LNKuDHH9-hiFtlzb_AUGe_A8vAWRTzjuy1Dw-nYQeHQRJfMHVKTUg1Egg0efsAETrG07Xn6KZuYpPU4xdPUJFVo9-fvExe5ra2nfYqfIDtbXs3D5darQZ87ap304AwpQset-I61-Qywm_Enn-0QK2SLKeIrfNlcb_q4KlOVyMn2WtTGeFG0d4l-0hktFpxufZHrBDMjQRdlPx"/>
+</div>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-primary mb-2">Silvia Nikolova</h1>
+<p class="font-body-md text-on-surface-variant max-w-md mx-auto mb-6">Curating a life of holistic wellness, refined beauty, and mindful living. Explore my favorite discoveries.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary transition-colors">favorite</span>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary transition-colors">spa</span>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary transition-colors">eco</span>
+</div>
+</section>
+<!-- Links Grid (Bento/Asymmetric) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl relative z-10">
+<!-- Link Card 1 -->
+<a class="glass-card rounded-xl p-6 flex items-center justify-between group hover:scale-[1.02] transition-transform duration-300" href="#">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">shopping_bag</span>
+</div>
+<div>
+<h3 class="font-label-lg text-primary group-hover:text-tertiary transition-colors">My Skincare Routine</h3>
+<p class="font-label-md text-on-surface-variant mt-1">Shop the essentials</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-tertiary opacity-50 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</a>
+<!-- Link Card 2 -->
+<a class="glass-card rounded-xl p-6 flex items-center justify-between group hover:scale-[1.02] transition-transform duration-300 md:translate-y-8" href="#">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed">
+<span class="material-symbols-outlined">play_circle</span>
+</div>
+<div>
+<h3 class="font-label-lg text-primary group-hover:text-tertiary transition-colors">Latest Masterclass</h3>
+<p class="font-label-md text-on-surface-variant mt-1">Watch now</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-tertiary opacity-50 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</a>
+<!-- Featured Image Card -->
+<div class="md:col-span-2 relative mt-8 md:mt-16 group cursor-pointer overflow-hidden rounded-xl shadow-[0px_4px_20px_rgba(30,15,11,0.05)]">
+<div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500 z-10 rounded-xl pointer-events-none"></div>
+<img alt="Featured Product" class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-700 rounded-xl" src="https://lh3.googleusercontent.com/aida/ADBb0ugHw_FvOyC1VAGZEvvNZ1u4iO2dHLuQbuNsoPcXx-vcwjQZ5Ht0C8PTcQ6VXYyP_ApMaXq5my1l3j_w1YcZeSXiG_9jTKOQWIIX6a2xw4yo0vyENU0CpPoej-mOAkh6B-hS5JGTw4RYK8m81jbouDwmK561INxF-0SUKfAoBySnCl4hCo_CLZfJf64EaTkpXe3r_TFDUIOacpaR_JhmZamgOfOH9Gud77qW0jQyHCN__BMseOE4Cd8qAA"/>
+<div class="absolute bottom-0 left-0 p-6 z-20 bg-gradient-to-t from-black/60 to-transparent w-full rounded-b-xl">
+<span class="inline-block px-3 py-1 bg-surface/90 rounded text-label-md text-primary mb-2">New Arrival</span>
+<h3 class="font-headline-md text-on-primary">The Altai Sacral Collection</h3>
+</div>
+</div>
+<!-- Link Card 3 -->
+<a class="glass-card rounded-xl p-6 flex items-center justify-between group hover:scale-[1.02] transition-transform duration-300 mt-4 md:mt-8" href="#">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">calendar_month</span>
+</div>
+<div>
+<h3 class="font-label-lg text-primary group-hover:text-tertiary transition-colors">Book a Consultation</h3>
+<p class="font-label-md text-on-surface-variant mt-1">1-on-1 session</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-tertiary opacity-50 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</a>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-xl bg-surface-container-low/90 dark:bg-surface-container-lowest/90 shadow-[0px_-4px_20px_rgba(30,15,11,0.05)] backdrop-blur-md pb-6 pt-3 px-4 flex justify-around items-center">
+<!-- Active Tab: Home -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-md mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-cream-surface rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="font-label-md mt-1">Shop</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-cream-surface rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-label-md mt-1">Workouts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-cream-surface rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-label-md mt-1">Contact</span>
+</a>
+</nav>
+<!-- Footer -->
+<footer class="flex flex-col items-center gap-4 py-12 px-margin-mobile w-full mt-auto border-t border-outline-variant bg-surface relative z-10 mb-20 md:mb-0">
+<h2 class="font-headline-md text-primary">Silvia Nikolova</h2>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Press Kit</a>
+</div>
+<p class="font-body-md text-on-surface-variant mt-4 text-sm opacity-70">© 2024 Silvia Nikolova. All rights reserved.</p>
+</footer>
+<script>
+        // Simple scroll effect for top bar
+        window.addEventListener('scroll', () => {
+            const topBar = document.getElementById('top-bar');
+            if (window.scrollY > 50) {
+                topBar.classList.add('bg-surface/90', 'backdrop-blur-md', 'shadow-sm');
+                topBar.classList.remove('bg-transparent');
+            } else {
+                topBar.classList.remove('bg-surface/90', 'backdrop-blur-md', 'shadow-sm');
+                topBar.classList.add('bg-transparent');
+            }
+        });
+    </script>
+</body></html>

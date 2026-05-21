@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Silvia Nikolova - Editorial Curations</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "background": "#fbf9f4",
+                    "soft-gold": "#C7B98B",
+                    "surface-bright": "#fbf9f4",
+                    "error-container": "#ffdad6",
+                    "on-surface": "#1b1c19",
+                    "on-primary-fixed": "#281713",
+                    "surface-container-high": "#eae8e3",
+                    "surface-dim": "#dbdad5",
+                    "secondary-container": "#f1e2b2",
+                    "primary": "#1e0f0b",
+                    "on-primary-fixed-variant": "#57423c",
+                    "surface-tint": "#705953",
+                    "surface-container": "#f0eee9",
+                    "on-primary": "#ffffff",
+                    "primary-container": "#35231e",
+                    "primary-fixed": "#fbdcd3",
+                    "tertiary-fixed": "#f0e2b6",
+                    "surface-container-low": "#f5f3ee",
+                    "secondary-fixed-dim": "#d4c698",
+                    "tertiary": "#685e3c",
+                    "error": "#ba1a1a",
+                    "on-background": "#1b1c19",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#504623",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#221b00",
+                    "surface": "#fbf9f4",
+                    "outline": "#817471",
+                    "on-tertiary-container": "#483f20",
+                    "tertiary-container": "#b8ab83",
+                    "surface-container-highest": "#e4e2dd",
+                    "on-tertiary": "#ffffff",
+                    "outline-variant": "#d3c3bf",
+                    "on-primary-container": "#a38981",
+                    "on-secondary-container": "#6e643e",
+                    "inverse-surface": "#30312e",
+                    "on-tertiary-fixed": "#221b02",
+                    "secondary": "#685e38",
+                    "tertiary-fixed-dim": "#d4c69c",
+                    "inverse-primary": "#dec0b8",
+                    "cream-surface": "#F2EFE9",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error": "#ffffff",
+                    "secondary-fixed": "#f1e2b2",
+                    "surface-variant": "#e4e2dd",
+                    "on-surface-variant": "#4f4442",
+                    "primary-fixed-dim": "#dec0b8",
+                    "on-tertiary-fixed-variant": "#4f4626",
+                    "inverse-on-surface": "#f2f1ec"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "margin-desktop": "48px",
+                    "container-max": "1200px",
+                    "base": "8px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "label-lg": ["Hanken Grotesk"],
+                    "headline-lg": ["EB Garamond"],
+                    "headline-md": ["EB Garamond"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "display-lg": ["EB Garamond"],
+                    "label-md": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["EB Garamond"]
+            },
+            "fontSize": {
+                    "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                    "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "500" }],
+                    "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
+                    "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                    "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                    "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" }],
+                    "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                    "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "500" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .editorial-masonry {
+            column-count: 1;
+            column-gap: 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .editorial-masonry {
+                column-count: 2;
+            }
+        }
+        @media (min-width: 1024px) {
+            .editorial-masonry {
+                column-count: 3;
+            }
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1.5rem;
+        }
+        .text-vertical {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-transparent transition-all duration-300" id="main-header">
+<div class="flex items-center justify-between px-margin-mobile md:px-margin-desktop py-base w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-3">
+<img alt="Silvia Nikolova profile portrait" class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="A close-up portrait of a sophisticated woman with natural makeup, soft natural lighting, elegant minimalist background, high-end editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuANADKkCIkn7i8U0WFoPDdsQuDsjLEJb2mCobzBqcL0aFS2OVADUadcHh6UZA5bRHasVQazuLBqgDQ5t8Rph8qdxFYLF38bPFFm5WrLJMqcJbnBLuKaI80ZaRPDbJkusOUCw53mVObCZxSJO2iJWfHLXk2P-Ox6y07Ueg70SktM3cbAHyOLHQ9vCSb4bbTtTEw2SDUSCcRF2P_udiWJ7uw2RQxnIv8_Ltl7zP0jviosfBkL41YkJs2wLo6ryzjtzdBSawUnwsfupw"/>
+</div>
+<!-- Hidden on mobile, flex on desktop -->
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-primary font-semibold font-label-lg text-label-lg border-b border-primary pb-1" href="#">Home</a>
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity font-label-lg text-label-lg" href="#">Shop</a>
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity font-label-lg text-label-lg" href="#">Workouts</a>
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity font-label-lg text-label-lg" href="#">Contact</a>
+</nav>
+<button class="text-primary hover:opacity-80 transition-opacity p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary/20">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">share</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-24 pb-32 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
+<!-- Hero Identity -->
+<section class="mb-16 md:mb-24 text-center mt-8">
+<h1 class="font-display-lg text-display-lg text-primary tracking-tight mb-4">Silvia Nikolova</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-8">
+                Curating the art of holistic wellness, refined beauty, and intentional living.
+            </p>
+<div class="h-px w-24 bg-outline-variant mx-auto"></div>
+</section>
+<!-- Editorial Grid -->
+<div class="editorial-masonry">
+<!-- Featured Product (Large) -->
+<article class="masonry-item relative group overflow-hidden bg-cream-surface rounded-lg shadow-[0px_4px_20px_rgba(30,15,11,0.05)] transition-all duration-300 hover:shadow-[0px_8px_30px_rgba(30,15,11,0.08)]">
+<a class="block" href="#">
+<div class="relative aspect-[3/4] overflow-hidden">
+<img alt="Natural Bamboo Salt toothpaste" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A close-up shot of a woman holding a tube of Natural Bamboo Salt toothpaste, warm lighting, natural aesthetic, focus on the product packaging." src="https://lh3.googleusercontent.com/aida/ADBb0uh7Y8tNTKtW6T_VwCSFCIWCl6yPRcgro_r_udYAdhn9xV-6JUNnYQ27sEIhOZ8rSGyMAVTMBIQIgz9kMF3lVuPu1va9xDqALRhAcPpTDqJgBhTkx4MBpp1o2_Msy4_GibBymT3xNSCMPwsnVStx6AftAkn01YT1rlE0TEMt45Pm2GbYfKcxtzDDV1FS5x6Mz3r_JSzw03FETf4zV1V3zDTkXYXxcR_1WZCr-OueZuzWu5FWmkd9V_V63Q"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-80"></div>
+<div class="absolute top-4 left-4 bg-surface/90 backdrop-blur-sm px-3 py-1 rounded text-primary font-label-md text-label-md uppercase tracking-wider">
+                            Featured
+                        </div>
+<div class="absolute bottom-0 left-0 p-6 w-full">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-primary mb-2 font-medium">The Bamboo Salt Ritual</h2>
+<p class="font-body-md text-body-md text-on-primary/90 line-clamp-2">Elevate your daily oral care with the purifying power of natural bamboo salt.</p>
+</div>
+</div>
+</a>
+</article>
+<!-- Bio Link / About (Text Focus) -->
+<article class="masonry-item bg-cream-surface rounded-lg p-8 shadow-[0px_4px_20px_rgba(30,15,11,0.05)] relative overflow-hidden group border border-outline-variant/30">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-[120px] leading-none" style="font-variation-settings: 'FILL' 0;">spa</span>
+</div>
+<div class="relative z-10 h-full flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-6">
+<span class="w-8 h-px bg-primary"></span>
+<span class="font-label-lg text-label-lg text-primary uppercase tracking-widest">Philosophy</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-4 leading-tight">Nourishing Beauty from Within</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">A curated collection of my favorite wellness tools, skincare secrets, and daily rituals designed for the modern, mindful woman.</p>
+</div>
+<a class="inline-flex items-center gap-2 text-primary font-label-lg text-label-lg uppercase hover:opacity-70 transition-opacity" href="#">
+                        Read My Story
+                        <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Product Collection (Bio Rehab) -->
+<article class="masonry-item relative group overflow-hidden bg-cream-surface rounded-lg shadow-[0px_4px_20px_rgba(30,15,11,0.05)]">
+<a class="block flex h-[300px]" href="#">
+<div class="w-12 bg-secondary-container flex items-center justify-center border-r border-outline-variant/20 shrink-0">
+<span class="text-vertical font-label-lg text-label-lg text-on-secondary-container uppercase tracking-widest">Hair Care</span>
+</div>
+<div class="relative w-full overflow-hidden">
+<img alt="Bio Rehab Hair Care Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A luxurious still life of green apothecary style hair care bottles including shampoo and tonic, arranged elegantly on a dark red surface with soft, warm, out-of-focus holiday lights in the background, high-end editorial product photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMZHEzMZzut9aRGoq9nPPv5iIOh3sr_uTWAvaMHOHSGnAbCUiiB3aFpElhnBXctxawQlOwXnU--tRF0TLf3P6BnQFwMBCMIuSjhvZP21bjRxgwxo9y3JsCP9D8Fjj6LfndB5s2GK9S6Jub5AlwvyotAtpW9Xz0dDWFGpk72NGj6A27hZXwL1-y5YbsYoKAA5Zn3W8NzP2VMqY4Y_NVOQ2L1rN5zF-ab7eGtm6IbvI4D29emxmtSR_Bn_buBW2HsBJrSWdLmBLC1Q"/>
+<div class="absolute inset-0 bg-primary/20 transition-opacity duration-300 group-hover:bg-primary/10"></div>
+<div class="absolute bottom-4 right-4 bg-surface rounded-full p-2 shadow-lg">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 0;">shopping_bag</span>
+</div>
+</div>
+</a>
+</article>
+<!-- Minimal Text Link -->
+<article class="masonry-item">
+<a class="block p-6 border-y border-outline-variant/50 hover:bg-cream-surface transition-colors duration-300 group flex items-center justify-between" href="#">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Book a Consultation</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Personalized wellness strategy</p>
+</div>
+<span class="material-symbols-outlined text-tertiary group-hover:translate-x-1 transition-transform" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</a>
+</article>
+<!-- Video/Reel Placeholder -->
+<article class="masonry-item relative group overflow-hidden bg-cream-surface rounded-lg shadow-[0px_4px_20px_rgba(30,15,11,0.05)] aspect-[4/5]">
+<a class="block h-full w-full" href="#">
+<img alt="Morning Routine Video" class="w-full h-full object-cover" data-alt="A serene morning scene, a woman stretching in a bright, sunlit room with minimalist decor, warm morning light casting soft shadows, evoking calm and wellness." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0AX2S0ICxGCjxnSZuaXWk3UreajuPu69wHe1eqj09GASsn9dHxnKVrOAHnN0xxjtamD_weu0MB7ayN7j55QWJEMlGTeTBppwMNiKGy-F4hlA21b_U-5JpPTwGpom4uR6rsGjFg2aX-IC8Yy9rW99lXfZ7p4hfTrLUyID1J4ADSBhW-2OHTCNsx-CwU8W7TQ-8hWTRs1JBZnLbE5M-KUj7d86QXm0JzAJtSsjkL40_fUCvL8Ky2SJokyHn1D8_xtAAbk39s5Aecw"/>
+<div class="absolute inset-0 bg-primary/30 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+<div class="w-16 h-16 rounded-full border-2 border-on-primary flex items-center justify-center backdrop-blur-sm bg-surface/10 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-on-primary text-3xl ml-1" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+<div class="absolute top-4 left-4">
+<span class="bg-surface/80 backdrop-blur text-primary font-label-md text-label-md px-2 py-1 rounded">Latest Reel</span>
+</div>
+</a>
+</article>
+<!-- Standard Link Card -->
+<article class="masonry-item bg-cream-surface rounded-lg p-5 shadow-[0px_4px_20px_rgba(30,15,11,0.05)] hover:shadow-[0px_6px_25px_rgba(30,15,11,0.08)] transition-all duration-200 group">
+<a class="flex items-center gap-4" href="#">
+<div class="w-12 h-12 rounded bg-tertiary-container/30 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 0;">fitness_center</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-label-lg text-label-lg text-primary mb-0.5">My Workout Guides</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm line-clamp-1">Downloadable PDFs for home training</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-tertiary transition-colors" style="font-variation-settings: 'FILL' 0;">chevron_right</span>
+</a>
+</article>
+<!-- Newsletter Signup -->
+<article class="masonry-item bg-surface-container-low rounded-lg p-8 border border-outline-variant/30 text-center">
+<span class="material-symbols-outlined text-tertiary text-4xl mb-4" style="font-variation-settings: 'FILL' 0;">mail</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">The Sunday Glow</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 text-sm">Join 10k+ readers for weekly insights on living beautifully.</p>
+<form class="flex flex-col gap-3">
+<input class="w-full bg-surface border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-body-md placeholder:text-outline bg-transparent transition-colors" placeholder="Your email address" type="email"/>
+<button class="w-full bg-primary text-on-primary font-label-lg text-label-lg uppercase py-3 rounded-lg hover:bg-primary-container transition-colors duration-200 mt-2" type="submit">Subscribe</button>
+</form>
+</article>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-surface-container-low/90 dark:bg-surface-container-lowest/90 rounded-t-xl shadow-[0px_-4px_20px_rgba(30,15,11,0.05)] backdrop-blur-md">
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 Active: scale-95 transition-transform hover:bg-cream-surface dark:hover:bg-surface-variant" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-cream-surface dark:hover:bg-surface-variant transition-colors rounded-full" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">shopping_bag</span>
+<span class="font-label-md text-label-md">Shop</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-cream-surface dark:hover:bg-surface-variant transition-colors rounded-full" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">fitness_center</span>
+<span class="font-label-md text-label-md">Workouts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-cream-surface dark:hover:bg-surface-variant transition-colors rounded-full" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">mail</span>
+<span class="font-label-md text-label-md">Contact</span>
+</a>
+</nav>
+<!-- Footer -->
+<footer class="w-full relative border-t border-outline-variant flex flex-col items-center gap-4 py-12 px-margin-mobile mt-auto bg-surface pb-24 md:pb-12">
+<div class="font-headline-md text-headline-md text-primary mb-2">Silvia Nikolova</div>
+<div class="flex flex-wrap justify-center gap-6 mb-4">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors opacity-100" href="#">Privacy Policy</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors opacity-100" href="#">Terms of Service</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors opacity-100" href="#">Press Kit</a>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">© 2024 Silvia Nikolova. All rights reserved.</p>
+</footer>
+<script>
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 20) {
+                header.classList.add('bg-surface/90', 'backdrop-blur-md', 'shadow-sm');
+                header.classList.remove('bg-transparent');
+            } else {
+                header.classList.remove('bg-surface/90', 'backdrop-blur-md', 'shadow-sm');
+                header.classList.add('bg-transparent');
+            }
+        });
+    </script>
+</body></html>

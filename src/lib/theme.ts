@@ -220,58 +220,62 @@ export const presets: { name: string; theme: ProfileTheme }[] = [
     name: "Film Noir",
     theme: { template: "noir", background: "#000", surface: "#111", text: "#ddd", accent: "#c8a96e", buttonStyle: "outline", cardRadius: "0", cardShadow: "0 0 0 1px", fontFamily: "Georgia, serif" },
   },
-  // Stitch Beauty Portfolio Designs
+  // ─── STITCH BEAUTY PORTFOLIO (14 дизайна) ───
   {
-    name: "Динамичен",
-    theme: { template: "dynamic", background: "#fff5f5", surface: "#ffffff", text: "#2d1b1b", accent: "#e53e3e", buttonStyle: "solid", cardRadius: "4px", cardShadow: "0 2px 12px", fontFamily: "-apple-system, sans-serif" },
+    name: "Organic Elegance v1",
+    theme: { template: "o1", background: "#fff8f3", surface: "#fffaf5", text: "#181512", accent: "#775a19", buttonStyle: "solid", cardRadius: "8px", cardShadow: "0 2px 16px -2px", fontFamily: "'DM Sans', sans-serif" },
   },
   {
-    name: "Брутализъм",
-    theme: { template: "brutal", background: "#f8f8f8", surface: "#fff", text: "#0a0a0a", accent: "#0a0a0a", buttonStyle: "solid", cardRadius: "0", cardShadow: "4px 4px 0 0", fontFamily: "monospace" },
+    name: "Bento Gold Grid",
+    theme: { template: "bento", background: "#fbf9f4", surface: "#F2EFE9", text: "#1e0f0b", accent: "#C7B98B", buttonStyle: "solid", cardRadius: "12px", cardShadow: "0 4px 20px -4px", fontFamily: "'Hanken Grotesk', sans-serif" },
   },
   {
-    name: "Soft UI",
-    theme: { template: "stitch-soft", background: "#fbf9f4", surface: "#f0eee9", text: "#1b1c19", accent: "#685e38", buttonStyle: "soft", cardRadius: "12px", cardShadow: "0 2px 8px -2px", fontFamily: "Georgia, serif" },
+    name: "Clean Gallery",
+    theme: { template: "clean", background: "#fbf9f4", surface: "#fff", text: "#1e0f0b", accent: "#685e38", buttonStyle: "solid", cardRadius: "8px", cardShadow: "0 2px 10px -2px", fontFamily: "'Hanken Grotesk', sans-serif" },
   },
   {
-    name: "Enhanced Link-bio",
-    theme: { template: "enhanced", background: "#35231e", surface: "#eae8e3", text: "#1e0f0b", accent: "#c7b98b", buttonStyle: "solid", cardRadius: "28px", cardShadow: "0 4px 16px -4px", fontFamily: "Georgia, serif" },
+    name: "Z-Pattern Glass",
+    theme: { template: "zglass", background: "#fbf9f4", surface: "rgba(242,239,233,0.7)", text: "#1e0f0b", accent: "#C7B98B", buttonStyle: "solid", cardRadius: "16px", cardShadow: "0 8px 40px -8px", fontFamily: "'Hanken Grotesk', sans-serif" },
   },
   {
-    name: "Модерен",
-    theme: { template: "modern", background: "#ffffff", surface: "#f5f5f5", text: "#1a1a1a", accent: "#2563eb", buttonStyle: "outline", cardRadius: "16px", cardShadow: "0 1px 3px", fontFamily: "-apple-system, sans-serif" },
+    name: "Offset Border",
+    theme: { template: "offset", background: "#fbf9f4", surface: "#fff", text: "#1e0f0b", accent: "#685e38", buttonStyle: "solid", cardRadius: "8px", cardShadow: "0 10px 40px -10px", fontFamily: "'Hanken Grotesk', sans-serif" },
   },
   {
-    name: "Експериментален",
-    theme: { template: "experimental", background: "#1a1a2e", surface: "#16213e", text: "#e94560", accent: "#0f3460", buttonStyle: "solid", cardRadius: "8px", cardShadow: "0 0 16px -4px", fontFamily: "monospace" },
+    name: "Organic Blobs",
+    theme: { template: "blobs", background: "#fbf9f4", surface: "#fff", text: "#1e0f0b", accent: "#685e3c", buttonStyle: "solid", cardRadius: "2rem", cardShadow: "0 4px 20px -4px", fontFamily: "'Hanken Grotesk', sans-serif" },
   },
   {
-    name: "Авангарден",
-    theme: { template: "avantgarde", background: "#f8f4e8", surface: "#ffffff", text: "#1a1a1a", accent: "#d4af37", buttonStyle: "outline", cardRadius: "0", cardShadow: "0 0 0 2px", fontFamily: "'Times New Roman', serif" },
+    name: "Wellness Brutalism",
+    theme: { template: "wellness", background: "#fbf9f4", surface: "#fff", text: "#1e0f0b", accent: "#1e0f0b", buttonStyle: "solid", cardRadius: "0", cardShadow: "4px 4px 0 0", fontFamily: "'Hanken Grotesk', sans-serif" },
   },
   {
-    name: "Glassmorphism Stitch",
-    theme: { template: "stitch-glass", background: "#f5f0e8", surface: "rgba(255,255,255,0.7)", text: "#35231e", accent: "#c7b98b", buttonStyle: "solid", cardRadius: "16px", cardShadow: "0 8px 32px -8px", fontFamily: "Georgia, serif" },
+    name: "Editorial Masonry",
+    theme: { template: "masonry", background: "#fafaf9", surface: "#fff", text: "#1e0f0b", accent: "#78716c", buttonStyle: "solid", cardRadius: "4px", cardShadow: "0 2px 12px -2px", fontFamily: "'EB Garamond', serif" },
   },
   {
-    name: "Магазин Грид",
-    theme: { template: "shopgrid", background: "#f5f5f5", surface: "#ffffff", text: "#1a1a1a", accent: "#e63946", buttonStyle: "solid", cardRadius: "8px", cardShadow: "0 2px 8px", fontFamily: "-apple-system, sans-serif" },
+    name: "Soft Glass Blobs",
+    theme: { template: "softblob", background: "#fbf9f4", surface: "rgba(242,239,233,0.7)", text: "#1e0f0b", accent: "#685e3c", buttonStyle: "solid", cardRadius: "16px", cardShadow: "0 8px 32px -8px", fontFamily: "'Hanken Grotesk', sans-serif" },
   },
   {
-    name: "Минималистичен",
-    theme: { template: "stitch-minimal", background: "#ffffff", surface: "#fafafa", text: "#1a1a1a", accent: "#6b7280", buttonStyle: "outline", cardRadius: "0", cardShadow: "0 1px 0 0", fontFamily: "-apple-system, sans-serif" },
+    name: "Full Glassmorphism",
+    theme: { template: "fullglass", background: "linear-gradient(135deg, #fbf9f4 0%, #eae8e3 100%)", surface: "rgba(255,255,255,0.4)", text: "#1e0f0b", accent: "#C7B98B", buttonStyle: "solid", cardRadius: "16px", cardShadow: "0 8px 32px -8px", fontFamily: "'Hanken Grotesk', sans-serif" },
   },
   {
-    name: "Колаж",
-    theme: { template: "collage", background: "#fef6e4", surface: "#ffffff", text: "#5c4033", accent: "#e07a5f", buttonStyle: "solid", cardRadius: "4px", cardShadow: "3px 3px 0 0", fontFamily: "Georgia, serif" },
+    name: "Classic Link Bio v1",
+    theme: { template: "linkbio1", background: "#fbf9f4", surface: "#fff", text: "#1e0f0b", accent: "#C7B98B", buttonStyle: "solid", cardRadius: "16px", cardShadow: "0 4px 20px -4px", fontFamily: "'Hanken Grotesk', sans-serif" },
   },
   {
-    name: "Едиториал",
-    theme: { template: "editorial", background: "#fafaf9", surface: "#ffffff", text: "#0c0a09", accent: "#78716c", buttonStyle: "solid", cardRadius: "0", cardShadow: "0 2px 0 0", fontFamily: "'Times New Roman', serif" },
+    name: "Classic Link Bio v2",
+    theme: { template: "linkbio2", background: "#fbf9f4", surface: "#f0eee9", text: "#1e0f0b", accent: "#685e38", buttonStyle: "solid", cardRadius: "14px", cardShadow: "0 2px 12px -2px", fontFamily: "'Hanken Grotesk', sans-serif" },
   },
   {
-    name: "Нов Елегантен",
-    theme: { template: "stitch-elegant", background: "#fdfbf7", surface: "#f5f0e8", text: "#35231e", accent: "#c7b98b", buttonStyle: "solid", cardRadius: "28px", cardShadow: "0 4px 20px -4px", fontFamily: "Georgia, serif" },
+    name: "Soft UI Neumorphism",
+    theme: { template: "neumorph", background: "#fbf9f4", surface: "linear-gradient(145deg, #ffffff, #e6e3dd)", text: "#1e0f0b", accent: "#35231e", buttonStyle: "solid", cardRadius: "12px", cardShadow: "4px 4px 10px -4px, -4px -4px 10px -2px", fontFamily: "'Hanken Grotesk', sans-serif" },
+  },
+  {
+    name: "Organic Elegance v2",
+    theme: { template: "o2", background: "#FFF8F3", surface: "#fffaf5", text: "#181512", accent: "#775a19", buttonStyle: "solid", cardRadius: "4px", cardShadow: "0 2px 12px -2px", fontFamily: "'DM Sans', sans-serif" },
   },
 ];
 
