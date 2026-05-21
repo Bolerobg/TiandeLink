@@ -222,6 +222,10 @@ export const presets: { name: string; theme: ProfileTheme }[] = [
   },
   // ─── STITCH BEAUTY PORTFOLIO (14 дизайна) ───
   {
+    name: "🌟 Organic Bento",
+    theme: { template: "organic", background: "#fbf9f4", surface: "#F2EFE9", text: "#1e0f0b", accent: "#C7B98B", buttonStyle: "solid", cardRadius: "2rem", cardShadow: "0 4px 20px -4px", fontFamily: "Hanken Grotesk, sans-serif" },
+  },
+  {
     name: "Organic Elegance v1",
     theme: { template: "o1", background: "#fff8f3", surface: "#fffaf5", text: "#181512", accent: "#775a19", buttonStyle: "solid", cardRadius: "8px", cardShadow: "0 2px 16px -2px", fontFamily: "'DM Sans', sans-serif" },
   },

@@ -21,6 +21,7 @@ export function StitchTemplate({ template, profile, links }: { template: string;
     case "zglass": return <ZGlass profile={profile} links={links} />;
     case "o1": return <O1 profile={profile} links={links} />;
     case "o2": return <O2 profile={profile} links={links} />;
+    case "organic": return <OrganicElegance profile={profile} links={links} />;
     default: return <LinkBio2 profile={profile} links={links} />;
   }
 }
@@ -326,6 +327,103 @@ function O2({ profile, links }: { profile: Profile; links: Link[] }) {
             <strong style={{ color: "#181512", fontSize: "1rem" }}>{link.title}</strong>
           </a>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function OrganicElegance({ profile, links }: { profile: Profile; links: Link[] }) {
+  const s = { boxShadow: "0 4px 20px rgba(30,15,11,0.05)" };
+  return (
+    <div style={{ minHeight: "100vh", background: "#fbf9f4", color: "#1e0f0b", fontFamily: "Hanken Grotesk, sans-serif" }}>
+      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(251,249,244,0.85)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(0,0,0,0.05)", padding: "12px 16px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ width: 40, height: 40, borderRadius: "50%", overflow: "hidden", border: "1px solid #d3c3bf", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Av p={profile} />
+          </div>
+          <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "1.5rem", fontWeight: 700, margin: 0 }}>{profile.displayName}</h1>
+        </div>
+      </div>
+      <div style={{ height: 96 }} />
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "16px 24px" }}>
+        {profile.bio && (
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <p style={{ fontSize: "1.1rem", lineHeight: 1.75, color: "#4f4442", fontStyle: "italic", maxWidth: 640, margin: "0 auto 24px" }}>{profile.bio}</p>
+            <div style={{ display: "flex", justifyContent: "center", gap: 16 }}>
+              {["photo_camera","play_arrow","thumb_up","chat"].map((icon) => (
+                <div key={icon} style={{ width: 48, height: 48, borderRadius: "50%", background: "#F2EFE9", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid rgba(211,195,191,0.3)", ...s }}>
+                  <span className="material-symbols-outlined" style={{ fontSize: 22, color: "#1e0f0b" }}>{icon}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 24, marginBottom: 96 }}>
+          {links.length > 0 && (
+            <a href={`/api/click/${links[0].id}`} style={{ gridColumn: "1/-1", display: "block", position: "relative", minHeight: "55vh", borderRadius: "2rem", overflow: "hidden", ...s }}>
+              {links[0].imageUrl && <img src={links[0].imageUrl} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />}
+              <div style={{ position: "absolute", inset: 0, background: links[0].imageUrl ? "linear-gradient(to top, rgba(30,15,11,0.8), rgba(30,15,11,0.2), transparent)" : "#F2EFE9", display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "center", padding: 32, textAlign: "center" }}>
+                <h2 style={{ fontFamily: "EB Garamond, serif", fontSize: "3rem", fontWeight: 500, color: links[0].imageUrl ? "#fff" : "#1e0f0b", letterSpacing: "-0.02em", textShadow: links[0].imageUrl ? "0 2px 8px rgba(0,0,0,0.3)" : "none" }}>{links[0].title}</h2>
+              </div>
+            </a>
+          )}
+          {links.length > 1 && (
+            <a href={`/api/click/${links[1].id}`} style={{ gridColumn: "span 2", display: "block", position: "relative", height: 320, borderRadius: "2rem", overflow: "hidden", ...s, background: "#F2EFE9" }}>
+              {links[1].imageUrl && <img src={links[1].imageUrl} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.9 }} />}
+              <div style={{ position: "absolute", inset: 0, background: links[1].imageUrl ? "linear-gradient(to top, rgba(251,249,244,0.9), rgba(251,249,244,0.1))" : "transparent", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: 24 }}>
+                <h3 style={{ fontFamily: "EB Garamond, serif", fontSize: "1.5rem", fontWeight: 500, color: "#1e0f0b", marginBottom: 12 }}>{links[1].title}</h3>
+                <span style={{ display: "inline-flex", justifyContent: "center", background: "#1e0f0b", color: "#fff", padding: "12px 24px", borderRadius: 999, maxWidth: 160, fontSize: "0.85rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: 1 }}>ВИЖ ПОВЕЧЕ</span>
+              </div>
+            </a>
+          )}
+          {links.length > 2 && (
+            <a href={`/api/click/${links[2].id}`} style={{ display: "block", position: "relative", height: 320, borderRadius: "40% 60% 70% 30% / 40% 50% 60% 50%", overflow: "hidden", ...s, background: "#F2EFE9" }}>
+              {links[2].imageUrl && <img src={links[2].imageUrl} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.8 }} />}
+              <div style={{ position: "relative", zIndex: 10, background: "rgba(242,239,233,0.4)", backdropFilter: "blur(12px)", borderRadius: "50%", padding: 24, textAlign: "center", width: "80%", height: "80%", margin: "10% auto", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", border: "1px solid rgba(30,15,11,0.15)" }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 32, color: "#1e0f0b", marginBottom: 8 }}>auto_awesome</span>
+                <h3 style={{ fontFamily: "EB Garamond, serif", fontSize: "1.5rem", fontWeight: 500, color: "#1e0f0b", lineHeight: 1.3 }}>{links[2].title}</h3>
+              </div>
+            </a>
+          )}
+          {links.slice(3).map((link, i) => {
+            const layouts = [
+              { dir: "column" as const, r: "2rem", col: "span 1", bg: "#F2EFE9", c: "#1e0f0b" },
+              { dir: "row" as const, r: "50%", col: "span 2", bg: "#F2EFE9", c: "#1e0f0b" },
+              { dir: "column" as const, r: "60% 40% 30% 70% / 60% 30% 70% 40%", col: "span 2", bg: "#b8ab83", c: "#483f20", badge: true },
+            ];
+            const lt = layouts[i % 3];
+            return (
+              <a key={link.id} href={`/api/click/${link.id}`} style={{
+                display: "flex", flexDirection: lt.dir, position: "relative", height: 256, overflow: "hidden",
+                borderRadius: lt.r, ...s, background: lt.bg, color: lt.c,
+                gridColumn: lt.col, alignItems: lt.dir === "row" ? "center" : "stretch",
+                paddingLeft: lt.dir === "row" ? 32 : 0, paddingRight: lt.dir === "row" ? 16 : 0,
+              }}>
+                {link.imageUrl && (
+                  <div style={{ overflow: "hidden", flexShrink: 0,
+                    width: lt.dir === "row" ? 160 : "100%", height: lt.dir === "row" ? 160 : "50%",
+                    borderRadius: lt.dir === "row" ? "50%" : "0", border: lt.dir === "row" ? "4px solid #fbf9f4" : "none",
+                    ...(lt.badge ? { position: "absolute", inset: 0 } : {}),
+                  }}>{<img src={link.imageUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: lt.badge ? 0.4 : 1 }} />}</div>
+                )}
+                <div style={{ padding: 20, flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", zIndex: lt.badge ? 10 : "auto", position: lt.badge ? "relative" : "static" }}>
+                  {lt.badge && <span style={{ padding: "4px 12px", background: "rgba(251,249,244,0.5)", borderRadius: 999, fontSize: "0.75rem", fontWeight: 500, marginBottom: 12, backdropFilter: "blur(4px)", display: "inline-block", width: "fit-content" }}>Ново</span>}
+                  <h4 style={{ fontFamily: "EB Garamond, serif", fontSize: "1.2rem", fontWeight: 500 }}>{link.title}</h4>
+                  {link.description && <p style={{ fontSize: "0.9rem", opacity: 0.7, marginTop: 8, lineHeight: 1.5 }}>{link.description}</p>}
+                </div>
+              </a>
+            );
+          })}
+        </div>
+        {profile.bio && (
+          <div style={{ marginBottom: 48, borderRadius: "3rem", overflow: "hidden", position: "relative", ...s }}>
+            <div style={{ position: "absolute", inset: 0, background: "rgba(30,15,11,0.9)", zIndex: 0 }} />
+            <div style={{ position: "relative", zIndex: 10, padding: "80px 32px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", background: "rgba(242,239,233,0.4)", backdropFilter: "blur(12px)", borderRadius: "3rem", margin: 16, border: "1px solid rgba(251,249,244,0.2)" }}>
+              <h2 style={{ fontFamily: "EB Garamond, serif", fontSize: "3rem", fontWeight: 500, color: "#fff", letterSpacing: "-0.02em", marginBottom: 24 }}>СТАНИ ЕДНА ОТ НАС</h2>
+              <p style={{ fontSize: "1.1rem", color: "#e4e2dd", maxWidth: 480, marginBottom: 40 }}>{profile.bio}</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
