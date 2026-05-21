@@ -157,11 +157,15 @@ export default async function PublicProfilePage({
 
               if (link.type === "TEXT") {
                 return (
-                  <div className="linktree-text" key={link.id}>
-                    {link.imageUrl ? <img src={link.imageUrl} alt="" loading="lazy" /> : null}
-                    <div className="linktree-text-body">
-                      <strong>{link.title}</strong>
-                      {link.description ? <p>{link.description}</p> : null}
+                  <div className="linktree-card no-image" key={link.id} style={{ cursor: "default" }}>
+                    {link.imageUrl ? (
+                      <div className="linktree-thumb">
+                        <img alt="" src={link.imageUrl} loading="lazy" />
+                      </div>
+                    ) : null}
+                    <div className="linktree-body">
+                      <strong>{link.icon ? `${link.icon} ` : ""}{link.title}</strong>
+                      {link.description ? <small>{link.description}</small> : null}
                     </div>
                   </div>
                 );
