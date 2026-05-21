@@ -1,93 +1,256 @@
-// Template renderer that uses exact Stitch HTML from designs folder
+type Link = { id: string; title: string; url: string; description?: string | null; imageUrl?: string | null };
+type Profile = { displayName: string; bio?: string | null; avatarUrl?: string | null };
 
-const tailwindConfigs: Record<string, any> = {};
+function Av({ p }: { p: Profile }) {
+  return p.avatarUrl
+    ? <img src={p.avatarUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+    : <span style={{ fontSize: "1.5rem", fontWeight: 700 }}>{p.displayName[0]}</span>;
+}
 
-// All 14 designs share the same core tailwind config
-// We load the full Tailwind CDN with proper config per template
-
-export function StitchTemplate({
-  template,
-  profile,
-  links,
-}: {
-  template: string;
-  profile: { displayName: string; bio?: string | null; avatarUrl?: string | null };
-  links: { id: string; title: string; url: string; description?: string | null; imageUrl?: string | null; icon?: string | null }[];
-}) {  // Pick the right layout based on template name
+export function StitchTemplate({ template, profile, links }: { template: string; profile: Profile; links: Link[] }) {
   switch (template) {
-    case "bento":
-      return <BentoGrid profile={profile} links={links} />;
-    case "wellness":
-      return <WellnessBrutalism profile={profile} links={links} />;
-    case "fullglass":
-      return <FullGlass profile={profile} links={links} />;
-    case "neumorph":
-      return <Neumorphism profile={profile} links={links} />;
-    case "masonry":
-      return <Masonry profile={profile} links={links} />;
-    case "linkbio1":
-      return <LinkBio1 profile={profile} links={links} />;
-    case "clean":
-      return <CleanGallery profile={profile} links={links} />;
-    default:
-      return <BentoGrid profile={profile} links={links} />;
+    case "bento": return <Bento profile={profile} links={links} />;
+    case "wellness": return <Wellness profile={profile} links={links} />;
+    case "fullglass": return <FullGlass profile={profile} links={links} />;
+    case "neumorph": return <Neumorph profile={profile} links={links} />;
+    case "masonry": return <Masonry profile={profile} links={links} />;
+    case "linkbio1": return <LinkBio1 profile={profile} links={links} />;
+    case "linkbio2": return <LinkBio2 profile={profile} links={links} />;
+    case "clean": return <Clean profile={profile} links={links} />;
+    case "blobs": return <Blobs profile={profile} links={links} />;
+    case "zglass": return <ZGlass profile={profile} links={links} />;
+    case "o1": return <O1 profile={profile} links={links} />;
+    case "o2": return <O2 profile={profile} links={links} />;
+    default: return <LinkBio2 profile={profile} links={links} />;
   }
 }
 
-// === BENTO GRID (from _6) ===
-function BentoGrid({
-  profile,
-  links,
-}: {
-  profile: { displayName: string; bio?: string | null; avatarUrl?: string | null };
-  links: { id: string; title: string; url: string; description?: string | null; imageUrl?: string | null }[];
-}) {
-  return (
-    <div className="min-h-screen bg-[#fbf9f4] font-['Hanken_Grotesk'] antialiased pb-24">
-      <header className="flex items-center justify-center pt-12 pb-6 px-4">
-        <div className="flex flex-col items-center gap-3">
-          {profile.avatarUrl ? (
-            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#C7B98B]">
-              <img src={profile.avatarUrl} alt="" className="w-full h-full object-cover" />
-            </div>
-          ) : (
-            <div className="w-16 h-16 rounded-full bg-[#F2EFE9] border-2 border-[#C7B98B] flex items-center justify-center text-2xl font-bold text-[#1e0f0b]">
-              {profile.displayName[0]}
-            </div>
-          )}
-          <h1 className="text-3xl font-['EB_Garamond'] font-semibold text-[#1e0f0b] tracking-tight">{profile.displayName}</h1>
-          {profile.bio ? <p className="text-[#4f4442] italic text-center max-w-md">{profile.bio}</p> : null}
-        </div>
-      </header>
+const T = { p: "#1e0f0b", m: "#4f4442", gold: "#C7B98B", cream: "#fbf9f4", crd: "#F2EFE9" };
 
-      <div className="bento-grid max-w-[580px] mx-auto px-4" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+function Bento({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: T.cream, fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 96 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
+        <div style={{ width: 80, height: 80, borderRadius: "50%", overflow: "hidden", border: `2px solid ${T.gold}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Av p={profile} />
+        </div>
+        <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "2rem", fontWeight: 600, color: T.p, marginTop: 16, letterSpacing: "-0.02em" }}>{profile.displayName}</h1>
+        {profile.bio && <p style={{ color: T.m, fontStyle: "italic", textAlign: "center", marginTop: 8, maxWidth: 400 }}>{profile.bio}</p>}
+      </div>
+      <div style={{ maxWidth: 580, margin: "0 auto", padding: "0 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+        {links.map((link, i) => (
+          <a key={link.id} href={`/api/click/${link.id}`} style={{
+            display: "block", borderRadius: 16, overflow: "hidden", position: "relative",
+            gridColumn: i === 0 ? "1 / -1" : "auto", minHeight: i === 0 ? 220 : 140,
+            boxShadow: "0 4px 20px rgba(30,15,11,0.05)", border: "none", textDecoration: "none",
+          }}>
+            {link.imageUrl && <img src={link.imageUrl} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />}
+            <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: 16, background: link.imageUrl ? "linear-gradient(to top, rgba(0,0,0,0.6), transparent)" : "#fff" }}>
+              <strong style={{ fontFamily: "EB Garamond, serif", fontSize: "1.1rem", color: link.imageUrl ? "#fff" : T.p }}>{link.title}</strong>
+              {link.description && <small style={{ fontSize: "0.85rem", marginTop: 4, opacity: 0.7, color: link.imageUrl ? "rgba(255,255,255,0.8)" : T.m }}>{link.description}</small>}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Wellness({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: "#f4f0e6", fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 96 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "64px 16px 32px" }}>
+        <div style={{ width: 80, height: 80, border: "2px solid #1e0f0b", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Av p={profile} />
+        </div>
+        <h1 style={{ fontSize: "2.5rem", fontWeight: 700, color: T.p, textTransform: "uppercase", letterSpacing: "-0.03em", marginTop: 16 }}>{profile.displayName}</h1>
+        {profile.bio && <p style={{ color: T.m, textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: 1, marginTop: 8 }}>{profile.bio}</p>}
+      </div>
+      <div style={{ maxWidth: 520, margin: "0 auto", padding: "0 16px", display: "grid", gap: 16 }}>
+        {links.map((link) => (
+          <a key={link.id} href={`/api/click/${link.id}`} style={{
+            display: "block", border: "2px solid #1e0f0b", background: "#fff", padding: 20,
+            fontWeight: 700, fontSize: "0.9rem", textTransform: "uppercase", textDecoration: "none", color: T.p, letterSpacing: 1,
+          }}>
+            {link.title}
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function FullGlass({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg, #fbf9f4 0%, #eae8e3 100%)", fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 96 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
+        <div style={{ width: 80, height: 80, borderRadius: "50%", overflow: "hidden", background: "rgba(255,255,255,0.3)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.5)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Av p={profile} />
+        </div>
+        <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "2rem", fontWeight: 600, color: T.p, marginTop: 16 }}>{profile.displayName}</h1>
+        {profile.bio && <p style={{ color: T.m, fontStyle: "italic", textAlign: "center", marginTop: 8, maxWidth: 360 }}>{profile.bio}</p>}
+      </div>
+      <div style={{ maxWidth: 520, margin: "0 auto", padding: "0 16px", display: "grid", gap: 12 }}>
+        {links.map((link) => (
+          <a key={link.id} href={`/api/click/${link.id}`} style={{
+            display: "block", padding: 20, borderRadius: 16, textDecoration: "none",
+            background: "rgba(255,255,255,0.4)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
+            border: "1px solid rgba(255,255,255,0.6)", boxShadow: "0 8px 32px -8px rgba(30,15,11,0.06)",
+          }}>
+            <strong style={{ fontFamily: "EB Garamond, serif", fontSize: "1.1rem", color: T.p }}>{link.title}</strong>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Neumorph({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: T.cream, fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 96 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
+        <div style={{
+          width: 80, height: 80, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center",
+          background: "linear-gradient(145deg, #ffffff, #e6e3dd)",
+          boxShadow: "4px 4px 10px rgba(30,15,11,0.04), -4px -4px 10px rgba(255,255,255,0.8)",
+        }}>
+          <Av p={profile} />
+        </div>
+        <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "2rem", fontWeight: 600, color: T.p, marginTop: 16 }}>{profile.displayName}</h1>
+        {profile.bio && <p style={{ color: T.m, fontStyle: "italic", textAlign: "center", marginTop: 8, maxWidth: 360 }}>{profile.bio}</p>}
+      </div>
+      <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 16px", display: "grid", gap: 16 }}>
+        {links.map((link) => (
+          <a key={link.id} href={`/api/click/${link.id}`} style={{
+            display: "block", padding: 20, borderRadius: 12, textDecoration: "none",
+            background: "linear-gradient(145deg, #ffffff, #e6e3dd)",
+            boxShadow: "4px 4px 10px rgba(30,15,11,0.04), -4px -4px 10px rgba(255,255,255,0.8)",
+          }}>
+            <strong style={{ fontFamily: "EB Garamond, serif", fontSize: "1.1rem", color: T.p }}>{link.title}</strong>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Masonry({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: "#fafaf9", fontFamily: "EB Garamond, serif", paddingBottom: 96 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
+        <h1 style={{ fontSize: "2.8rem", fontWeight: 700, color: T.p, borderBottom: "2px solid #e7e5e4", paddingBottom: 16, marginBottom: 12 }}>{profile.displayName}</h1>
+        {profile.bio && <p style={{ color: T.m, fontStyle: "italic", fontSize: "1.1rem", textAlign: "center", maxWidth: 400 }}>{profile.bio}</p>}
+      </div>
+      <div style={{ maxWidth: 640, margin: "0 auto", padding: "0 16px", columns: "2 240px", columnGap: 12 }}>
+        {links.map((link) => (
+          <a key={link.id} href={`/api/click/${link.id}`} style={{
+            display: "block", breakInside: "avoid", marginBottom: 12, background: "#fff", borderRadius: 4, overflow: "hidden",
+            border: "1px solid #e7e5e4", boxShadow: "0 2px 12px rgba(30,15,11,0.03)", textDecoration: "none",
+          }}>
+            {link.imageUrl && <img src={link.imageUrl} alt="" style={{ width: "100%" }} />}
+            <div style={{ padding: 16 }}>
+              <strong style={{ color: T.p, fontSize: "1rem" }}>{link.title}</strong>
+              {link.description && <p style={{ color: T.m, fontSize: "0.85rem", marginTop: 4, opacity: 0.7 }}>{link.description}</p>}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function LinkBio1({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: "linear-gradient(180deg, #d4c69c 0%, #fbf9f4 40%)", fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 64 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "64px 16px 32px" }}>
+        <div style={{ width: 96, height: 96, borderRadius: "50%", overflow: "hidden", border: "4px solid #fff", boxShadow: "0 4px 12px rgba(0,0,0,0.1)", display: "flex", alignItems: "center", justifyContent: "center", background: T.crd }}>
+          <Av p={profile} />
+        </div>
+        <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "2rem", fontWeight: 600, color: T.p, marginTop: 16 }}>{profile.displayName}</h1>
+        {profile.bio && <p style={{ color: T.m, marginTop: 8, textAlign: "center", maxWidth: 360 }}>{profile.bio}</p>}
+      </div>
+      <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 16px", display: "grid", gap: 16 }}>
+        {links.map((link) => (
+          <a key={link.id} href={`/api/click/${link.id}`} style={{
+            display: "block", padding: 16, borderRadius: 16, textDecoration: "none",
+            background: "rgba(242,239,233,0.7)", backdropFilter: "blur(8px)", border: "1px solid rgba(199,185,139,0.2)", boxShadow: "0 4px 20px rgba(30,15,11,0.04)",
+          }}>
+            <strong style={{ fontFamily: "EB Garamond, serif", fontSize: "1.1rem", color: T.p }}>{link.title}</strong>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function LinkBio2({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: T.cream, fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 64 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
+        <div style={{ width: 80, height: 80, borderRadius: "50%", overflow: "hidden", border: `2px solid ${T.gold}`, display: "flex", alignItems: "center", justifyContent: "center", background: T.crd }}>
+          <Av p={profile} />
+        </div>
+        <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "1.8rem", fontWeight: 600, color: T.p, marginTop: 16 }}>{profile.displayName}</h1>
+        {profile.bio && <p style={{ color: T.m, marginTop: 8, textAlign: "center", maxWidth: 360 }}>{profile.bio}</p>}
+      </div>
+      <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 16px", display: "grid", gap: 12 }}>
+        {links.map((link) => (
+          <a key={link.id} href={`/api/click/${link.id}`} style={{
+            display: "block", padding: 16, borderRadius: 16, textDecoration: "none",
+            background: "#f0eee9", boxShadow: "0 2px 12px rgba(30,15,11,0.04)",
+          }}>
+            <strong style={{ fontFamily: "EB Garamond, serif", fontSize: "1.1rem", color: T.p }}>{link.title}</strong>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Clean({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: T.cream, fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 80 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "40px 16px 24px" }}>
+        <div style={{ width: 56, height: 56, borderRadius: "50%", overflow: "hidden", border: "1px solid #e4e2dd", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Av p={profile} />
+        </div>
+        <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "1.3rem", fontWeight: 600, color: T.p, marginTop: 12 }}>{profile.displayName}</h1>
+        {profile.bio && <p style={{ color: T.m, fontSize: "0.85rem", marginTop: 4, textAlign: "center", maxWidth: 280 }}>{profile.bio}</p>}
+      </div>
+      <div style={{ maxWidth: 440, margin: "0 auto", padding: "0 16px", display: "grid", gap: 8 }}>
+        {links.map((link) => (
+          <a key={link.id} href={`/api/click/${link.id}`} style={{
+            display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", background: "#fff", borderRadius: 8, textDecoration: "none",
+            boxShadow: "0 2px 10px rgba(30,15,11,0.03)",
+          }}>
+            {link.imageUrl && <img src={link.imageUrl} alt="" style={{ width: 40, height: 40, borderRadius: 4, objectFit: "cover" }} />}
+            <strong style={{ color: T.p, fontSize: "0.9rem" }}>{link.title}</strong>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Blobs({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: T.cream, fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 96 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
+        <div style={{ width: 80, height: 80, borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%", overflow: "hidden", border: `2px solid ${T.gold}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Av p={profile} />
+        </div>
+        <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "2rem", fontWeight: 600, color: T.p, marginTop: 16 }}>{profile.displayName}</h1>
+        {profile.bio && <p style={{ color: T.m, fontStyle: "italic", textAlign: "center", marginTop: 8, maxWidth: 360 }}>{profile.bio}</p>}
+      </div>
+      <div style={{ maxWidth: 520, margin: "0 auto", padding: "0 16px", display: "grid", gap: 16 }}>
         {links.map((link, i) => {
-          const isHero = i === 0;
+          const shapes = ["40% 60% 70% 30% / 40% 50% 60% 50%", "60% 40% 30% 70% / 60% 30% 70% 40%", "50% 50% 45% 55% / 55% 45% 55% 45%"];
           return (
-            <a
-              key={link.id}
-              href={`/api/click/${link.id}`}
-              className={`soft-shadow block relative overflow-hidden bg-white rounded-[2rem] transition-transform hover:-translate-y-0.5 ${isHero ? "col-span-2" : ""}`}
-              style={{
-                gridColumn: isHero ? "1 / -1" : undefined,
-                minHeight: isHero ? 220 : 140,
-                boxShadow: "0 4px 20px rgba(30,15,11,0.05)",
-                border: "none",
-              }}
-            >
-              {link.imageUrl ? (
-                <img src={link.imageUrl} alt="" className="absolute inset-0 w-full h-full object-cover" />
-              ) : null}
-              <div className={`absolute inset-0 flex flex-col justify-end p-5 ${link.imageUrl ? "bg-gradient-to-t from-black/60 to-transparent" : ""}`}>
-                <strong className={link.imageUrl ? "text-white" : "text-[#1e0f0b]"} style={{ fontFamily: "'EB Garamond', serif", fontSize: "1.1rem" }}>
-                  {link.title}
-                </strong>
-                {link.description ? (
-                  <small className="text-sm mt-1 opacity-70" style={{ color: link.imageUrl ? "rgba(255,255,255,0.8)" : "#4f4442" }}>
-                    {link.description}
-                  </small>
-                ) : null}
-              </div>
+            <a key={link.id} href={`/api/click/${link.id}`} style={{
+              display: "block", padding: 20, borderRadius: shapes[i % 3], textDecoration: "none",
+              background: "#fff", boxShadow: "0 4px 20px rgba(30,15,11,0.04)",
+            }}>
+              <strong style={{ fontFamily: "EB Garamond, serif", fontSize: "1.1rem", color: T.p }}>{link.title}</strong>
             </a>
           );
         })}
@@ -96,44 +259,23 @@ function BentoGrid({
   );
 }
 
-// === WELLNESS BRUTALISM (from _7) ===
-function WellnessBrutalism({
-  profile,
-  links,
-}: {
-  profile: { displayName: string; bio?: string | null; avatarUrl?: string | null };
-  links: { id: string; title: string; url: string; description?: string | null; imageUrl?: string | null }[];
-}) {
+function ZGlass({ profile, links }: { profile: Profile; links: Link[] }) {
   return (
-    <div className="min-h-screen bg-[#fbf9f4] font-['Hanken_Grotesk'] antialiased pb-24">
-      <header className="flex items-center justify-center pt-16 pb-8 px-4">
-        <div className="flex flex-col items-center gap-4">
-          {profile.avatarUrl ? (
-            <div className="w-20 h-20 border-2 border-[#1e0f0b] flex items-center justify-center">
-              <img src={profile.avatarUrl} alt="" className="w-full h-full object-cover" />
-            </div>
-          ) : (
-            <div className="w-20 h-20 border-2 border-[#1e0f0b] flex items-center justify-center text-3xl font-bold text-[#1e0f0b] uppercase">
-              {profile.displayName[0]}
-            </div>
-          )}
-          <h1 className="text-4xl uppercase font-bold text-[#1e0f0b] tracking-tighter">{profile.displayName}</h1>
-          {profile.bio ? <p className="text-[#4f4442] uppercase text-sm tracking-wider">{profile.bio}</p> : null}
+    <div style={{ minHeight: "100vh", background: T.cream, fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 96 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
+        <div style={{ width: 80, height: 80, borderRadius: "50%", overflow: "hidden", border: `2px solid ${T.gold}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Av p={profile} />
         </div>
-      </header>
-
-      <div className="max-w-[520px] mx-auto px-4 grid gap-4">
-        {links.map((link) => (
-          <a
-            key={link.id}
-            href={`/api/click/${link.id}`}
-            className="block border-2 border-[#1e0f0b] bg-white p-5 uppercase font-bold text-sm tracking-wide hover:shadow-[4px_4px_0px_0px_#1e0f0b] transition-shadow"
-            style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
-          >
-            {link.imageUrl ? (
-              <img src={link.imageUrl} alt="" className="w-full h-40 object-cover mb-3" />
-            ) : null}
-            <span className="text-[#1e0f0b]">{link.title}</span>
+        <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "2rem", fontWeight: 600, color: T.p, marginTop: 16 }}>{profile.displayName}</h1>
+        {profile.bio && <p style={{ color: T.m, fontStyle: "italic", textAlign: "center", marginTop: 8, maxWidth: 360 }}>{profile.bio}</p>}
+      </div>
+      <div style={{ maxWidth: 520, margin: "0 auto", padding: "0 16px", display: "grid", gap: 16 }}>
+        {links.map((link, i) => (
+          <a key={link.id} href={`/api/click/${link.id}`} style={{
+            display: "block", padding: 16, borderRadius: 16, textDecoration: "none", transform: i % 2 === 0 ? "translateX(-4px)" : "translateX(4px)",
+            background: "rgba(242,239,233,0.7)", backdropFilter: "blur(12px)", border: "1px solid rgba(199,185,139,0.15)", boxShadow: "0 10px 40px -8px rgba(30,15,11,0.08)",
+          }}>
+            <strong style={{ fontFamily: "EB Garamond, serif", fontSize: "1.1rem", color: T.p }}>{link.title}</strong>
           </a>
         ))}
       </div>
@@ -141,53 +283,23 @@ function WellnessBrutalism({
   );
 }
 
-// === FULL GLASSMORPHISM (from glassmorphism/) ===
-function FullGlass({
-  profile,
-  links,
-}: {
-  profile: { displayName: string; bio?: string | null; avatarUrl?: string | null };
-  links: { id: string; title: string; url: string; description?: string | null; imageUrl?: string | null }[];
-}) {
+function O1({ profile, links }: { profile: Profile; links: Link[] }) {
   return (
-    <div
-      className="min-h-screen font-['Hanken_Grotesk'] antialiased pb-24"
-      style={{ background: "linear-gradient(135deg, #fbf9f4 0%, #eae8e3 100%)" }}
-    >
-      <header className="flex items-center justify-center pt-12 pb-6 px-4">
-        <div className="flex flex-col items-center gap-3">
-          {profile.avatarUrl ? (
-            <div className="w-16 h-16 rounded-full overflow-hidden border border-white/50 bg-white/30 backdrop-blur-md">
-              <img src={profile.avatarUrl} alt="" className="w-full h-full object-cover" />
-            </div>
-          ) : (
-            <div className="w-16 h-16 rounded-full bg-white/30 backdrop-blur-md border border-white/50 flex items-center justify-center text-2xl font-bold text-[#1e0f0b]">
-              {profile.displayName[0]}
-            </div>
-          )}
-          <h1 className="text-2xl font-['EB_Garamond'] font-semibold text-[#1e0f0b]">{profile.displayName}</h1>
-          {profile.bio ? <p className="text-[#4f4442] italic text-center max-w-sm">{profile.bio}</p> : null}
+    <div style={{ minHeight: "100vh", background: "#fff8f3", fontFamily: "DM Sans, sans-serif", paddingBottom: 96 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
+        <div style={{ width: 80, height: 80, borderRadius: "50%", overflow: "hidden", border: "2px solid rgba(119,90,25,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Av p={profile} />
         </div>
-      </header>
-
-      <div className="max-w-[520px] mx-auto px-4 grid gap-3">
+        <h1 style={{ fontSize: "2rem", fontWeight: 400, color: "#181512", marginTop: 16 }}>{profile.displayName}</h1>
+        {profile.bio && <p style={{ color: "rgba(24,21,18,0.6)", textAlign: "center", marginTop: 8, maxWidth: 360 }}>{profile.bio}</p>}
+      </div>
+      <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 16px", display: "grid", gap: 12 }}>
         {links.map((link) => (
-          <a
-            key={link.id}
-            href={`/api/click/${link.id}`}
-            className="glass-card block p-4 rounded-2xl transition-transform hover:scale-[1.01]"
-            style={{
-              background: "rgba(255,255,255,0.4)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-              border: "1px solid rgba(255,255,255,0.6)",
-              boxShadow: "0 8px 32px -8px rgba(30,15,11,0.06)",
-            }}
-          >
-            {link.imageUrl ? (
-              <img src={link.imageUrl} alt="" className="w-full h-44 object-cover rounded-xl mb-3" />
-            ) : null}
-            <strong className="text-[#1e0f0b] font-['EB_Garamond'] text-lg">{link.title}</strong>
+          <a key={link.id} href={`/api/click/${link.id}`} style={{
+            display: "block", padding: 20, borderRadius: 8, textDecoration: "none",
+            background: "#fffaf5", border: "1px solid rgba(119,90,25,0.15)", boxShadow: "0 2px 16px -2px rgba(0,0,0,0.04)",
+          }}>
+            <strong style={{ color: "#181512", fontSize: "1rem" }}>{link.title}</strong>
           </a>
         ))}
       </div>
@@ -195,174 +307,23 @@ function FullGlass({
   );
 }
 
-// === NEUMORPHISM (from soft_ui/) ===
-function Neumorphism({
-  profile,
-  links,
-}: {
-  profile: { displayName: string; bio?: string | null; avatarUrl?: string | null };
-  links: { id: string; title: string; url: string; description?: string | null; imageUrl?: string | null }[];
-}) {
+function O2({ profile, links }: { profile: Profile; links: Link[] }) {
   return (
-    <div className="min-h-screen bg-[#fbf9f4] font-['Hanken_Grotesk'] antialiased pb-24">
-      <header className="flex items-center justify-center pt-12 pb-6 px-4">
-        <div className="flex flex-col items-center gap-3">
-          {profile.avatarUrl ? (
-            <div className="w-20 h-20 rounded-full overflow-hidden" style={{ boxShadow: "4px 4px 10px rgba(30,15,11,0.04), -4px -4px 10px rgba(255,255,255,0.8)" }}>
-              <img src={profile.avatarUrl} alt="" className="w-full h-full object-cover" />
-            </div>
-          ) : (
-            <div className="w-20 h-20 rounded-full flex items-center justify-center text-3xl font-bold text-[#1e0f0b]" style={{ background: "linear-gradient(145deg, #ffffff, #e6e3dd)", boxShadow: "4px 4px 10px rgba(30,15,11,0.04), -4px -4px 10px rgba(255,255,255,0.8)" }}>
-              {profile.displayName[0]}
-            </div>
-          )}
-          <h1 className="text-2xl font-['EB_Garamond'] font-semibold text-[#1e0f0b]">{profile.displayName}</h1>
-          {profile.bio ? <p className="text-[#4f4442] italic text-center max-w-sm">{profile.bio}</p> : null}
+    <div style={{ minHeight: "100vh", background: "#FFF8F3", fontFamily: "DM Sans, sans-serif", paddingBottom: 96 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
+        <div style={{ width: 80, height: 80, borderRadius: "50%", overflow: "hidden", border: "1px solid rgba(119,90,25,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Av p={profile} />
         </div>
-      </header>
-
-      <div className="max-w-[480px] mx-auto px-4 grid gap-4">
-        {links.map((link) => (
-          <a
-            key={link.id}
-            href={`/api/click/${link.id}`}
-            className="block p-5 rounded-xl transition-all active:scale-[0.98]"
-            style={{
-              background: "linear-gradient(145deg, #ffffff, #e6e3dd)",
-              boxShadow: "4px 4px 10px rgba(30,15,11,0.04), -4px -4px 10px rgba(255,255,255,0.8)",
-            }}
-          >
-            {link.imageUrl ? (
-              <img src={link.imageUrl} alt="" className="w-full h-40 object-cover rounded-lg mb-3" />
-            ) : null}
-            <strong className="text-[#1e0f0b] font-['EB_Garamond'] text-lg">{link.title}</strong>
-            {link.description ? <p className="text-[#4f4442] text-sm mt-1 opacity-70">{link.description}</p> : null}
-          </a>
-        ))}
+        <h1 style={{ fontSize: "2.4rem", fontWeight: 500, color: "#181512", letterSpacing: "-0.02em", marginTop: 16 }}>{profile.displayName}</h1>
+        {profile.bio && <p style={{ color: "rgba(24,21,18,0.6)", textAlign: "center", marginTop: 8, maxWidth: 360, lineHeight: 1.7 }}>{profile.bio}</p>}
       </div>
-    </div>
-  );
-}
-
-// === MASONRY EDITORIAL (from _8) ===
-function Masonry({
-  profile,
-  links,
-}: {
-  profile: { displayName: string; bio?: string | null; avatarUrl?: string | null };
-  links: { id: string; title: string; url: string; description?: string | null; imageUrl?: string | null }[];
-}) {
-  return (
-    <div className="min-h-screen bg-[#fafaf9] font-['EB_Garamond'] antialiased pb-24">
-      <header className="flex flex-col items-center pt-12 pb-8 px-4">
-        <h1 className="text-5xl font-bold text-[#1e0f0b] border-b-2 border-[#e7e5e4] pb-4 mb-3">{profile.displayName}</h1>
-        {profile.bio ? <p className="text-[#4f4442] italic text-lg max-w-md text-center">{profile.bio}</p> : null}
-      </header>
-
-      <div className="max-w-[640px] mx-auto px-4" style={{ columns: 2, columnGap: 12 }}>
+      <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 16px", display: "grid", gap: 16 }}>
         {links.map((link) => (
-          <a
-            key={link.id}
-            href={`/api/click/${link.id}`}
-            className="block break-inside-avoid mb-3 bg-white border border-[#e7e5e4] rounded overflow-hidden"
-            style={{ boxShadow: "0 2px 12px rgba(30,15,11,0.03)" }}
-          >
-            {link.imageUrl ? (
-              <img src={link.imageUrl} alt="" className="w-full object-cover" style={{ height: link.imageUrl ? "auto" : "0" }} />
-            ) : null}
-            <div className="p-4">
-              <strong className="text-[#1e0f0b] text-base">{link.title}</strong>
-              {link.description ? <p className="text-[#4f4442] text-sm mt-1 opacity-70">{link.description}</p> : null}
-            </div>
-          </a>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// === CLASSIC LINK BIO v1 (from link_in_bio_1) ===
-function LinkBio1({
-  profile,
-  links,
-}: {
-  profile: { displayName: string; bio?: string | null; avatarUrl?: string | null };
-  links: { id: string; title: string; url: string; description?: string | null; imageUrl?: string | null }[];
-}) {
-  return (
-    <div className="min-h-screen font-['Hanken_Grotesk'] antialiased pb-16" style={{ background: "linear-gradient(180deg, #d4c69c 0%, #fbf9f4 40%)" }}>
-      <header className="flex flex-col items-center pt-16 pb-8 px-4">
-        {profile.avatarUrl ? (
-          <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg mb-4">
-            <img src={profile.avatarUrl} alt="" className="w-full h-full object-cover" />
-          </div>
-        ) : (
-          <div className="w-24 h-24 rounded-full bg-[#F2EFE9] border-4 border-white shadow-lg flex items-center justify-center text-4xl font-bold text-[#1e0f0b] mb-4">
-            {profile.displayName[0]}
-          </div>
-        )}
-        <h1 className="text-3xl font-['EB_Garamond'] font-semibold text-[#1e0f0b]">{profile.displayName}</h1>
-        {profile.bio ? <p className="text-[#4f4442] mt-2 text-center max-w-sm">{profile.bio}</p> : null}
-      </header>
-
-      <div className="max-w-[480px] mx-auto px-4 grid gap-4">
-        {links.map((link) => (
-          <a
-            key={link.id}
-            href={`/api/click/${link.id}`}
-            className="block p-4 rounded-2xl backdrop-blur-md border border-[#C7B98B]/20 transition-transform hover:-translate-y-0.5"
-            style={{ background: "rgba(242,239,233,0.7)", boxShadow: "0 4px 20px rgba(30,15,11,0.04)" }}
-          >
-            {link.imageUrl ? (
-              <img src={link.imageUrl} alt="" className="w-full h-44 object-cover rounded-xl mb-3" />
-            ) : null}
-            <strong className="text-[#1e0f0b] font-['EB_Garamond'] text-lg">{link.title}</strong>
-            {link.description ? <p className="text-[#4f4442] text-sm mt-1 opacity-70">{link.description}</p> : null}
-          </a>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// === CLEAN GALLERY (from _3) ===
-function CleanGallery({
-  profile,
-  links,
-}: {
-  profile: { displayName: string; bio?: string | null; avatarUrl?: string | null };
-  links: { id: string; title: string; url: string; description?: string | null; imageUrl?: string | null }[];
-}) {
-  return (
-    <div className="min-h-screen bg-[#fbf9f4] font-['Hanken_Grotesk'] antialiased pb-20">
-      <header className="flex flex-col items-center pt-10 pb-6 px-4">
-        {profile.avatarUrl ? (
-          <div className="w-14 h-14 rounded-full overflow-hidden border border-[#e4e2dd] mb-3">
-            <img src={profile.avatarUrl} alt="" className="w-full h-full object-cover" />
-          </div>
-        ) : (
-          <div className="w-14 h-14 rounded-full bg-[#F2EFE9] border border-[#e4e2dd] flex items-center justify-center text-xl font-bold text-[#1e0f0b] mb-3">
-            {profile.displayName[0]}
-          </div>
-        )}
-        <h1 className="text-xl font-['EB_Garamond'] font-semibold text-[#1e0f0b]">{profile.displayName}</h1>
-        {profile.bio ? <p className="text-[#4f4442] text-sm mt-1 text-center max-w-xs">{profile.bio}</p> : null}
-      </header>
-
-      <div className="max-w-[440px] mx-auto px-4 grid gap-2">
-        {links.map((link) => (
-          <a
-            key={link.id}
-            href={`/api/click/${link.id}`}
-            className="block p-3 bg-white rounded-lg transition-transform hover:-translate-y-0.5"
-            style={{ boxShadow: "0 2px 10px rgba(30,15,11,0.03)" }}
-          >
-            <div className="flex items-center gap-3">
-              {link.imageUrl ? (
-                <img src={link.imageUrl} alt="" className="w-10 h-10 rounded object-cover" />
-              ) : null}
-              <strong className="text-[#1e0f0b] text-sm">{link.title}</strong>
-            </div>
+          <a key={link.id} href={`/api/click/${link.id}`} style={{
+            display: "block", padding: "16px 20px", borderRadius: 4, textDecoration: "none",
+            background: "#fffaf5", border: "1px solid rgba(119,90,25,0.1)", transition: "box-shadow 0.2s",
+          }}>
+            <strong style={{ color: "#181512", fontSize: "1rem" }}>{link.title}</strong>
           </a>
         ))}
       </div>
