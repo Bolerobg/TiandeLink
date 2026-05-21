@@ -34,6 +34,7 @@ const profileSchema = z.object({
   cardRadius: z.string().max(8),
   cardShadow: z.string().max(24),
   fontFamily: z.string().max(60),
+  template: z.string().max(30),
   buttonStyle: z.enum(["solid", "outline", "soft"]),
 });
 
@@ -97,6 +98,7 @@ export async function updateProfile(formData: FormData) {
     cardRadius: formData.get("cardRadius") || defaultTheme.cardRadius,
     cardShadow: formData.get("cardShadow") || defaultTheme.cardShadow,
     fontFamily: formData.get("fontFamily") || defaultTheme.fontFamily,
+    template: formData.get("template") || defaultTheme.template,
     buttonStyle: formData.get("buttonStyle") || defaultTheme.buttonStyle,
   });
   const db = getDb();
@@ -158,6 +160,7 @@ export async function updateProfile(formData: FormData) {
         cardRadius: parsed.cardRadius,
         cardShadow: parsed.cardShadow,
         fontFamily: parsed.fontFamily,
+        template: parsed.template,
         buttonStyle: parsed.buttonStyle,
       },
     },

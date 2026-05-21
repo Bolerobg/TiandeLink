@@ -93,6 +93,7 @@ export default async function PublicProfilePage({
   return (
     <main
       className="bio-page"
+      data-template={theme.template}
       style={{
         background: theme.background,
         color: theme.text,

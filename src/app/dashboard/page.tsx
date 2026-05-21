@@ -254,6 +254,7 @@ export default async function DashboardPage() {
                 <input type="hidden" name="cardRadius" defaultValue={theme.cardRadius} />
                 <input type="hidden" name="cardShadow" defaultValue={theme.cardShadow} />
                 <input type="hidden" name="fontFamily" defaultValue={theme.fontFamily} />
+                <input type="hidden" name="template" defaultValue={theme.template} />
                 <ThemePicker presets={presets} />
               </div>
             </details>

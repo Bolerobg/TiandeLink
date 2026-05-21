@@ -15,6 +15,7 @@ export function ThemePicker({ presets }: { presets: { name: string; theme: Profi
     set("cardRadius", theme.cardRadius);
     set("cardShadow", theme.cardShadow);
     set("fontFamily", theme.fontFamily);
+    set("template", theme.template);
   }
 
   return (
