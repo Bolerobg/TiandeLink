@@ -7,6 +7,7 @@ import { EmailCapture } from "@/components/email-capture";
 import { CopyButton } from "@/components/copy-button";
 import { QrModal } from "@/components/qr-modal";
 import { PasswordGate } from "@/components/password-gate";
+import { StitchTemplate } from "@/templates/renderer";
 
 export const dynamic = "force-dynamic";
 
@@ -93,6 +94,23 @@ export default async function PublicProfilePage({
   const clickCount = await getDb().clickEvent.count({ where: { profileId: profile.id } });
   const randomBase = Math.floor(2500 + Math.random() * 2500);
   const displayViews = clickCount + randomBase;
+
+  if (theme.template && theme.template !== "classic") {
+    return (
+      <StitchTemplate
+        template={theme.template}
+        profile={{ displayName: profile.displayName, bio: profile.bio, avatarUrl: profile.avatarUrl }}
+        links={mainLinks.map((link) => ({
+          id: link.id,
+          title: link.title,
+          url: link.url,
+          description: link.description,
+          imageUrl: link.imageUrl,
+          icon: (link as any).icon,
+        }))}
+      />
+    );
+  }
 
   return (
     <main

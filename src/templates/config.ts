@@ -1,0 +1,53 @@
+/** Shared Tailwind config (all Stitch designs use ~same palette) */
+export const TAILWIND_CDN_CONFIG = {
+  theme: {
+    extend: {
+      colors: {
+        primary: "#1e0f0b",
+        "primary-container": "#35231e",
+        secondary: "#685e38",
+        tertiary: "#685e3c",
+        "cream-surface": "#F2EFE9",
+        "soft-gold": "#C7B98B",
+        background: "#fbf9f4",
+        surface: "#fbf9f4",
+        "surface-bright": "#fbf9f4",
+        "surface-container": "#f0eee9",
+        "surface-container-low": "#f5f3ee",
+        "surface-container-high": "#eae8e3",
+        "surface-container-highest": "#e4e2dd",
+        "surface-dim": "#dbdad5",
+        "surface-variant": "#e4e2dd",
+        "on-surface": "#1b1c19",
+        "on-surface-variant": "#4f4442",
+        "on-primary": "#ffffff",
+        "on-secondary": "#ffffff",
+        "on-tertiary": "#ffffff",
+        "on-background": "#1b1c19",
+        outline: "#817471",
+        "outline-variant": "#d3c3bf",
+      },
+      borderRadius: {
+        DEFAULT: "0.25rem",
+        lg: "0.5rem",
+        xl: "0.75rem",
+        full: "9999px",
+      },
+      fontFamily: {
+        "display-lg": ["EB Garamond"],
+        "headline-lg": ["EB Garamond"],
+        "headline-md": ["EB Garamond"],
+        "body-lg": ["Hanken Grotesk"],
+        "body-md": ["Hanken Grotesk"],
+        "label-lg": ["Hanken Grotesk"],
+        "label-md": ["Hanken Grotesk"],
+      },
+      fontSize: {
+        "headline-md": ["24px", { lineHeight: "32px", fontWeight: "500" }],
+        "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "500" }],
+        "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+        "label-lg": ["14px", { lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "600" }],
+      },
+    },
+  },
+};
