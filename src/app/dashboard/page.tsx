@@ -106,6 +106,11 @@ export default async function DashboardPage() {
         </div>
       </section>
 
+      <section className="panel" style={{ margin: "0 auto", maxWidth: "100%", padding: "20px 24px" }}>
+        <h2 style={{ marginBottom: 12 }}>🎨 Избери темплейт</h2>
+        <TemplateGallery currentTemplate={theme.template} username={profile.username} />
+      </section>
+
       <section className="dashboard">
         <div className="stack">
           <form className="panel form-grid" action={updateProfile}>
@@ -174,11 +179,6 @@ export default async function DashboardPage() {
                 <input name="footerBrand" type="checkbox" defaultChecked={profile.footerBrand} />
                 <span>Показвай SaasLink branding</span>
               </label>
-            </div>
-
-            <div style={{ marginBottom: 18, padding: "14px 16px", background: "var(--panel-strong)", borderRadius: 12 }}>
-              <h3 style={{ margin: "0 0 10px", fontSize: "0.95rem" }}>🎨 Избери темплейт</h3>
-              <TemplateGallery currentTemplate={theme.template} username={profile.username} />
             </div>
 
             <details className="link-editor" style={{ borderTop: "1px solid var(--line)", paddingTop: 14, marginTop: 14 }}>
