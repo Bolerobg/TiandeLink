@@ -63,7 +63,7 @@ model Profile {
   socialFacebook  String?
   socialWhatsapp  String?
   socialViber     String?
-  theme           Json     @default("{\"background\":\"#b7aa7e\",\"surface\":\"#c7b98b\",\"text\":\"#35231e\",\"accent\":\"#655b39\",\"buttonStyle\":\"solid\"}")
+  theme       Json     @default("{\"background\":\"#b7aa7e\",\"surface\":\"#c7b98b\",\"text\":\"#35231e\",\"accent\":\"#655b39\",\"buttonStyle\":\"solid\",\"cardRadius\":\"22px\",\"cardShadow\":\"3px 4px 0\",\"fontFamily\":\"Georgia, serif\"}")
   footerBrand     Boolean  @default(true)
   isPublished     Boolean  @default(true)
   createdAt       DateTime @default(now())

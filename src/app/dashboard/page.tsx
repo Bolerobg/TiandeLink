@@ -173,7 +173,7 @@ export default async function DashboardPage() {
               </label>
             </div>
 
-            <details className="link-editor" style={{ borderTop: "1px solid var(--line)", paddingTop: 14, marginTop: 14 }}>
+            <details className="link-editor" open style={{ borderTop: "1px solid var(--line)", paddingTop: 14, marginTop: 14 }}>
               <summary>Допълнителни настройки</summary>
               <div style={{ paddingTop: 14, display: "grid", gap: 14 }}>
 
@@ -251,6 +251,9 @@ export default async function DashboardPage() {
                     <input id="accent" name="accent" defaultValue={theme.accent} />
                   </div>
                 </div>
+                <input type="hidden" name="cardRadius" defaultValue={theme.cardRadius} />
+                <input type="hidden" name="cardShadow" defaultValue={theme.cardShadow} />
+                <input type="hidden" name="fontFamily" defaultValue={theme.fontFamily} />
                 <ThemePicker presets={presets} />
               </div>
             </details>

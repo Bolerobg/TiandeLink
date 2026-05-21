@@ -31,6 +31,9 @@ const profileSchema = z.object({
   surface: z.string().min(4).max(24),
   text: z.string().min(4).max(24),
   accent: z.string().min(4).max(24),
+  cardRadius: z.string().max(8),
+  cardShadow: z.string().max(24),
+  fontFamily: z.string().max(60),
   buttonStyle: z.enum(["solid", "outline", "soft"]),
 });
 
@@ -91,6 +94,9 @@ export async function updateProfile(formData: FormData) {
     surface: formData.get("surface") || defaultTheme.surface,
     text: formData.get("text") || defaultTheme.text,
     accent: formData.get("accent") || defaultTheme.accent,
+    cardRadius: formData.get("cardRadius") || defaultTheme.cardRadius,
+    cardShadow: formData.get("cardShadow") || defaultTheme.cardShadow,
+    fontFamily: formData.get("fontFamily") || defaultTheme.fontFamily,
     buttonStyle: formData.get("buttonStyle") || defaultTheme.buttonStyle,
   });
   const db = getDb();
@@ -149,6 +155,9 @@ export async function updateProfile(formData: FormData) {
         surface: parsed.surface,
         text: parsed.text,
         accent: parsed.accent,
+        cardRadius: parsed.cardRadius,
+        cardShadow: parsed.cardShadow,
+        fontFamily: parsed.fontFamily,
         buttonStyle: parsed.buttonStyle,
       },
     },
