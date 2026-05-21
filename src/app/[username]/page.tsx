@@ -204,6 +204,11 @@ export default async function PublicProfilePage({
                   {link.imageUrl ? (
                     <div className="linktree-thumb"><img alt="" src={link.imageUrl} loading="lazy" /></div>
                   ) : null}
+                  {link.type !== "URL" ? (
+                    <span className="linktree-type-badge">
+                      {link.type === "FEATURED" ? "⭐ Featured" : link.type === "PRODUCT" ? "🛍" : link.type === "BOOKING" ? "📅" : link.type === "TEXT" ? "📄" : ""}
+                    </span>
+                  ) : null}
                   <div className="linktree-body">
                     <strong>{link.icon ? `${link.icon} ` : ""}{link.title}</strong>
                     {link.description ? <small>{link.description}</small> : null}

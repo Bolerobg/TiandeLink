@@ -530,6 +530,7 @@ h1 {
   flex-direction: column;
   border-radius: var(--_r);
   overflow: hidden;
+  position: relative;
   background: var(--_s);
   color: var(--_t);
   border: 2px solid var(--_a);
@@ -546,6 +547,19 @@ h1 {
 .linktree-card:active {
   transform: translateY(1px);
   box-shadow: 1px 1px 0 var(--_a);
+}
+
+.linktree-type-badge {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  font-size: 0.62rem;
+  padding: 2px 7px;
+  border-radius: 8px;
+  background: var(--_a);
+  color: var(--_s);
+  font-weight: 800;
+  z-index: 2;
 }
 
 .linktree-thumb {
@@ -1100,13 +1114,6 @@ h1 {
 /* Gradient */
 [data-template="gradient"] .bio-page { background: linear-gradient(135deg, var(--_bg), color-mix(in srgb, var(--_s) 30%, var(--_bg))); }
 [data-template="gradient"] .bio-frame { background: transparent; box-shadow: none; }
-
-/* TYPE INDICATORS */
-[data-link-type="FEATURED"]::before { content: "⭐"; position: absolute; top: 6px; right: 10px; font-size: 0.75rem; }
-[data-link-type="PRODUCT"] .linktree-body strong::before { content: "🛍 "; }
-[data-link-type="BOOKING"] .linktree-body strong::before { content: "📅 "; }
-[data-link-type="TEXT"] { cursor: default; }
-[data-link-type="TEXT"] .linktree-body strong::before { content: "📄 "; }
 
 /* ─── STITCH BEAUTY PORTFOLIO (14 CSS templates) ─── */
 
