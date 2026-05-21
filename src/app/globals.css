@@ -1101,6 +1101,114 @@ h1 {
 [data-template="gradient"] .bio-page { background: linear-gradient(135deg, var(--_bg), color-mix(in srgb, var(--_s) 30%, var(--_bg))); }
 [data-template="gradient"] .bio-frame { background: transparent; box-shadow: none; }
 
+/* ─── STITCH BEAUTY PORTFOLIO TEMPLATES ─── */
+
+/* Dynamic - Bold red accent, clean card layout */
+[data-template="dynamic"] .bio-frame { background: #fff5f5; border-radius: 16px; }
+[data-template="dynamic"] .linktree-card { border: none; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border-radius: 4px; background: #fff; }
+[data-template="dynamic"] .avatar { border: 3px solid #e53e3e; }
+[data-template="dynamic"] .bio-header h1 { font-weight: 800; letter-spacing: -1px; }
+
+/* Stitch Soft UI - Cream/olive palette */
+[data-template="stitch-soft"] .bio-frame { background: #fbf9f4; border: 1px solid #eae8e3; }
+[data-template="stitch-soft"] .linktree-card { border: none; box-shadow: 0 2px 8px -2px rgba(0,0,0,0.04); background: #f0eee9; border-radius: 12px; }
+[data-template="stitch-soft"] .avatar { border: 2px solid #685e38; }
+[data-template="stitch-soft"] .bio-header h1 { font-family: Georgia, serif; font-weight: 400; font-size: 1.8rem; }
+
+/* Enhanced - Dark header, warm cards */
+[data-template="enhanced"] .bio-frame { background: #35231e; color: #c7b98b; }
+[data-template="enhanced"] .bio-page { background: linear-gradient(180deg, #35231e 30%, #fbf9f4 30%); }
+[data-template="enhanced"] .bio-header h1 { color: #c7b98b; }
+[data-template="enhanced"] .bio-header p { color: #c7b98b; opacity: 0.6; }
+[data-template="enhanced"] .linktree-card { background: #eae8e3; color: #1e0f0b; border: none; border-radius: 28px; }
+[data-template="enhanced"] .avatar { border: 3px solid #c7b98b; }
+
+/* Modern - Clean blue outline */
+[data-template="modern"] .bio-frame { background: #fff; box-shadow: 0 2px 16px rgba(0,0,0,0.04); border-radius: 20px; }
+[data-template="modern"] .linktree-card { border: 1.5px solid #e5e7eb; background: #f9fafb; box-shadow: none; border-radius: 16px; }
+[data-template="modern"] .linktree-card:hover { border-color: var(--_a); }
+[data-template="modern"] .avatar { border: 2px solid #e5e7eb; }
+
+/* Experimental - Dark vibrant */
+[data-template="experimental"] .bio-frame { background: linear-gradient(180deg, #1a1a2e, #16213e); border: 1px solid rgba(233,69,96,0.1); }
+[data-template="experimental"] .linktree-card { border: 1px solid rgba(233,69,96,0.15); background: rgba(233,69,96,0.05); border-radius: 8px; }
+[data-template="experimental"] .avatar { border: 2px solid #e94560; clip-path: polygon(10% 0, 100% 0, 100% 85%, 90% 100%, 0 100%, 0 15%); }
+
+/* Avantgarde - Gold frame, sharp */
+[data-template="avantgarde"] .bio-frame { background: #f8f4e8; border: 2px solid #d4af37; border-radius: 0; }
+[data-template="avantgarde"] .linktree-card { border: 1px solid rgba(212,175,55,0.3); background: #fff; border-radius: 0; box-shadow: none; }
+[data-template="avantgarde"] .avatar { border: 2px solid #d4af37; border-radius: 0; }
+[data-template="avantgarde"] .bio-header h1 { text-transform: uppercase; letter-spacing: 4px; font-size: 1.6rem; }
+
+/* Stitch Glass - Soft blur */
+[data-template="stitch-glass"] .bio-page { background: linear-gradient(135deg, #f5f0e8, #e8d5c4); }
+[data-template="stitch-glass"] .bio-frame { background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); border: 1px solid rgba(199,185,139,0.2); }
+[data-template="stitch-glass"] .linktree-card { background: rgba(255,255,255,0.6); backdrop-filter: blur(8px); border: 1px solid rgba(199,185,139,0.15); }
+
+/* Shop Grid - Instagram shop style, 2-column */
+[data-template="shopgrid"] .bio-frame { background: #f5f5f5; }
+[data-template="shopgrid"] .bio-links { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0; }
+[data-template="shopgrid"] .linktree-card { border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.06); background: #fff; border-radius: 8px; }
+[data-template="shopgrid"] .linktree-card.no-image { flex-direction: column; padding: 12px; }
+[data-template="shopgrid"] .linktree-thumb { aspect-ratio: 1/1; border-bottom: none; }
+[data-template="shopgrid"] .avatar { width: 64px; height: 64px; }
+
+/* Stitch Minimal - Ultra clean */
+[data-template="stitch-minimal"] .bio-frame { background: #fff; border-radius: 0; box-shadow: none; }
+[data-template="stitch-minimal"] .linktree-card { border: none; border-bottom: 1px solid #f0f0f0; border-radius: 0; box-shadow: none; background: transparent; padding: 0 0 8px; }
+[data-template="stitch-minimal"] .avatar { width: 64px; height: 64px; border: 1px solid #e5e7eb; }
+[data-template="stitch-minimal"] .bio-header h1 { font-weight: 400; font-size: 1.2rem; }
+
+/* Collage - Scattered playful */
+[data-template="collage"] .bio-frame { background: #fef6e4; }
+[data-template="collage"] .linktree-card { border: 2px solid #5c4033; box-shadow: 3px 3px 0 #5c4033; background: #fff; border-radius: 4px; }
+[data-template="collage"] .linktree-card:nth-child(odd) { transform: rotate(-0.5deg); }
+[data-template="collage"] .linktree-card:nth-child(even) { transform: rotate(0.5deg); }
+[data-template="collage"] .avatar { border: 3px solid #e07a5f; }
+
+/* Editorial - Magazine quality */
+[data-template="editorial"] .bio-frame { background: #fafaf9; }
+[data-template="editorial"] .linktree-card { border: none; border-bottom: 2px solid #e7e5e4; border-radius: 0; box-shadow: none; background: transparent; }
+[data-template="editorial"] .bio-header h1 { font-size: 2rem; letter-spacing: -0.5px; border-bottom: 3px solid var(--_a); display: inline-block; padding-bottom: 6px; }
+[data-template="editorial"] .avatar { border: 1px solid #e7e5e4; }
+
+/* Stitch Elegant */
+[data-template="stitch-elegant"] .bio-frame { background: #fdfbf7; border: 1px solid rgba(199,185,139,0.15); }
+[data-template="stitch-elegant"] .linktree-card { border: none; box-shadow: 0 4px 20px -4px rgba(0,0,0,0.04); background: #f5f0e8; border-radius: 28px; }
+[data-template="stitch-elegant"] .avatar { border: 3px solid #c7b98b; }
+
+/* TEXT BLOCKS */
+.linktree-text {
+  margin: 4px 0;
+  border-radius: var(--_r, 12px);
+  overflow: hidden;
+}
+
+.linktree-text img {
+  width: 100%;
+  display: block;
+  border-radius: var(--_r, 12px);
+}
+
+.linktree-text-body {
+  padding: 10px 18px;
+}
+
+.linktree-text-body strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--_t);
+}
+
+.linktree-text-body p {
+  margin-top: 4px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--_t);
+  opacity: 0.75;
+}
+
 /* Toast */
 .toast-overlay {
   position: fixed;

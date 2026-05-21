@@ -155,6 +155,18 @@ export default async function PublicProfilePage({
             {mainLinks.map((link) => {
               const embed = detectEmbed(link.url);
 
+              if (link.type === "TEXT") {
+                return (
+                  <div className="linktree-text" key={link.id}>
+                    {link.imageUrl ? <img src={link.imageUrl} alt="" loading="lazy" /> : null}
+                    <div className="linktree-text-body">
+                      <strong>{link.title}</strong>
+                      {link.description ? <p>{link.description}</p> : null}
+                    </div>
+                  </div>
+                );
+              }
+
               if (link.type === "EMAIL_CAPTURE") {
                 return (
                   <div className="linktree-card no-image" key={link.id}>

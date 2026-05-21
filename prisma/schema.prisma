@@ -20,6 +20,7 @@ enum LinkType {
   PRODUCT
   BOOKING
   EMAIL_CAPTURE
+  TEXT
 }
 
 model User {

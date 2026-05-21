@@ -290,6 +290,7 @@ export default async function DashboardPage() {
                   <option value="PRODUCT">Product</option>
                   <option value="BOOKING">Booking</option>
                   <option value="EMAIL_CAPTURE">Email capture</option>
+                  <option value="TEXT">Текстов блок</option>
                 </select>
               </div>
             </div>
@@ -350,6 +351,7 @@ export default async function DashboardPage() {
                             <option value="PRODUCT">Product</option>
                             <option value="BOOKING">Booking</option>
                             <option value="EMAIL_CAPTURE">Email capture</option>
+                  <option value="TEXT">Текстов блок</option>
                           </select>
                         </div>
                       </div>
