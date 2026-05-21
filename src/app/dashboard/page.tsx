@@ -3,9 +3,10 @@ import { createLink, updateProfile, updateLink, moveLink, toggleLink, deleteLink
 import { logoutUser } from "@/app/(auth)/actions";
 import { BioPreview } from "@/components/bio-preview";
 import { SortableLinks } from "@/components/sortable-links";
+import { ThemePicker } from "@/components/theme-picker";
 import { getDb } from "@/lib/db";
 import { requireUserProfile } from "@/lib/profile";
-import { parseTheme } from "@/lib/theme";
+import { parseTheme, presets } from "@/lib/theme";
 
 export const dynamic = "force-dynamic";
 
@@ -206,6 +207,10 @@ export default async function DashboardPage() {
                 <label htmlFor="accent">Акцент</label>
                 <input id="accent" name="accent" defaultValue={theme.accent} />
               </div>
+            </div>
+            <div style={{ marginBottom: 12 }}>
+              <label style={{ display: "block", marginBottom: 8, color: "#374151", fontSize: "0.88rem", fontWeight: 700 }}>Готови теми</label>
+              <ThemePicker presets={presets} />
             </div>
             <button className="button primary" type="submit">
               Запази профила

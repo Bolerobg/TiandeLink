@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createPortal } from "react-dom";
 
 export function QrModal({ qrUrl, profileUrl }: { qrUrl: string; profileUrl: string }) {
   const [open, setOpen] = useState(false);
@@ -17,18 +18,20 @@ export function QrModal({ qrUrl, profileUrl }: { qrUrl: string; profileUrl: stri
         </svg>
         QR
       </button>
-      {open ? (
-        <div className="qr-overlay" onClick={() => setOpen(false)}>
-          <div className="qr-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="qr-close" onClick={() => setOpen(false)}>✕</button>
-            <h3>Сканирай QR кода</h3>
-            <img src={qrUrl} alt="QR код" style={{ width: 200, height: 200, display: "block", margin: "0 auto" }} />
-            <p style={{ marginTop: 12, fontSize: "0.85rem", opacity: 0.7, wordBreak: "break-all", textAlign: "center" }}>
-              {profileUrl}
-            </p>
-          </div>
-        </div>
-      ) : null}
+      {open &&
+        createPortal(
+          <div className="qr-overlay" onClick={() => setOpen(false)}>
+            <div className="qr-modal" onClick={(e) => e.stopPropagation()}>
+              <button className="qr-close" onClick={() => setOpen(false)}>&times;</button>
+              <h3>Сканирай QR кода</h3>
+              <img src={qrUrl} alt="QR код" style={{ width: 200, height: 200, display: "block", margin: "0 auto" }} />
+              <p style={{ marginTop: 12, fontSize: "0.85rem", opacity: 0.7, wordBreak: "break-all", textAlign: "center" }}>
+                {profileUrl}
+              </p>
+            </div>
+          </div>,
+          document.body,
+        )}
     </>
   );
 }
