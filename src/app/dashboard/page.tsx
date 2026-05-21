@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { createLink, updateProfile, updateLink, moveLink, toggleLink, deleteLink } from "@/app/dashboard/actions";
 import { logoutUser } from "@/app/(auth)/actions";
 import { BioPreview } from "@/components/bio-preview";
@@ -8,6 +9,7 @@ import { EmojiPicker } from "@/components/emoji-picker";
 import { getDb } from "@/lib/db";
 import { requireUserProfile } from "@/lib/profile";
 import { parseTheme, presets } from "@/lib/theme";
+import { SuccessToast } from "@/components/success-toast";
 
 export const dynamic = "force-dynamic";
 
@@ -435,6 +437,7 @@ export default async function DashboardPage() {
           />
         </aside>
       </section>
+      <Suspense><SuccessToast /></Suspense>
     </main>
   );
 }

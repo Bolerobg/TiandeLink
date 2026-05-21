@@ -1100,3 +1100,46 @@ h1 {
 /* Gradient */
 [data-template="gradient"] .bio-page { background: linear-gradient(135deg, var(--_bg), color-mix(in srgb, var(--_s) 30%, var(--_bg))); }
 [data-template="gradient"] .bio-frame { background: transparent; box-shadow: none; }
+
+/* Toast */
+.toast-overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 9999;
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(2px);
+  animation: toast-fade-in 0.2s ease;
+}
+
+.toast-card {
+  background: var(--panel, #fff);
+  border-radius: 20px;
+  padding: 36px 40px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  animation: toast-bounce 0.3s ease;
+}
+
+.toast-card strong {
+  font-size: 1.2rem;
+}
+
+.toast-card small {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+@keyframes toast-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes toast-bounce {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

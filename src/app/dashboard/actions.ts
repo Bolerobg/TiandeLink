@@ -168,7 +168,7 @@ export async function updateProfile(formData: FormData) {
 
   refreshProfile(profile.username, cleanDomain);
   refreshProfile(parsed.username);
-  redirect("/dashboard");
+  redirect("/dashboard?ok=1");
 }
 
 export async function createLink(formData: FormData) {
@@ -207,7 +207,7 @@ export async function createLink(formData: FormData) {
   });
 
   refreshProfile(profile.username);
-  redirect("/dashboard");
+  redirect("/dashboard?ok=1");
 }
 
 export async function updateLink(formData: FormData) {
@@ -241,7 +241,7 @@ export async function updateLink(formData: FormData) {
   });
 
   refreshProfile(profile.username);
-  redirect("/dashboard");
+  redirect("/dashboard?ok=1");
 }
 
 export async function toggleLink(formData: FormData) {
@@ -255,7 +255,7 @@ export async function toggleLink(formData: FormData) {
   });
 
   refreshProfile(profile.username);
-  redirect("/dashboard");
+  redirect("/dashboard?ok=1");
 }
 
 export async function moveLink(formData: FormData) {
@@ -292,7 +292,7 @@ export async function moveLink(formData: FormData) {
   ]);
 
   refreshProfile(profile.username);
-  redirect("/dashboard");
+  redirect("/dashboard?ok=1");
 }
 
 export async function reorderLinks(formData: FormData) {
@@ -335,7 +335,7 @@ export async function deleteLink(formData: FormData) {
   );
 
   refreshProfile(profile.username);
-  redirect("/dashboard");
+  redirect("/dashboard?ok=1");
 }
 
 export async function subscribeEmail(formData: FormData) {
