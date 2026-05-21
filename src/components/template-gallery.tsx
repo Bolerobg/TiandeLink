@@ -101,6 +101,22 @@ export function TemplateGallery({ currentTemplate, username }: { currentTemplate
           👁 Преглед на профила
         </a>
         <button
+          type="submit"
+          form="profile-form"
+          style={{
+            padding: "6px 14px",
+            borderRadius: 8,
+            border: "1px solid var(--accent)",
+            background: "var(--panel)",
+            color: "var(--foreground)",
+            fontSize: "0.8rem",
+            cursor: "pointer",
+            fontWeight: 700,
+          }}
+        >
+          💾 Запази темплейта
+        </button>
+        <button
           type="button"
           onClick={() => setShowAll(false)}
           style={{

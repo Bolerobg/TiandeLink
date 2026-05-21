@@ -113,7 +113,7 @@ export default async function DashboardPage() {
 
       <section className="dashboard">
         <div className="stack">
-          <form className="panel form-grid" action={updateProfile}>
+          <form className="panel form-grid" action={updateProfile} id="profile-form">
             <h2>Профил и тема</h2>
             <div className="public-url">
               <span>Публичен адрес</span>
