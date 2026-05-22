@@ -34,17 +34,14 @@ function Av({ p }: { p: Profile }) {
 }
 
 // Unified wrapper to inject custom Fonts, Tailwind script, custom tailwind configs, and custom styles
-function PremiumWrapper({ templateKey, children }: { templateKey: string; children: React.ReactNode }) {
-  const config = (configs as any)[templateKey];
-  if (!config) return <>{children}</>;
-
-  const { fonts, tailwind_config, styles, body_class } = config;
+function PremiumWrapper({ templateKey, children }: { templateKey: string | null; children: React.ReactNode }) {
+  const config = templateKey ? (configs as any)[templateKey] : null;
 
   return (
     <>
       {/* 1. Inject Theme Fonts */}
-      {fonts &&
-        fonts.map((fontUrl: string, idx: number) => {
+      {config?.fonts &&
+        config.fonts.map((fontUrl: string, idx: number) => {
           const cleanUrl = fontUrl.replace(/&amp;/g, "&");
           return <link key={idx} rel="stylesheet" href={cleanUrl} />;
         })}
@@ -53,27 +50,27 @@ function PremiumWrapper({ templateKey, children }: { templateKey: string; childr
       <script src="https://cdn.tailwindcss.com"></script>
 
       {/* 3. Inject Dynamic Custom Tailwind config */}
-      {tailwind_config && (
+      {config?.tailwind_config && (
         <script
           id={`tailwind-config-${templateKey}`}
-          dangerouslySetInnerHTML={{ __html: tailwind_config }}
+          dangerouslySetInnerHTML={{ __html: config.tailwind_config }}
         />
       )}
 
       {/* 4. Inject Theme-specific custom style overrides */}
-      {styles && (
+      {config?.styles && (
         <style
           dangerouslySetInnerHTML={{
             __html: `
               /* Custom styles for theme ${templateKey} */
-              ${styles}
+              ${config.styles}
             `,
           }}
         />
       )}
 
       {/* 5. Render children in a container carrying the precise theme body classes */}
-      <div className={`${body_class || ""} min-h-screen w-full`}>{children}</div>
+      <div className={`${config?.body_class || ""} min-h-screen w-full`}>{children}</div>
     </>
   );
 }
@@ -160,27 +157,71 @@ export function StitchTemplate({ template, profile, links }: { template: string;
         </PremiumWrapper>
       );
     case "organic":
-      return <OrganicElegance profile={profile} links={links} />;
+      return (
+        <PremiumWrapper templateKey="_2">
+          <OrganicElegance profile={profile} links={links} />
+        </PremiumWrapper>
+      );
     case "pinterest":
-      return <Pinterest profile={profile} links={links} />;
+      return (
+        <PremiumWrapper templateKey={null}>
+          <Pinterest profile={profile} links={links} />
+        </PremiumWrapper>
+      );
     case "notes":
-      return <Notes profile={profile} links={links} />;
+      return (
+        <PremiumWrapper templateKey={null}>
+          <Notes profile={profile} links={links} />
+        </PremiumWrapper>
+      );
     case "twitter":
-      return <Twitter profile={profile} links={links} />;
+      return (
+        <PremiumWrapper templateKey={null}>
+          <Twitter profile={profile} links={links} />
+        </PremiumWrapper>
+      );
     case "netflix":
-      return <Netflix profile={profile} links={links} />;
+      return (
+        <PremiumWrapper templateKey={null}>
+          <Netflix profile={profile} links={links} />
+        </PremiumWrapper>
+      );
     case "discord":
-      return <Discord profile={profile} links={links} />;
+      return (
+        <PremiumWrapper templateKey={null}>
+          <Discord profile={profile} links={links} />
+        </PremiumWrapper>
+      );
     case "spotify":
-      return <SpotifyWrapped profile={profile} links={links} />;
+      return (
+        <PremiumWrapper templateKey={null}>
+          <SpotifyWrapped profile={profile} links={links} />
+        </PremiumWrapper>
+      );
     case "github":
-      return <GitHub profile={profile} links={links} />;
+      return (
+        <PremiumWrapper templateKey={null}>
+          <GitHub profile={profile} links={links} />
+        </PremiumWrapper>
+      );
     case "airbnb":
-      return <Airbnb profile={profile} links={links} />;
+      return (
+        <PremiumWrapper templateKey={null}>
+          <Airbnb profile={profile} links={links} />
+        </PremiumWrapper>
+      );
     case "chatgpt":
-      return <ChatGPT profile={profile} links={links} />;
+      return (
+        <PremiumWrapper templateKey={null}>
+          <ChatGPT profile={profile} links={links} />
+        </PremiumWrapper>
+      );
     case "arcade":
-      return <Arcade profile={profile} links={links} />;
+      return (
+        <PremiumWrapper templateKey={null}>
+          <Arcade profile={profile} links={links} />
+        </PremiumWrapper>
+      );
     default:
       return (
         <PremiumWrapper templateKey="_3">

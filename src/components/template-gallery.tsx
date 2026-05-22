@@ -57,7 +57,12 @@ function MiniPreview({ theme }: { theme: ProfileTheme }) {
 export function TemplateGallery({ currentTemplate, username }: { currentTemplate: string; username: string }) {
   const [selected, setSelected] = useState(currentTemplate);
   const [showAll, setShowAll] = useState(false);
-  const stitchedPresets = presets.slice(-14);
+  const stitchedPresets = presets.filter(p => [
+    "organic", "o1", "o2", "bento", "clean", "zglass", "offset", "blobs", 
+    "wellness", "masonry", "softblob", "fullglass", "linkbio1", "linkbio2", 
+    "neumorph", "pinterest", "notes", "twitter", "netflix", "discord", 
+    "spotify", "github", "airbnb", "chatgpt", "arcade"
+  ].includes(p.theme.template));
   const visible = showAll ? presets : presets.slice(0, 25);
 
   function apply(theme: ProfileTheme) {
