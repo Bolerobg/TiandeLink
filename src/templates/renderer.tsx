@@ -4113,6 +4113,22 @@ export function PremiumFloatingChatWidget({ profile }: { profile: Profile }) {
   
   return (
     <div className="fixed bottom-6 right-6 z-[9999] font-sans antialiased text-white">
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes chatFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(12px) scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+        .chat-card-animate {
+          animation: chatFadeIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+      `}} />
+
       {/* Floating Badge Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -4128,7 +4144,7 @@ export function PremiumFloatingChatWidget({ profile }: { profile: Profile }) {
       
       {/* Premium Chat Card */}
       {isOpen && (
-        <div className="absolute bottom-18 right-0 w-80 max-w-[calc(100vw-2rem)] rounded-3xl bg-zinc-950/95 border border-white/10 backdrop-blur-2xl shadow-2xl overflow-hidden transition-all duration-300 scale-100 origin-bottom-right">
+        <div className="absolute bottom-[76px] right-0 w-80 max-w-[calc(100vw-2rem)] rounded-3xl bg-zinc-950/95 border border-white/10 backdrop-blur-2xl shadow-2xl overflow-hidden chat-card-animate origin-bottom-right">
           {/* Header */}
           <div className="p-4 bg-white/5 border-b border-white/10 flex items-center gap-3">
             <div className="relative">
