@@ -4521,7 +4521,7 @@ export function PremiumInteractiveEnhancer({ profile, links }: { profile: Profil
             </span>
           </div>
           <div class="text-[11px] text-white/80 leading-snug mt-0.5 font-light">
-            току-що си купи <span class="text-lime-400 font-semibold truncate hover:underline">${linkItem.title}</span>
+            току-що си купи <span class="text-lime-400 font-semibold hover:underline block line-clamp-2 mt-0.5">${linkItem.title}</span>
           </div>
           <div class="text-[9px] text-white/40 mt-1 font-light flex items-center gap-1.5">
             <span>преди 3 сек</span>
