@@ -22,6 +22,16 @@ export function StitchTemplate({ template, profile, links }: { template: string;
     case "o1": return <O1 profile={profile} links={links} />;
     case "o2": return <O2 profile={profile} links={links} />;
     case "organic": return <OrganicElegance profile={profile} links={links} />;
+    case "pinterest": return <Pinterest profile={profile} links={links} />;
+    case "notes": return <Notes profile={profile} links={links} />;
+    case "twitter": return <Twitter profile={profile} links={links} />;
+    case "netflix": return <Netflix profile={profile} links={links} />;
+    case "discord": return <Discord profile={profile} links={links} />;
+    case "spotify": return <SpotifyWrapped profile={profile} links={links} />;
+    case "github": return <GitHub profile={profile} links={links} />;
+    case "airbnb": return <Airbnb profile={profile} links={links} />;
+    case "chatgpt": return <ChatGPT profile={profile} links={links} />;
+    case "arcade": return <Arcade profile={profile} links={links} />;
     default: return <LinkBio2 profile={profile} links={links} />;
   }
 }
@@ -424,6 +434,351 @@ function OrganicElegance({ profile, links }: { profile: Profile; links: Link[] }
             </div>
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+/* ─── PINTEREST MASONRY ─── */
+function Pinterest({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "-apple-system, sans-serif" }}>
+      <div style={{ padding: "24px 16px", textAlign: "center" }}>
+        {profile.avatarUrl && (
+          <div style={{ width: 64, height: 64, borderRadius: "50%", overflow: "hidden", margin: "0 auto 8px" }}>
+            <Av p={profile} />
+          </div>
+        )}
+        <h1 style={{ fontSize: "1.4rem", fontWeight: 700, color: "#111" }}>{profile.displayName}</h1>
+        {profile.bio && <p style={{ color: "#767676", fontSize: "0.85rem", marginTop: 4 }}>{profile.bio}</p>}
+      </div>
+      <div style={{ maxWidth: 640, margin: "0 auto", padding: "0 12px", columns: "2 150px", columnGap: 12 }}>
+        {links.map((link) => (
+          <a key={link.id} href={`/api/click/${link.id}`} style={{
+            display: "block", breakInside: "avoid", marginBottom: 12, borderRadius: 16, overflow: "hidden",
+            position: "relative", background: "#f0f0f0", textDecoration: "none",
+          }}>
+            {link.imageUrl && <img src={link.imageUrl} alt="" style={{ width: "100%", display: "block" }} />}
+            <div style={{ position: "absolute", top: 8, right: 8, width: 32, height: 32, borderRadius: "50%", background: "rgba(0,0,0,0.4)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: "1rem" }}>
+              ♡
+            </div>
+            {!link.imageUrl && (
+              <div style={{ padding: 16, minHeight: 80 }}>
+                <strong style={{ fontSize: "0.85rem", color: "#111" }}>{link.title}</strong>
+              </div>
+            )}
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─── APPLE NOTES ─── */
+function Notes({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: "#fffef2", fontFamily: "Georgia, serif" }}>
+      <div style={{ maxWidth: 520, margin: "0 auto", padding: "32px 16px" }}>
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
+          <h1 style={{ fontSize: "1.8rem", fontWeight: 400, color: "#2c2c2c", marginBottom: 4 }}>📝 {profile.displayName}</h1>
+          {profile.bio && <p style={{ color: "#888", fontSize: "0.9rem", fontStyle: "italic" }}>{profile.bio}</p>}
+        </div>
+        <div style={{ display: "grid", gap: 12 }}>
+          {links.map((link, i) => (
+            <a key={link.id} href={`/api/click/${link.id}`} style={{
+              display: "flex", alignItems: "flex-start", gap: 10, padding: "12px 0",
+              borderBottom: "1px dashed #ddd", textDecoration: "none", color: "#2c2c2c",
+            }}>
+              <span style={{ fontSize: "1.2rem", lineHeight: 1.4 }}>{i % 3 === 0 ? "☐" : i % 3 === 1 ? "★" : "•"}</span>
+              <div>
+                <strong style={{ fontSize: "0.95rem", display: "block" }}>{link.title}</strong>
+                {link.description && <small style={{ color: "#888", fontSize: "0.8rem" }}>{link.description}</small>}
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── TWITTER/X FEED ─── */
+function Twitter({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: "#000", color: "#e7e9ea", fontFamily: "-apple-system, sans-serif" }}>
+      <div style={{ maxWidth: 600, margin: "0 auto", padding: "12px 16px" }}>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "16px 0", borderBottom: "1px solid #2f3336" }}>
+          <div style={{ width: 48, height: 48, borderRadius: "50%", overflow: "hidden", flexShrink: 0, border: "2px solid #1d9bf0" }}>
+            <Av p={profile} />
+          </div>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+              <strong style={{ fontSize: "0.95rem" }}>{profile.displayName}</strong>
+              <span style={{ background: "#1d9bf0", color: "#fff", borderRadius: "50%", width: 18, height: 18, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: "0.65rem", fontWeight: 700 }}>✓</span>
+              <span style={{ color: "#71767b", fontSize: "0.85rem", marginLeft: 4 }}>@{(profile.displayName || "").toLowerCase().replace(/\s/g,"")}</span>
+            </div>
+            {profile.bio && <p style={{ color: "#e7e9ea", fontSize: "0.9rem", marginTop: 4 }}>{profile.bio}</p>}
+          </div>
+        </div>
+        <div style={{ display: "grid", gap: 1, background: "#16181c", borderRadius: 16, overflow: "hidden", marginTop: 8 }}>
+          {links.map((link, i) => (
+            <a key={link.id} href={`/api/click/${link.id}`} style={{
+              display: "block", padding: "14px 16px", background: "#000", textDecoration: "none", color: "#e7e9ea",
+              borderBottom: i < links.length - 1 ? "1px solid #2f3336" : "none",
+            }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <strong style={{ fontSize: "0.9rem" }}>{link.title}</strong>
+                <div style={{ display: "flex", gap: 20, color: "#71767b", fontSize: "0.8rem" }}>
+                  <span>💬 {Math.floor(Math.random()*99)}</span>
+                  <span>🔄 {Math.floor(Math.random()*99)}</span>
+                  <span>❤️ {Math.floor(Math.random()*999)}</span>
+                </div>
+              </div>
+              {link.description && <p style={{ color: "#71767b", fontSize: "0.8rem", marginTop: 4 }}>{link.description}</p>}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── NETFLIX CARD ROW ─── */
+function Netflix({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: "#141414", color: "#fff", fontFamily: "-apple-system, sans-serif" }}>
+      <div style={{ padding: "16px 16px 8px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          {profile.avatarUrl && (
+            <div style={{ width: 36, height: 36, borderRadius: 4, overflow: "hidden" }}>
+              <Av p={profile} />
+            </div>
+          )}
+          <h1 style={{ fontSize: "1.3rem", fontWeight: 700, letterSpacing: "-0.02em" }}>{profile.displayName}</h1>
+        </div>
+        {profile.bio && <p style={{ color: "#b3b3b3", fontSize: "0.85rem", marginTop: 8 }}>{profile.bio}</p>}
+      </div>
+      <div style={{ overflowX: "auto", padding: "8px 16px", display: "flex", gap: 8 }}>
+        {links.map((link) => (
+          <a key={link.id} href={`/api/click/${link.id}`} style={{
+            flexShrink: 0, width: 200, borderRadius: 6, overflow: "hidden", textDecoration: "none",
+            position: "relative", transition: "transform 0.2s",
+          }}>
+            <div style={{ position: "relative", height: 280, background: link.imageUrl ? "transparent" : "#333" }}>
+              {link.imageUrl ? <img src={link.imageUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                : <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}><strong style={{ fontSize: "0.9rem" }}>{link.title}</strong></div>
+              }
+              <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 48, height: 48, borderRadius: "50%", background: "rgba(229,9,20,0.9)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem" }}>
+                ▶
+              </div>
+            </div>
+            {link.imageUrl && <p style={{ marginTop: 6, fontSize: "0.8rem", color: "#b3b3b3" }}>{link.title}</p>}
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─── DISCORD CHANNEL ─── */
+function Discord({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: "#313338", color: "#dbdee1", fontFamily: "-apple-system, sans-serif" }}>
+      <div style={{ maxWidth: 640, margin: "0 auto" }}>
+        <div style={{ padding: "16px", borderBottom: "1px solid #1e1f22", display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ color: "#80848e", fontSize: "1.3rem" }}>#</span>
+          <h1 style={{ fontFamily: "monospace", fontSize: "1rem", fontWeight: 700, margin: 0 }}>{profile.displayName.toLowerCase().replace(/\s/g,"-")}</h1>
+        </div>
+        <div style={{ padding: "16px" }}>
+          {profile.bio && (
+            <div style={{ padding: "12px 0", marginBottom: 8, borderBottom: "1px solid #1e1f22" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                <span style={{ width: 40, height: 40, borderRadius: "50%", overflow: "hidden", background: "#5865f2", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Av p={profile} /></span>
+                <div>
+                  <strong style={{ fontSize: "0.9rem" }}>{profile.displayName}</strong>
+                  <span style={{ color: "#80848e", fontSize: "0.75rem", marginLeft: 6 }}>днес в {new Date().getHours()}:{String(new Date().getMinutes()).padStart(2,'0')}</span>
+                </div>
+              </div>
+              <p style={{ color: "#dbdee1", fontSize: "0.85rem", marginLeft: 48, lineHeight: 1.5 }}>{profile.bio}</p>
+            </div>
+          )}
+          {links.map((link, i) => (
+            <a key={link.id} href={`/api/click/${link.id}`} style={{
+              display: "flex", padding: "4px 8px", borderRadius: 4, textDecoration: "none", color: "#dbdee1",
+            }}>
+              <span style={{ color: "#80848e", fontSize: "0.75rem", width: 48, flexShrink: 0, textAlign: "right", paddingRight: 8, paddingTop: 4 }}>
+                {String(new Date().getHours()).padStart(2,'0')}:{String(Math.min(new Date().getMinutes()+i*3, 59)).padStart(2,'0')}
+              </span>
+              <div>
+                <strong style={{ fontSize: "0.82rem" }}>{link.title}</strong>
+                {link.imageUrl && <img src={link.imageUrl} alt="" style={{ maxWidth: 300, borderRadius: 4, marginTop: 4, display: "block" }} />}
+                {link.description && <p style={{ color: "#80848e", fontSize: "0.78rem", marginTop: 2 }}>{link.description}</p>}
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── SPOTIFY WRAPPED ─── */
+function SpotifyWrapped({ profile, links }: { profile: Profile; links: Link[] }) {
+  const gradients = ["linear-gradient(135deg, #1db954, #191414)", "linear-gradient(135deg, #e91e63, #ff9800)", "linear-gradient(135deg, #3f51b5, #00bcd4)", "linear-gradient(135deg, #ff5722, #ffc107)"];
+  return (
+    <div style={{ minHeight: "100vh", background: "#191414", color: "#fff", fontFamily: "-apple-system, sans-serif", paddingBottom: 48 }}>
+      <div style={{ textAlign: "center", padding: "48px 16px 32px" }}>
+        <h1 style={{ fontSize: "0.75rem", letterSpacing: 4, textTransform: "uppercase", opacity: 0.6, marginBottom: 8 }}>2024 Wrapped</h1>
+        <div style={{ width: 80, height: 80, borderRadius: "50%", overflow: "hidden", margin: "0 auto 12px", border: "3px solid #1db954" }}>
+          <Av p={profile} />
+        </div>
+        <h2 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.04em" }}>{profile.displayName}</h2>
+        {profile.bio && <p style={{ opacity: 0.5, fontSize: "0.9rem", marginTop: 4 }}>{profile.bio}</p>}
+      </div>
+      <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 16px", display: "grid", gap: 12 }}>
+        {links.map((link, i) => (
+          <a key={link.id} href={`/api/click/${link.id}`} style={{
+            display: "block", padding: 24, borderRadius: 16, textDecoration: "none", color: "#fff",
+            background: gradients[i % gradients.length], position: "relative", overflow: "hidden",
+          }}>
+            <div style={{ fontSize: "0.65rem", letterSpacing: 3, textTransform: "uppercase", opacity: 0.7, marginBottom: 4 }}>TOP {i+1}</div>
+            <strong style={{ fontSize: "1.4rem", fontWeight: 800 }}>{link.title}</strong>
+            {link.description && <p style={{ opacity: 0.6, fontSize: "0.8rem", marginTop: 4 }}>{link.description}</p>}
+            <div style={{ position: "absolute", right: -20, bottom: -10, fontSize: "8rem", fontWeight: 900, opacity: 0.1 }}>{i+1}</div>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─── GITHUB REPO CARDS ─── */
+function GitHub({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: "#0d1117", color: "#c9d1d9", fontFamily: "monospace" }}>
+      <div style={{ maxWidth: 640, margin: "0 auto", padding: "24px 16px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
+          <div style={{ width: 48, height: 48, borderRadius: "50%", overflow: "hidden", border: "1px solid #30363d" }}>
+            <Av p={profile} />
+          </div>
+          <div>
+            <h1 style={{ fontSize: "1.2rem", fontWeight: 600, margin: 0 }}>{profile.displayName}</h1>
+            {profile.bio && <p style={{ color: "#8b949e", fontSize: "0.8rem", margin: 0 }}>{profile.bio}</p>}
+          </div>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          {links.map((link) => (
+            <a key={link.id} href={`/api/click/${link.id}`} style={{
+              display: "block", padding: 16, borderRadius: 6, textDecoration: "none", color: "#c9d1d9",
+              border: "1px solid #30363d", background: "#161b22",
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                <span style={{ color: "#8b949e", fontSize: "0.9rem" }}>📁</span>
+                <strong style={{ color: "#58a6ff", fontSize: "0.85rem" }}>{link.title}</strong>
+                <span style={{ marginLeft: "auto", border: "1px solid #30363d", borderRadius: 12, padding: "0 8px", fontSize: "0.7rem", color: "#8b949e" }}>Public</span>
+              </div>
+              {link.description && <p style={{ color: "#8b949e", fontSize: "0.75rem", lineHeight: 1.4 }}>{link.description}</p>}
+              <div style={{ display: "flex", gap: 16, marginTop: 12, fontSize: "0.72rem", color: "#8b949e" }}>
+                <span>⭐ {Math.floor(Math.random()*999)}</span>
+                <span>⑂ {Math.floor(Math.random()*99)}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── AIRBNB CARDS ─── */
+function Airbnb({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "-apple-system, sans-serif" }}>
+      <div style={{ padding: "24px 16px 8px", textAlign: "center" }}>
+        <h1 style={{ fontSize: "1.4rem", fontWeight: 600, color: "#222" }}>{profile.displayName}</h1>
+        {profile.bio && <p style={{ color: "#717171", fontSize: "0.85rem", marginTop: 4 }}>{profile.bio}</p>}
+      </div>
+      <div style={{ maxWidth: 640, margin: "0 auto", padding: "0 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+        {links.map((link) => (
+          <a key={link.id} href={`/api/click/${link.id}`} style={{ textDecoration: "none", color: "#222" }}>
+            <div style={{ position: "relative", borderRadius: 12, overflow: "hidden", aspectRatio: "1", background: link.imageUrl ? "transparent" : "#f7f7f7" }}>
+              {link.imageUrl ? <img src={link.imageUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                : <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center", padding: 12 }}><strong>{link.title}</strong></div>}
+              <div style={{ position: "absolute", top: 12, right: 12, fontSize: "1.4rem" }}>♡</div>
+            </div>
+            {link.imageUrl && (
+              <div style={{ padding: "8px 0" }}>
+                <strong style={{ fontSize: "0.85rem", display: "block" }}>{link.title}</strong>
+                {link.description && <span style={{ color: "#717171", fontSize: "0.78rem" }}>{link.description}</span>}
+              </div>
+            )}
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─── CHATGPT-STYLE ─── */
+function ChatGPT({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: "#343541", color: "#ececf1", fontFamily: "-apple-system, sans-serif" }}>
+      <div style={{ maxWidth: 640, margin: "0 auto", padding: "16px" }}>
+        <div style={{ padding: "16px", borderRadius: 12, background: "#444654", marginBottom: 16, display: "flex", gap: 12 }}>
+          <div style={{ width: 32, height: 32, borderRadius: 4, background: "#19c37d", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: "0.9rem", color: "#fff" }}>🤖</div>
+          <div>
+            <p style={{ margin: 0, lineHeight: 1.6, fontSize: "0.9rem" }}>Здравей! Аз съм профилът на <strong style={{ color: "#19c37d" }}>{profile.displayName}</strong>. Ето какво мога да ти покажа:</p>
+          </div>
+        </div>
+        {links.map((link, i) => (
+          <div key={link.id} style={{ padding: "12px 16px", borderRadius: 12, background: "#3e3f4b", marginBottom: 8 }}>
+            <a href={`/api/click/${link.id}`} style={{ textDecoration: "none", color: "#ececf1", display: "flex", alignItems: "flex-start", gap: 10 }}>
+              <span style={{ color: "#19c37d", fontSize: "0.9rem", flexShrink: 0 }}>▸</span>
+              <div>
+                <strong style={{ fontSize: "0.9rem", display: "block" }}>{link.title}</strong>
+                {link.description && <p style={{ color: "#8e8ea0", fontSize: "0.78rem", marginTop: 2, lineHeight: 1.4 }}>{link.description}</p>}
+              </div>
+            </a>
+          </div>
+        ))}
+        <div style={{ padding: "8px", opacity: 0.3, textAlign: "center", fontSize: "0.75rem" }}>
+          <span style={{ animation: "blink 1s infinite" }}>▌</span> Генериране...
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── ARCADE / RETRO GAME ─── */
+function Arcade({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div style={{ minHeight: "100vh", background: "#0a0a2e", color: "#0ff", fontFamily: "monospace", imageRendering: "pixelated", paddingBottom: 48 }}>
+      <div style={{ textAlign: "center", padding: "32px 16px 16px" }}>
+        <div style={{ width: 80, height: 80, margin: "0 auto 12px", border: "4px solid #f0f", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ width: 56, height: 56, border: "4px solid #0ff", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Av p={profile} />
+          </div>
+        </div>
+        <h1 style={{ fontSize: "1.8rem", fontWeight: 700, color: "#f0f", textShadow: "3px 3px 0 #0ff", letterSpacing: 2, textTransform: "uppercase" }}>{profile.displayName}</h1>
+        {profile.bio && <p style={{ color: "#0ff", fontSize: "0.8rem", marginTop: 8 }}>{profile.bio}</p>}
+        <div style={{ marginTop: 8, fontSize: "0.7rem", color: "#f0f", border: "2px solid #0ff", display: "inline-block", padding: "4px 12px" }}>
+          SCORE: {links.length.toString().padStart(6,"0")}
+        </div>
+      </div>
+      <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 16px", display: "grid", gap: 8 }}>
+        {links.map((link, i) => (
+          <a key={link.id} href={`/api/click/${link.id}`} style={{
+            display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", textDecoration: "none", color: "#0ff",
+            border: "3px solid #f0f", background: "rgba(255,0,255,0.05)", imageRendering: "pixelated",
+          }}>
+            <span style={{ fontSize: "1.3rem" }}>{i % 5 === 0 ? "💎" : i % 5 === 1 ? "👾" : i % 5 === 2 ? "🕹" : i % 5 === 3 ? "⭐" : "🎯"}</span>
+            <div style={{ flex: 1 }}>
+              <strong style={{ textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: 1, color: "#f0f", textShadow: "1px 1px 0 #0ff" }}>{link.title}</strong>
+              {link.description && <p style={{ color: "#0ff", fontSize: "0.72rem", marginTop: 2 }}>{link.description}</p>}
+            </div>
+            <span style={{ fontSize: "1.2rem" }}>▶</span>
+          </a>
+        ))}
       </div>
     </div>
   );

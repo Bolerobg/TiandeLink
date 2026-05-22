@@ -95,7 +95,7 @@ export default async function PublicProfilePage({
   const randomBase = Math.floor(2500 + Math.random() * 2500);
   const displayViews = clickCount + randomBase;
 
-  const STITCH_TEMPLATES = ["bento","wellness","fullglass","neumorph","masonry","linkbio1","linkbio2","clean","blobs","zglass","o1","o2","softblob","offset","organic"];
+  const STITCH_TEMPLATES = ["bento","wellness","fullglass","neumorph","masonry","linkbio1","linkbio2","clean","blobs","zglass","o1","o2","softblob","offset","organic","pinterest","notes","twitter","netflix","discord","spotify","github","airbnb","chatgpt","arcade"];
   if (STITCH_TEMPLATES.includes(theme.template)) {
     return (
       <StitchTemplate

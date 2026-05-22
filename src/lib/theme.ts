@@ -281,6 +281,46 @@ export const presets: { name: string; theme: ProfileTheme }[] = [
     name: "Organic Elegance v2",
     theme: { template: "o2", background: "#FFF8F3", surface: "#fffaf5", text: "#181512", accent: "#775a19", buttonStyle: "solid", cardRadius: "4px", cardShadow: "0 2px 12px -2px", fontFamily: "'DM Sans', sans-serif" },
   },
+  {
+    name: "📌 Pinterest Masonry",
+    theme: { template: "pinterest", background: "#fff", surface: "#f0f0f0", text: "#111", accent: "#e60023", buttonStyle: "solid", cardRadius: "16px", cardShadow: "0 2px 8px", fontFamily: "-apple-system, sans-serif" },
+  },
+  {
+    name: "📝 Apple Notes",
+    theme: { template: "notes", background: "#fffef2", surface: "#fff8d6", text: "#2c2c2c", accent: "#f5a623", buttonStyle: "solid", cardRadius: "4px", cardShadow: "none", fontFamily: "Georgia, serif" },
+  },
+  {
+    name: "𝕏 Twitter Feed",
+    theme: { template: "twitter", background: "#000", surface: "#16181c", text: "#e7e9ea", accent: "#1d9bf0", buttonStyle: "solid", cardRadius: "12px", cardShadow: "none", fontFamily: "-apple-system, sans-serif" },
+  },
+  {
+    name: "🎬 Netflix Row",
+    theme: { template: "netflix", background: "#141414", surface: "#222", text: "#fff", accent: "#e50914", buttonStyle: "solid", cardRadius: "6px", cardShadow: "0 2px 8px", fontFamily: "-apple-system, sans-serif" },
+  },
+  {
+    name: "💬 Discord Channel",
+    theme: { template: "discord", background: "#313338", surface: "#2b2d31", text: "#dbdee1", accent: "#5865f2", buttonStyle: "solid", cardRadius: "4px", cardShadow: "none", fontFamily: "monospace" },
+  },
+  {
+    name: "🎵 Spotify Wrapped",
+    theme: { template: "spotify", background: "#191414", surface: "#1db954", text: "#fff", accent: "#1db954", buttonStyle: "solid", cardRadius: "16px", cardShadow: "0 4px 20px -4px", fontFamily: "-apple-system, sans-serif" },
+  },
+  {
+    name: "🐙 GitHub Repos",
+    theme: { template: "github", background: "#0d1117", surface: "#161b22", text: "#c9d1d9", accent: "#58a6ff", buttonStyle: "solid", cardRadius: "6px", cardShadow: "none", fontFamily: "monospace" },
+  },
+  {
+    name: "🏠 Airbnb Cards",
+    theme: { template: "airbnb", background: "#fff", surface: "#f7f7f7", text: "#222", accent: "#ff385c", buttonStyle: "solid", cardRadius: "12px", cardShadow: "0 2px 8px", fontFamily: "-apple-system, sans-serif" },
+  },
+  {
+    name: "🤖 ChatGPT Style",
+    theme: { template: "chatgpt", background: "#343541", surface: "#444654", text: "#ececf1", accent: "#19c37d", buttonStyle: "solid", cardRadius: "12px", cardShadow: "none", fontFamily: "-apple-system, sans-serif" },
+  },
+  {
+    name: "🕹 Arcade Retro",
+    theme: { template: "arcade", background: "#0a0a2e", surface: "rgba(255,0,255,0.05)", text: "#0ff", accent: "#f0f", buttonStyle: "solid", cardRadius: "0", cardShadow: "3px 3px 0", fontFamily: "monospace" },
+  },
 ];
 
 export function parseTheme(value: unknown): ProfileTheme {
