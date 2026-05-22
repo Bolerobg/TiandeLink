@@ -46,8 +46,8 @@ function PremiumWrapper({ templateKey, children }: { templateKey: string | null;
           return <link key={idx} rel="stylesheet" href={cleanUrl} />;
         })}
 
-      {/* 2. Inject Tailwind CDN script */}
-      <script src="https://cdn.tailwindcss.com"></script>
+      {/* 2. Inject Tailwind CDN script (served locally to bypass adblockers) */}
+      <script src="/tailwind.js"></script>
 
       {/* 3. Inject Dynamic Custom Tailwind config */}
       {config?.tailwind_config && (
