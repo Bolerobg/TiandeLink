@@ -77,7 +77,53 @@ function PremiumWrapper({ templateKey, children }: { templateKey: string | null;
   );
 }
 
-export function StitchTemplate({ template, profile, links }: { template: string; profile: Profile; links: Link[] }) {
+export function StitchTemplate({ template, profile: rawProfile, links }: { template: string; profile: Profile; links: Link[] }) {
+  const normalizeViber = (viber: string | null | undefined): string => {
+    if (!viber) return "";
+    let val = viber.trim();
+    if (val.startsWith("viber://")) return val;
+    if (val.startsWith("http")) return val;
+    let digits = val.replace(/\D/g, "");
+    if (digits.startsWith("0") && digits.length === 10) {
+      digits = "359" + digits.slice(1);
+    }
+    return `viber://chat?number=${digits}`;
+  };
+
+  const normalizeWhatsapp = (whatsapp: string | null | undefined): string => {
+    if (!whatsapp) return "";
+    let val = whatsapp.trim();
+    if (val.startsWith("http")) return val;
+    let digits = val.replace(/\D/g, "");
+    if (digits.startsWith("0") && digits.length === 10) {
+      digits = "359" + digits.slice(1);
+    }
+    return `https://wa.me/${digits}?text=${encodeURIComponent("Здравейте! Пиша Ви от SaasLink.")}`;
+  };
+
+  const normalizeInstagram = (instagram: string | null | undefined): string => {
+    if (!instagram) return "";
+    let val = instagram.trim();
+    if (val.startsWith("http") || val.startsWith("//")) return val;
+    if (val.startsWith("@")) val = val.slice(1);
+    return `https://instagram.com/${val}`;
+  };
+
+  const normalizeFacebook = (facebook: string | null | undefined): string => {
+    if (!facebook) return "";
+    let val = facebook.trim();
+    if (val.startsWith("http") || val.startsWith("//")) return val;
+    return `https://facebook.com/${val}`;
+  };
+
+  const profile: Profile = {
+    ...rawProfile,
+    socialViber: normalizeViber(rawProfile.socialViber),
+    socialWhatsapp: normalizeWhatsapp(rawProfile.socialWhatsapp),
+    socialInstagram: normalizeInstagram(rawProfile.socialInstagram),
+    socialFacebook: normalizeFacebook(rawProfile.socialFacebook),
+  };
+
   const renderTemplate = () => {
     switch (template) {
     case "bento":
@@ -4049,13 +4095,19 @@ export function PremiumFloatingChatWidget({ profile }: { profile: Profile }) {
   
   let viberLink = profile.socialViber || "";
   if (viberLink && !viberLink.startsWith("viber://")) {
-    const digits = viberLink.replace(/\D/g, "");
-    viberLink = `viber://chat?number=%2B${digits}`;
+    let digits = viberLink.replace(/\D/g, "");
+    if (digits.startsWith("0") && digits.length === 10) {
+      digits = "359" + digits.slice(1);
+    }
+    viberLink = `viber://chat?number=${digits}`;
   }
   
   let whatsappLink = profile.socialWhatsapp || "";
   if (whatsappLink && !whatsappLink.startsWith("http")) {
-    const digits = whatsappLink.replace(/\D/g, "");
+    let digits = whatsappLink.replace(/\D/g, "");
+    if (digits.startsWith("0") && digits.length === 10) {
+      digits = "359" + digits.slice(1);
+    }
     whatsappLink = `https://wa.me/${digits}?text=${encodeURIComponent("Здравейте! Пиша Ви от SaasLink.")}`;
   }
   
