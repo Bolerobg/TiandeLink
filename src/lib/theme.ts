@@ -321,6 +321,87 @@ export const presets: { name: string; theme: ProfileTheme }[] = [
     name: "🕹 Arcade Retro",
     theme: { template: "arcade", background: "#0a0a2e", surface: "rgba(255,0,255,0.05)", text: "#0ff", accent: "#f0f", buttonStyle: "solid", cardRadius: "0", cardShadow: "3px 3px 0", fontFamily: "monospace" },
   },
+  // ─── 20 NEW PREMIUM TEMPLATES ───
+  {
+    name: "✨ Aurora Glow",
+    theme: { template: "aurora_glow", background: "linear-gradient(135deg, #09090e 0%, #131326 100%)", surface: "rgba(255,255,255,0.06)", text: "#ffffff", accent: "#a3e635", buttonStyle: "solid", cardRadius: "16px", cardShadow: "0 0 20px -2px rgba(163,230,53,0.15)", fontFamily: "'Outfit', sans-serif" },
+  },
+  {
+    name: "🏺 Soft Claymorphism",
+    theme: { template: "clay_soft", background: "#f0f7ff", surface: "#ffffff", text: "#3b2314", accent: "#ff6b6b", buttonStyle: "solid", cardRadius: "28px", cardShadow: "inset 2px 2px 6px #ffffff, inset -2px -2px 6px rgba(0,0,0,0.05), 8px 8px 20px rgba(0,0,0,0.06)", fontFamily: "'Quicksand', sans-serif" },
+  },
+  {
+    name: "⚡ Neo-Brutalism Retro",
+    theme: { template: "neo_brutal", background: "#fef08a", surface: "#ff007f", text: "#000000", accent: "#ff6600", buttonStyle: "solid", cardRadius: "4px", cardShadow: "6px 6px 0px 0px #000000", fontFamily: "'Space Grotesk', sans-serif" },
+  },
+  {
+    name: "📜 Vintage Journal",
+    theme: { template: "vintage_paper", background: "#f5ece1", surface: "#fffbf7", text: "#2c1d11", accent: "#1e3f20", buttonStyle: "outline", cardRadius: "2px", cardShadow: "2px 2px 0px 0px #2c1d11", fontFamily: "'EB Garamond', serif" },
+  },
+  {
+    name: "📡 Cyber HUD",
+    theme: { template: "cyber_hud", background: "#030712", surface: "rgba(0,242,254,0.02)", text: "#00f2fe", accent: "#4facfe", buttonStyle: "outline", cardRadius: "0px", cardShadow: "0 0 10px rgba(0,242,254,0.3)", fontFamily: "'Share Tech Mono', monospace" },
+  },
+  {
+    name: "💎 Glass Obsidian",
+    theme: { template: "glass_obsidian", background: "linear-gradient(180deg, #020205 0%, #080811 100%)", surface: "rgba(10,10,20,0.5)", text: "#ffffff", accent: "#d946ef", buttonStyle: "soft", cardRadius: "20px", cardShadow: "0 8px 32px 0 rgba(0,0,0,0.37)", fontFamily: "'Syne', sans-serif" },
+  },
+  {
+    name: "⚜️ Luxury Slate",
+    theme: { template: "luxury_slate", background: "#0f1115", surface: "#15181f", text: "#dfcfbe", accent: "#d4af37", buttonStyle: "outline", cardRadius: "0px", cardShadow: "0 1px 0px rgba(212,175,55,0.2)", fontFamily: "'Cormorant Garamond', serif" },
+  },
+  {
+    name: "👾 Synthwave Grid",
+    theme: { template: "synth_grid", background: "#0c011a", surface: "#1f033c", text: "#ff007f", accent: "#00ffff", buttonStyle: "solid", cardRadius: "8px", cardShadow: "0 0 15px rgba(255,0,127,0.4)", fontFamily: "'Orbitron', sans-serif" },
+  },
+  {
+    name: "🎋 Japanese Zen Sage",
+    theme: { template: "zen_linen", background: "#f2f0eb", surface: "#ffffff", text: "#2b2f29", accent: "#708238", buttonStyle: "outline", cardRadius: "12px", cardShadow: "0 4px 16px rgba(112,130,56,0.06)", fontFamily: "'Plus Jakarta Sans', sans-serif" },
+  },
+  {
+    name: "🎨 Pop Art Halftone",
+    theme: { template: "halftone_pop", background: "#1d4ed8", surface: "#facc15", text: "#000000", accent: "#ef4444", buttonStyle: "solid", cardRadius: "24px", cardShadow: "4px 4px 0px #000000", fontFamily: "'Bangers', cursive" },
+  },
+  {
+    name: "🧱 Metro Tiles",
+    theme: { template: "metro_tiles", background: "#f3f4f6", surface: "#2563eb", text: "#ffffff", accent: "#10b981", buttonStyle: "solid", cardRadius: "0px", cardShadow: "0 4px 6px -1px rgba(0,0,0,0.1)", fontFamily: "'Inter', sans-serif" },
+  },
+  {
+    name: "🍧 Frosted Ice",
+    theme: { template: "frosted_ice", background: "linear-gradient(135deg, #e0f2fe 0%, #f3e8ff 100%)", surface: "rgba(255,255,255,0.45)", text: "#0f172a", accent: "#db2777", buttonStyle: "soft", cardRadius: "24px", cardShadow: "0 8px 32px 0 rgba(31,38,135,0.04)", fontFamily: "'Outfit', sans-serif" },
+  },
+  {
+    name: "🔴 Neon Pulse",
+    theme: { template: "neon_pulse", background: "#050505", surface: "#0a0a0a", text: "#ffffff", accent: "#ef4444", buttonStyle: "solid", cardRadius: "14px", cardShadow: "0 0 12px rgba(239,68,68,0.5)", fontFamily: "'Space Mono', monospace" },
+  },
+  {
+    name: "📸 Polaroid Stack",
+    theme: { template: "polaroid_stack", background: "#eae3d2", surface: "#ffffff", text: "#1a1f2c", accent: "#8b5a2b", buttonStyle: "solid", cardRadius: "2px", cardShadow: "3px 5px 15px rgba(0,0,0,0.08)", fontFamily: "'Caveat', cursive" },
+  },
+  {
+    name: "✏️ Notebook Doodle",
+    theme: { template: "notebook_doodle", background: "#fcfcf7", surface: "#ffffff", text: "#1e3a8a", accent: "#dc2626", buttonStyle: "outline", cardRadius: "8px", cardShadow: "2px 3px 0px rgba(30,58,138,0.2)", fontFamily: "'Architects Daughter', cursive" },
+  },
+  {
+    name: "🌐 Hologram 3D",
+    theme: { template: "hologram_3d", background: "#040c16", surface: "rgba(6,182,212,0.04)", text: "#22d3ee", accent: "#06b6d4", buttonStyle: "outline", cardRadius: "4px", cardShadow: "0 0 15px rgba(6,182,212,0.2)", fontFamily: "'Teko', sans-serif" },
+  },
+  {
+    name: "🌌 Galaxy Cosmic",
+    theme: { template: "galaxy_cosmic", background: "linear-gradient(135deg, #03001e 0%, #7303c0 50%, #ec38bc 100%)", surface: "rgba(255,255,255,0.08)", text: "#ffffff", accent: "#f472b6", buttonStyle: "solid", cardRadius: "30px", cardShadow: "0 0 25px rgba(236,56,188,0.3)", fontFamily: "'Cinzel', serif" },
+  },
+  {
+    name: "💥 Pop Comic",
+    theme: { template: "pop_comic", background: "#fcd34d", surface: "#ffffff", text: "#000000", accent: "#e11d48", buttonStyle: "solid", cardRadius: "0px", cardShadow: "5px 5px 0px #000000", fontFamily: "'Bangers', cursive" },
+  },
+  {
+    name: "📐 Avant-Garde",
+    theme: { template: "avant_garde", background: "#edeae4", surface: "#2a2d24", text: "#eae6df", accent: "#d97706", buttonStyle: "solid", cardRadius: "0px", cardShadow: "-8px 8px 0px rgba(42,45,36,0.15)", fontFamily: "'EB Garamond', serif" },
+  },
+  {
+    name: "🏆 Minimal Luxury Gold",
+    theme: { template: "minimal_luxury", background: "#ffffff", surface: "#faf9f6", text: "#1c1917", accent: "#b89047", buttonStyle: "outline", cardRadius: "24px", cardShadow: "0 4px 30px rgba(184,144,71,0.06)", fontFamily: "'Great Vibes', cursive" },
+  },
 ];
 
 export function parseTheme(value: unknown): ProfileTheme {

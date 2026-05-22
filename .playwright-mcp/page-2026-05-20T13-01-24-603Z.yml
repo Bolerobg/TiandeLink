@@ -1,0 +1,55 @@
+- generic [ref=e1]:
+  - generic [active]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - navigation [ref=e7]:
+            - button "previous" [disabled] [ref=e8]:
+              - img "previous" [ref=e9]
+            - generic [ref=e11]:
+              - generic [ref=e12]: 1/
+              - text: "1"
+            - button "next" [disabled] [ref=e13]:
+              - img "next" [ref=e14]
+          - img
+        - generic [ref=e16]:
+          - generic [ref=e17]:
+            - img [ref=e18]
+            - generic "Latest available version is detected (16.2.6)." [ref=e20]: Next.js 16.2.6
+            - generic [ref=e21]: Turbopack
+          - img
+      - dialog "Runtime PrismaClientInitializationError" [ref=e23]:
+        - generic [ref=e27]:
+          - generic [ref=e28]:
+            - generic [ref=e29]:
+              - generic [ref=e30]: Runtime PrismaClientInitializationError
+              - generic [ref=e31]: Server
+            - generic [ref=e32]:
+              - button "Copy Error Info" [ref=e33] [cursor=pointer]:
+                - img [ref=e34]
+              - button "No related documentation found" [disabled] [ref=e36]:
+                - img [ref=e37]
+              - button "Attach Node.js inspector" [ref=e39] [cursor=pointer]:
+                - img [ref=e40]
+          - generic [ref=e48]:
+            - generic [ref=e49]: "Invalid `db.user.upsert()` invocation in /Users/bolero/Documents/TiandeLink/SaasLink/.next/dev/server/chunks/ssr/[root-of-the-server]__0gj8zun._.js:36:32 33 ; 34 async function ensureDemoProfile() { 35 const db = (0, {imported module ./src/lib/db.ts}[\"getDb\"])(); → 36 const user = await db.user.upsert( error: Environment variable not found: DATABASE_URL. --> schema.prisma:7 | 6 | provider = \"postgresql\" 7 | url = env(\"DATABASE_URL\") | Validation Error Count: 1"
+            - button "Show More" [ref=e51] [cursor=pointer]
+        - generic [ref=e52]: "1"
+        - generic [ref=e53]: "2"
+    - generic [ref=e58] [cursor=pointer]:
+      - button "Open Next.js Dev Tools" [ref=e59]:
+        - img [ref=e60]
+      - generic [ref=e63]:
+        - button "Open issues overlay" [ref=e64]:
+          - generic [ref=e65]:
+            - generic [ref=e66]: "0"
+            - generic [ref=e67]: "1"
+          - generic [ref=e68]: Issue
+        - button "Collapse issues badge" [ref=e69]:
+          - img [ref=e70]
+  - generic [ref=e73]:
+    - img [ref=e74]
+    - heading "This page couldn’t load" [level=1] [ref=e76]
+    - paragraph [ref=e77]: A server error occurred. Reload to try again.
+    - button "Reload" [ref=e80] [cursor=pointer]
+  - paragraph [ref=e81]: ERROR 2821398215

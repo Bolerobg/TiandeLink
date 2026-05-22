@@ -1,0 +1,56 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e3]:
+      - link "S SaasLink" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: S
+        - generic [ref=e6]: SaasLink
+      - navigation "Main navigation" [ref=e7]:
+        - link "Виж demo" [ref=e8] [cursor=pointer]:
+          - /url: /demo
+        - link "Вход" [ref=e9] [cursor=pointer]:
+          - /url: /login
+        - link "Създай акаунт" [ref=e10] [cursor=pointer]:
+          - /url: /register
+    - generic [ref=e11]:
+      - generic [ref=e12]:
+        - paragraph [ref=e13]: Linktree-style SaaS, но твой
+        - heading "Една страница за всички линкове, продукти и кампании." [level=1] [ref=e14]
+        - paragraph [ref=e15]: "MVP старт за платформа като Linktree: публични bio страници, редактор, теми, link tracking и структура за бъдещи платени планове."
+        - generic [ref=e16]:
+          - link "Създай профил" [ref=e17] [cursor=pointer]:
+            - /url: /register
+          - link "Отвори публичната страница" [ref=e18] [cursor=pointer]:
+            - /url: /demo
+      - generic [ref=e20]:
+        - generic [ref=e21]:
+          - generic [ref=e22]: S
+          - heading "SaasLink Demo" [level=1] [ref=e23]
+          - paragraph [ref=e24]: Всички важни линкове, продукти и кампании на едно място.
+        - generic [ref=e25]:
+          - generic [ref=e28]:
+            - strong [ref=e29]: ЖЪЛТИ ЗЪБИ (КАФЕ,ЦИГАРИ,ВИНО) ВЕЧЕ НЕ
+            - generic [ref=e30]: Паста за зъби Extra White Pro
+          - generic [ref=e33]:
+            - strong [ref=e34]: СЕРИЯ ЗА БЪРЗ РАСТЕЖ НА КОСАТА
+            - generic [ref=e35]: Против косопад
+          - generic [ref=e38]:
+            - strong [ref=e39]: ГОРЕЛКА ЗА МАЗНИНИ
+            - generic [ref=e40]: Премахва стрии и топи целулит
+        - generic [ref=e41]: Made with SaasLink
+    - region "Product features" [ref=e42]:
+      - article [ref=e43]:
+        - strong [ref=e44]: Публичен профил
+        - text: Персонален URL, bio, avatar, теми и неограничени линкове.
+      - article [ref=e45]:
+        - strong [ref=e46]: Монетизация
+        - text: Подготовка за продукти, bookings, affiliate/sponsored links и Stripe.
+      - article [ref=e47]:
+        - strong [ref=e48]: Аналитика
+        - text: Кликове, CTR, аудитория, UTM, referrers и продуктови conversion events.
+      - article [ref=e49]:
+        - strong [ref=e50]: Docker-first
+        - text: Проектът е готов за Ubuntu server с PostgreSQL и docker compose.
+  - button "Open Next.js Dev Tools" [ref=e56] [cursor=pointer]:
+    - img [ref=e57]
+  - alert [ref=e60]

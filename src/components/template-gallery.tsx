@@ -61,7 +61,8 @@ export function TemplateGallery({ currentTemplate, username }: { currentTemplate
     "organic", "o1", "o2", "bento", "clean", "zglass", "offset", "blobs", 
     "wellness", "masonry", "softblob", "fullglass", "linkbio1", "linkbio2", 
     "neumorph", "pinterest", "notes", "twitter", "netflix", "discord", 
-    "spotify", "github", "airbnb", "chatgpt", "arcade"
+    "spotify", "github", "airbnb", "chatgpt", "arcade",
+    "aurora_glow", "clay_soft", "neo_brutal", "vintage_paper", "cyber_hud", "glass_obsidian", "luxury_slate", "synth_grid", "zen_linen", "halftone_pop", "metro_tiles", "frosted_ice", "neon_pulse", "polaroid_stack", "notebook_doodle", "hologram_3d", "galaxy_cosmic", "pop_comic", "avant_garde", "minimal_luxury"
   ].includes(p.theme.template));
   const visible = showAll ? presets : presets.slice(0, 25);
 

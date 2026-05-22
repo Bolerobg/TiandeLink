@@ -222,6 +222,126 @@ export function StitchTemplate({ template, profile, links }: { template: string;
           <Arcade profile={profile} links={links} />
         </PremiumWrapper>
       );
+    case "aurora_glow":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <AuroraGlow profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "clay_soft":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <ClaySoft profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "neo_brutal":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <NeoBrutal profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "vintage_paper":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <VintagePaper profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "cyber_hud":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <CyberHud profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "glass_obsidian":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <GlassObsidian profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "luxury_slate":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <LuxurySlate profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "synth_grid":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <SynthGrid profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "zen_linen":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <ZenLinen profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "halftone_pop":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <HalftonePop profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "metro_tiles":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <MetroTiles profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "frosted_ice":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <FrostedIce profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "neon_pulse":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <NeonPulse profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "polaroid_stack":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <PolaroidStack profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "notebook_doodle":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <NotebookDoodle profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "hologram_3d":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <Hologram3D profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "galaxy_cosmic":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <GalaxyCosmic profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "pop_comic":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <PopComic profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "avant_garde":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <AvantGarde profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "minimal_luxury":
+      return (
+        <PremiumWrapper templateKey={null}>
+          <MinimalLuxury profile={profile} links={links} />
+        </PremiumWrapper>
+      );
     default:
       return (
         <PremiumWrapper templateKey="_3">
@@ -2728,6 +2848,1041 @@ function Arcade({ profile, links }: { profile: Profile; links: Link[] }) {
                 {link.description && <p className="text-[10px] text-[#0ff] lowercase mt-0.5">{link.description}</p>}
               </div>
               <span className="text-base">▶</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 20 NEW PREMIUM REACT TEMPLATES (HIGH-FIDELITY, MODERN WEB AESTHETICS)
+// ─────────────────────────────────────────────────────────────────────────────
+
+// 1. ✨ Aurora Glow
+function AuroraGlow({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#07070d] text-white overflow-hidden relative py-16 px-4">
+      <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
+      <style dangerouslySetInnerHTML={{ __html: `
+        .aurora-bg {
+          position: absolute;
+          width: 500px;
+          height: 500px;
+          border-radius: 50%;
+          filter: blur(120px);
+          opacity: 0.15;
+          mix-blend-mode: screen;
+          animation: float-aurora 15s ease-in-out infinite alternate;
+        }
+        @keyframes float-aurora {
+          0% { transform: translate(-50px, -50px) rotate(0deg); }
+          100% { transform: translate(100px, 100px) rotate(360deg); }
+        }
+      ` }} />
+      <div className="aurora-bg bg-[#a3e635] top-[-100px] left-[-100px]" />
+      <div className="aurora-bg bg-[#06b6d4] bottom-[-100px] right-[-100px] [animation-delay:-5s]" />
+      
+      <div className="max-w-lg mx-auto relative z-10 font-['Outfit']">
+        <header className="text-center mb-10">
+          <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border border-white/20 p-1 bg-white/5 backdrop-blur-md">
+            <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-zinc-900">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight text-white mb-2">{profile.displayName}</h1>
+          {profile.bio && <p className="text-zinc-400 text-sm font-light max-w-sm mx-auto">{profile.bio}</p>}
+        </header>
+
+        <nav className="flex flex-col gap-4">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="group flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-[#a3e635]/60 hover:bg-white/10 hover:scale-[1.01] transition-all duration-300 backdrop-blur-xl shadow-lg"
+            >
+              {link.imageUrl ? (
+                <img src={link.imageUrl} alt="" className="w-12 h-12 rounded-xl object-cover" />
+              ) : (
+                <div className="w-12 h-12 rounded-xl bg-zinc-800 flex items-center justify-center text-xl">✨</div>
+              )}
+              <div className="flex-grow text-left">
+                <strong className="block text-sm font-semibold text-white group-hover:text-[#a3e635] transition-colors">{link.title}</strong>
+                {link.description && <p className="text-xs text-zinc-400 mt-0.5 font-light">{link.description}</p>}
+              </div>
+              <span className="text-[#a3e635] text-lg opacity-40 group-hover:opacity-100 transition-opacity">→</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 2. 🏺 Soft Claymorphism
+function ClaySoft({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#f0f7ff] text-[#3b2314] py-16 px-4">
+      <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet" />
+      <style dangerouslySetInnerHTML={{ __html: `
+        .clay-card {
+          background: #ffffff;
+          border-radius: 28px;
+          box-shadow: inset 3px 3px 6px #ffffff, inset -3px -3px 6px rgba(0,0,0,0.03), 8px 8px 24px rgba(0,0,0,0.05);
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .clay-card:hover {
+          transform: translateY(-4px) scale(1.01);
+          box-shadow: inset 1px 1px 3px #ffffff, inset -1px -1px 3px rgba(0,0,0,0.03), 12px 12px 30px rgba(0,0,0,0.08);
+        }
+      ` }} />
+      <div className="max-w-lg mx-auto font-['Quicksand']">
+        <header className="text-center mb-12">
+          <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-white shadow-[0_8px_16px_rgba(0,0,0,0.06)] flex items-center justify-center bg-white p-1">
+            <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-[#f0f7ff]">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight mb-2">{profile.displayName}</h1>
+          {profile.bio && <p className="text-[#3b2314]/70 text-sm max-w-sm mx-auto">{profile.bio}</p>}
+        </header>
+
+        <nav className="flex flex-col gap-4">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="clay-card p-5 flex items-center gap-4"
+            >
+              {link.imageUrl ? (
+                <img src={link.imageUrl} alt="" className="w-14 h-14 rounded-2xl object-cover shadow-inner" />
+              ) : (
+                <div className="w-14 h-14 rounded-2xl bg-[#ffebf0] flex items-center justify-center text-2xl shadow-inner">🍭</div>
+              )}
+              <div className="flex-grow text-left">
+                <strong className="block text-base font-bold text-[#3b2314]">{link.title}</strong>
+                {link.description && <p className="text-xs text-[#3b2314]/65 mt-0.5 font-medium">{link.description}</p>}
+              </div>
+              <span className="text-[#ff6b6b] text-xl">➔</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 3. ⚡ Neo-Brutalism Retro
+function NeoBrutal({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#fef08a] text-black py-16 px-4">
+      <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet" />
+      <div className="max-w-lg mx-auto font-['Space+Grotesk']">
+        <header className="text-center mb-12">
+          <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-[3px] border-black shadow-[4px_4px_0_0_#000] p-1 bg-white flex items-center justify-center">
+            <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-yellow-100">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-3xl font-black uppercase tracking-tight mb-2 [text-shadow:2px_2px_0_#ff007f]">{profile.displayName}</h1>
+          {profile.bio && (
+            <div className="inline-block bg-white border-2 border-black px-4 py-1 shadow-[2px_2px_0_0_#000] text-xs font-semibold max-w-sm mx-auto">
+              {profile.bio}
+            </div>
+          )}
+        </header>
+
+        <nav className="flex flex-col gap-5">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="flex items-center gap-4 p-4 border-[3px] border-black bg-white rounded-lg shadow-[5px_5px_0_0_#000] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[8px_8px_0_0_#ff007f] transition-all duration-200"
+            >
+              {link.imageUrl ? (
+                <img src={link.imageUrl} alt="" className="w-12 h-12 border-2 border-black object-cover" />
+              ) : (
+                <div className="w-12 h-12 border-2 border-black bg-[#ff007f] flex items-center justify-center text-xl font-bold">🏁</div>
+              )}
+              <div className="flex-grow text-left">
+                <strong className="block text-base font-black uppercase tracking-wide">{link.title}</strong>
+                {link.description && <p className="text-xs text-zinc-700 font-medium mt-0.5">{link.description}</p>}
+              </div>
+              <span className="font-black text-lg">▶</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 4. 📜 Vintage Journal
+function VintagePaper({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#f5ece1] text-[#2c1d11] py-16 px-4">
+      <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+      <div className="max-w-lg mx-auto font-['EB_Garamond'] border border-[#2c1d11]/15 p-8 rounded-lg bg-[#fffbf7]/50 shadow-sm">
+        <header className="text-center mb-12 border-b border-[#2c1d11]/10 pb-8">
+          <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border border-[#2c1d11]/20 p-1 bg-white/30 flex items-center justify-center">
+            <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-[#f5ece1]">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-3xl font-semibold tracking-tight italic mb-2">{profile.displayName}</h1>
+          {profile.bio && <p className="text-[#2c1d11]/80 text-base italic max-w-sm mx-auto">{profile.bio}</p>}
+        </header>
+
+        <nav className="flex flex-col gap-6">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="group flex gap-4 border-b border-[#2c1d11]/20 pb-5 hover:border-[#1e3f20] transition-colors"
+            >
+              {link.imageUrl && (
+                <img src={link.imageUrl} alt="" className="w-16 h-20 object-cover border border-[#2c1d11]/10 filter sepia-[0.25]" />
+              )}
+              <div className="flex-grow text-left">
+                <strong className="block text-lg font-semibold group-hover:text-[#1e3f20] transition-colors leading-tight">{link.title}</strong>
+                {link.description && <p className="text-sm text-[#2c1d11]/70 mt-1 italic leading-relaxed">{link.description}</p>}
+              </div>
+              <span className="self-center text-xs opacity-40 group-hover:opacity-100 transition-opacity uppercase tracking-widest">Виж</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 5. 📡 Cyber HUD
+function CyberHud({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#030712] text-[#00f2fe] py-16 px-4 relative overflow-hidden">
+      <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+      <style dangerouslySetInnerHTML={{ __html: `
+        .scanlines {
+          background: linear-gradient(
+            rgba(18, 16, 16, 0) 50%, 
+            rgba(0, 0, 0, 0.25) 50%
+          ), linear-gradient(
+            90deg,
+            rgba(255, 0, 0, 0.06),
+            rgba(0, 255, 0, 0.02),
+            rgba(0, 0, 255, 0.06)
+          );
+          background-size: 100% 4px, 6px 100%;
+        }
+      ` }} />
+      <div className="absolute inset-0 scanlines pointer-events-none opacity-50 z-20" />
+      
+      <div className="max-w-lg mx-auto font-['Share_Tech_Mono'] border border-[#00f2fe]/20 p-6 bg-black/60 shadow-[0_0_15px_rgba(0,242,254,0.1)] relative">
+        <header className="text-center mb-8 border-b border-[#00f2fe]/20 pb-6">
+          <div className="w-20 h-20 border border-[#00f2fe]/30 mx-auto mb-4 p-1 bg-black flex items-center justify-center">
+            <div className="w-full h-full flex items-center justify-center overflow-hidden bg-cyan-950/20">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-2xl font-bold uppercase tracking-wider text-white">[ {profile.displayName} ]</h1>
+          {profile.bio && <p className="text-[#00f2fe]/60 text-xs mt-2 uppercase">{profile.bio}</p>}
+        </header>
+
+        <div className="text-xs uppercase tracking-widest text-[#00f2fe]/40 mb-4 flex justify-between">
+          <span>// SYSTEM ACTIVE</span>
+          <span>LINK_COUNT: {links.length}</span>
+        </div>
+
+        <nav className="flex flex-col gap-3">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="flex items-center gap-4 p-3 border border-[#00f2fe]/20 bg-[#00f2fe]/5 hover:bg-[#00f2fe]/10 hover:border-[#00f2fe] transition-all duration-200"
+            >
+              <div className="w-8 h-8 border border-[#00f2fe]/30 flex items-center justify-center text-sm">▶</div>
+              <div className="flex-grow text-left">
+                <strong className="block text-sm uppercase tracking-wide font-bold">{link.title}</strong>
+                {link.description && <p className="text-[10px] text-[#00f2fe]/50 mt-0.5">{link.description}</p>}
+              </div>
+              <span className="text-[10px] opacity-40">GO//</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 6. 💎 Glass Obsidian
+function GlassObsidian({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#020205] text-white py-16 px-4 relative overflow-hidden">
+      <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&display=swap" rel="stylesheet" />
+      <style dangerouslySetInnerHTML={{ __html: `
+        .obsidian-card {
+          background: rgba(10, 10, 20, 0.45);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .obsidian-card:hover {
+          border-color: rgba(217, 70, 239, 0.4);
+          transform: translateY(-2px);
+        }
+      ` }} />
+      
+      {/* Dark moving glow */}
+      <div className="absolute top-[20%] left-[10%] w-[300px] h-[300px] rounded-full bg-indigo-900/10 blur-[80px] pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[10%] w-[350px] h-[350px] rounded-full bg-fuchsia-900/10 blur-[90px] pointer-events-none" />
+
+      <div className="max-w-lg mx-auto font-['Syne']">
+        <header className="text-center mb-12">
+          <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border border-white/10 p-1 bg-white/5 backdrop-blur-md flex items-center justify-center">
+            <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-zinc-950">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-3xl font-extrabold tracking-tight text-white mb-2">{profile.displayName}</h1>
+          {profile.bio && <p className="text-zinc-400 text-sm max-w-sm mx-auto font-light">{profile.bio}</p>}
+        </header>
+
+        <nav className="flex flex-col gap-4">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="obsidian-card p-5 flex items-center gap-4 rounded-2xl transition-all duration-300"
+            >
+              {link.imageUrl ? (
+                <img src={link.imageUrl} alt="" className="w-12 h-12 rounded-xl object-cover filter brightness-95" />
+              ) : (
+                <div className="w-12 h-12 rounded-xl bg-zinc-900/50 border border-white/5 flex items-center justify-center text-xl">🪐</div>
+              )}
+              <div className="flex-grow text-left">
+                <strong className="block text-base font-bold text-white group-hover:text-fuchsia-400">{link.title}</strong>
+                {link.description && <p className="text-xs text-zinc-400 mt-0.5">{link.description}</p>}
+              </div>
+              <span className="text-fuchsia-500 font-bold">→</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 7. ⚜️ Luxury Slate
+function LuxurySlate({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#0f1115] text-[#dfcfbe] py-16 px-4">
+      <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;500&display=swap" rel="stylesheet" />
+      <div className="max-w-lg mx-auto font-['Cormorant_Garamond'] border border-[#d4af37]/20 p-8 rounded-none bg-[#15181f] shadow-2xl relative">
+        <div className="absolute inset-2 border border-[#d4af37]/10 pointer-events-none" />
+        
+        <header className="text-center mb-12">
+          <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border border-[#d4af37]/30 p-1 flex items-center justify-center bg-black/20">
+            <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-zinc-900">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-3xl font-medium tracking-widest uppercase text-white mb-2">{profile.displayName}</h1>
+          {profile.bio && <p className="font-['Montserrat'] text-[10px] text-[#dfcfbe]/60 tracking-[0.2em] uppercase max-w-xs mx-auto mt-2 leading-relaxed">{profile.bio}</p>}
+        </header>
+
+        <nav className="flex flex-col gap-6">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="group flex gap-5 border-b border-[#d4af37]/10 pb-5 hover:border-[#d4af37] transition-all"
+            >
+              {link.imageUrl && (
+                <img src={link.imageUrl} alt="" className="w-14 h-14 object-cover grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition-all border border-[#d4af37]/20" />
+              )}
+              <div className="flex-grow text-left">
+                <strong className="block text-xl font-medium text-white group-hover:text-[#d4af37] transition-colors leading-tight">{link.title}</strong>
+                {link.description && <p className="font-['Montserrat'] text-[10px] text-[#dfcfbe]/50 mt-1 tracking-wider">{link.description}</p>}
+              </div>
+              <span className="self-center text-sm font-light text-[#d4af37] opacity-60 group-hover:opacity-100 transition-opacity">✧</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 8. 👾 Synthwave Grid
+function SynthGrid({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#0c011a] text-white py-16 px-4 relative overflow-hidden">
+      <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet" />
+      <style dangerouslySetInnerHTML={{ __html: `
+        .retro-grid {
+          background-image: 
+            linear-gradient(rgba(255, 0, 127, 0.08) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 0, 127, 0.08) 1px, transparent 1px);
+          background-size: 40px 40px;
+          perspective: 200px;
+          transform: rotateX(60deg);
+        }
+        .text-glow {
+          text-shadow: 0 0 10px rgba(255, 0, 127, 0.6), 0 0 20px rgba(255, 0, 127, 0.3);
+        }
+      ` }} />
+      
+      {/* 3D Grid floor */}
+      <div className="absolute bottom-0 left-0 right-0 h-[40%] retro-grid pointer-events-none z-0" />
+      <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-48 h-48 rounded-full bg-gradient-to-t from-yellow-500 to-[#ff007f] opacity-20 filter blur-xl pointer-events-none" />
+
+      <div className="max-w-lg mx-auto font-['Orbitron'] relative z-10">
+        <header className="text-center mb-12">
+          <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-2 border-[#00ffff] p-1 bg-black/40 shadow-[0_0_15px_rgba(0,255,255,0.4)] flex items-center justify-center">
+            <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-purple-950">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-3xl font-black uppercase text-white tracking-widest text-glow mb-2">{profile.displayName}</h1>
+          {profile.bio && <p className="text-[#00ffff] text-xs uppercase tracking-wider">{profile.bio}</p>}
+        </header>
+
+        <nav className="flex flex-col gap-4">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="flex items-center gap-4 p-4 border border-[#ff007f] bg-purple-950/20 hover:bg-[#ff007f]/10 rounded-lg shadow-[0_0_10px_rgba(255,0,127,0.2)] hover:shadow-[0_0_15px_rgba(0,255,255,0.4)] hover:border-[#00ffff] transition-all duration-300"
+            >
+              <div className="text-2xl text-[#00ffff] group-hover:text-white">🚀</div>
+              <div className="flex-grow text-left">
+                <strong className="block text-sm font-bold uppercase tracking-wider text-white group-hover:text-[#00ffff]">{link.title}</strong>
+                {link.description && <p className="text-[10px] text-zinc-400 mt-1 uppercase">{link.description}</p>}
+              </div>
+              <span className="text-[#ff007f] text-sm">&gt;&gt;</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 9. 🎋 Japanese Zen Sage
+function ZenLinen({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#f2f0eb] text-[#2b2f29] py-16 px-4">
+      <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;600;700&family=Noto+Serif:ital,wght@1,400&display=swap" rel="stylesheet" />
+      <div className="max-w-lg mx-auto font-['Plus_Jakarta_Sans']">
+        <header className="text-center mb-16">
+          <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-5 border border-[#708238]/20 p-0.5 bg-white shadow-sm flex items-center justify-center">
+            <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-[#f2f0eb]">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-2xl font-semibold tracking-wide text-zinc-800 mb-1">{profile.displayName}</h1>
+          {profile.bio && <p className="font-['Noto_Serif'] text-sm text-zinc-500 italic max-w-sm mx-auto">{profile.bio}</p>}
+        </header>
+
+        <nav className="flex flex-col gap-4">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="flex items-center justify-between p-4 bg-white border border-[#2b2f29]/10 rounded-xl hover:border-[#708238] hover:bg-neutral-50/50 transition-all duration-300 shadow-sm"
+            >
+              <div className="flex items-center gap-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#708238]" />
+                <div className="text-left">
+                  <strong className="block text-sm font-semibold text-zinc-800">{link.title}</strong>
+                  {link.description && <p className="text-xs text-zinc-500 mt-0.5">{link.description}</p>}
+                </div>
+              </div>
+              <span className="text-[#708238] text-xs font-light">→</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 10. 🎨 Pop Art Halftone
+function HalftonePop({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#1d4ed8] text-black py-16 px-4 relative overflow-hidden">
+      <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet" />
+      <style dangerouslySetInnerHTML={{ __html: `
+        .halftone-dots {
+          background-image: radial-gradient(rgba(255,255,255,0.15) 15%, transparent 16%);
+          background-size: 16px 16px;
+        }
+      ` }} />
+      <div className="absolute inset-0 halftone-dots pointer-events-none" />
+      
+      <div className="max-w-lg mx-auto font-['Bangers'] relative z-10">
+        <header className="text-center mb-12">
+          <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-black p-1 bg-yellow-400 shadow-[4px_4px_0_0_#ef4444] flex items-center justify-center">
+            <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-blue-100">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-4xl tracking-widest text-yellow-400 uppercase [text-shadow:3px_3px_0_#000] mb-2">{profile.displayName}</h1>
+          {profile.bio && (
+            <span className="inline-block bg-white text-black border-3 border-black text-sm uppercase px-4 py-1.5 shadow-[3px_3px_0_0_#000] tracking-wide rotate-[-1deg]">
+              {profile.bio}
+            </span>
+          )}
+        </header>
+
+        <nav className="flex flex-col gap-5">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="flex items-center gap-4 p-4 border-4 border-black bg-yellow-400 rounded-2xl shadow-[5px_5px_0_0_#ef4444] hover:bg-[#ef4444] hover:shadow-[5px_5px_0_0_#000] hover:text-white transition-all rotate-[1deg] hover:rotate-0"
+            >
+              {link.imageUrl ? (
+                <img src={link.imageUrl} alt="" className="w-12 h-12 border-3 border-black object-cover" />
+              ) : (
+                <div className="w-12 h-12 border-3 border-black bg-[#ef4444] flex items-center justify-center text-xl font-bold">⭐</div>
+              )}
+              <div className="flex-grow text-left">
+                <strong className="block text-xl uppercase tracking-wider leading-none mb-1">{link.title}</strong>
+                {link.description && <p className="text-xs font-sans font-semibold text-black/80">{link.description}</p>}
+              </div>
+              <span className="text-2xl font-black uppercase">!</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 11. 🧱 Metro Tiles
+function MetroTiles({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#f3f4f6] text-black py-16 px-4">
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+      <div className="max-w-lg mx-auto font-['Inter']">
+        <header className="text-left mb-10 pl-2">
+          <div className="w-20 h-20 rounded-none overflow-hidden mb-4 border border-zinc-300 p-0.5 bg-white flex items-center justify-center">
+            <div className="w-full h-full flex items-center justify-center overflow-hidden bg-zinc-200">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#2563eb]">{profile.displayName}</h1>
+          {profile.bio && <p className="text-zinc-500 text-sm mt-1">{profile.bio}</p>}
+        </header>
+
+        <div className="grid grid-cols-2 gap-3">
+          {links.map((link, idx) => {
+            const bgClass = idx % 4 === 0 ? "bg-[#2563eb] text-white" : idx % 4 === 1 ? "bg-[#10b981] text-white" : idx % 4 === 2 ? "bg-[#f59e0b] text-white" : "bg-[#ec4899] text-white";
+            return (
+              <a
+                key={link.id}
+                href={`/api/click/${link.id}`}
+                className={`group p-6 flex flex-col justify-between aspect-square ${bgClass} hover:opacity-95 hover:scale-[0.99] transition-all duration-200`}
+              >
+                <div className="text-2xl opacity-80 group-hover:scale-110 transition-transform w-8">📦</div>
+                <div className="text-left mt-auto">
+                  <strong className="block text-base font-extrabold uppercase tracking-wide leading-tight">{link.title}</strong>
+                  {link.description && <p className="text-[10px] opacity-75 mt-1 font-medium line-clamp-2">{link.description}</p>}
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 12. 🍧 Frosted Ice
+function FrostedIce({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-gradient-to-tr from-[#e0f2fe] to-[#f3e8ff] text-slate-800 py-16 px-4 relative overflow-hidden">
+      <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;600;700&display=swap" rel="stylesheet" />
+      <style dangerouslySetInnerHTML={{ __html: `
+        .frosted-card {
+          background: rgba(255, 255, 255, 0.45);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04);
+        }
+        .frosted-card:hover {
+          background: rgba(255, 255, 255, 0.6);
+          border-color: rgba(219, 39, 119, 0.3);
+          transform: scale(1.01);
+        }
+      ` }} />
+      
+      {/* Soft fluid circles */}
+      <div className="absolute top-[10%] left-[-5%] w-80 h-80 rounded-full bg-pink-300/20 filter blur-3xl pointer-events-none" />
+      <div className="absolute bottom-[10%] right-[-5%] w-96 h-96 rounded-full bg-sky-300/20 filter blur-3xl pointer-events-none" />
+
+      <div className="max-w-lg mx-auto font-['Outfit'] relative z-10">
+        <header className="text-center mb-12">
+          <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border border-white p-1 bg-white/40 shadow-sm flex items-center justify-center">
+            <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-sky-50">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-800 mb-1">{profile.displayName}</h1>
+          {profile.bio && <p className="text-slate-500 text-sm font-light max-w-sm mx-auto">{profile.bio}</p>}
+        </header>
+
+        <nav className="flex flex-col gap-4">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="frosted-card p-5 flex items-center gap-4 rounded-3xl transition-all duration-300"
+            >
+              {link.imageUrl ? (
+                <img src={link.imageUrl} alt="" className="w-12 h-12 rounded-2xl object-cover border border-white" />
+              ) : (
+                <div className="w-12 h-12 rounded-2xl bg-pink-100 flex items-center justify-center text-xl">🍧</div>
+              )}
+              <div className="flex-grow text-left">
+                <strong className="block text-base font-semibold text-slate-800">{link.title}</strong>
+                {link.description && <p className="text-xs text-slate-500 mt-0.5">{link.description}</p>}
+              </div>
+              <span className="text-[#db2777] font-semibold text-xl">›</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 13. 🔴 Neon Pulse
+function NeonPulse({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#050505] text-white py-16 px-4">
+      <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+      <style dangerouslySetInnerHTML={{ __html: `
+        .neon-glow {
+          box-shadow: 0 0 10px rgba(239, 68, 68, 0.4), 0 0 20px rgba(239, 68, 68, 0.2);
+        }
+        .neon-border:hover {
+          box-shadow: 0 0 15px rgba(239, 68, 68, 0.7), 0 0 30px rgba(239, 68, 68, 0.4);
+          border-color: #ef4444;
+        }
+      ` }} />
+      <div className="max-w-lg mx-auto font-['Space_Mono']">
+        <header className="text-center mb-12">
+          <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-2 border-red-500 p-1 bg-black shadow-[0_0_15px_rgba(239,68,68,0.5)] flex items-center justify-center">
+            <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-neutral-900">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-2xl font-bold uppercase tracking-widest text-white mb-2">{profile.displayName}</h1>
+          {profile.bio && <p className="text-red-500 text-xs uppercase tracking-wide">{profile.bio}</p>}
+        </header>
+
+        <nav className="flex flex-col gap-4">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="neon-border flex items-center gap-4 p-4 border border-red-950 bg-black/60 rounded-xl transition-all duration-300"
+            >
+              <div className="w-8 h-8 rounded-full border border-red-950 flex items-center justify-center text-red-500 animate-pulse font-bold">!</div>
+              <div className="flex-grow text-left">
+                <strong className="block text-sm uppercase font-bold tracking-wider">{link.title}</strong>
+                {link.description && <p className="text-[10px] text-zinc-500 lowercase mt-0.5">{link.description}</p>}
+              </div>
+              <span className="text-red-500 font-bold">&gt;&gt;</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 14. 📸 Polaroid Stack
+function PolaroidStack({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#eae3d2] text-[#1a1f2c] py-16 px-4 relative">
+      <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet" />
+      <style dangerouslySetInnerHTML={{ __html: `
+        .polaroid {
+          background: #ffffff;
+          padding: 10px 10px 24px 10px;
+          box-shadow: 0px 4px 15px rgba(0,0,0,0.06);
+          border: 1px solid rgba(0,0,0,0.03);
+          transition: all 0.3s ease;
+        }
+        .polaroid:nth-child(even) {
+          transform: rotate(2deg);
+        }
+        .polaroid:nth-child(odd) {
+          transform: rotate(-2deg);
+        }
+        .polaroid:hover {
+          transform: scale(1.02) rotate(0deg);
+          box-shadow: 0px 10px 25px rgba(0,0,0,0.1);
+          z-index: 10;
+        }
+      ` }} />
+      <div className="max-w-lg mx-auto font-['Caveat']">
+        <header className="text-center mb-12">
+          <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border border-zinc-300 p-1 bg-white shadow-sm flex items-center justify-center">
+            <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-zinc-100">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-4xl font-bold tracking-tight mb-1">{profile.displayName}</h1>
+          {profile.bio && <p className="text-zinc-600 text-lg max-w-sm mx-auto leading-tight">{profile.bio}</p>}
+        </header>
+
+        <nav className="flex flex-col gap-6">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="polaroid block"
+            >
+              {link.imageUrl ? (
+                <img src={link.imageUrl} alt="" className="w-full aspect-[4/3] object-cover filter brightness-[0.98] border border-zinc-100 mb-4" />
+              ) : (
+                <div className="w-full aspect-[16/9] bg-[#f8f9fa] border border-zinc-100 mb-4 flex items-center justify-center text-3xl">📷</div>
+              )}
+              <div className="text-center px-2">
+                <strong className="block text-2xl font-bold tracking-wide leading-none mb-1 text-zinc-800">{link.title}</strong>
+                {link.description && <p className="text-lg text-zinc-500">{link.description}</p>}
+              </div>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 15. ✏️ Notebook Doodle
+function NotebookDoodle({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#fcfcf7] text-[#1e3a8a] py-16 px-4 relative">
+      <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet" />
+      <style dangerouslySetInnerHTML={{ __html: `
+        .notebook-page {
+          background-image: 
+            linear-gradient(rgba(30,58,138,0.06) 1px, transparent 1px);
+          background-size: 100% 28px;
+          border-left: 2px solid rgba(220,38,38,0.2);
+          padding-left: 20px;
+        }
+      ` }} />
+      <div className="max-w-lg mx-auto font-['Architects_Daughter'] notebook-page relative min-h-[500px]">
+        <header className="text-left mb-10 pt-4">
+          <div className="w-20 h-20 rounded-xl overflow-hidden mb-4 border border-[#1e3a8a]/20 p-1 flex items-center justify-center bg-white">
+            <div className="w-full h-full rounded-xl overflow-hidden flex items-center justify-center bg-sky-50">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-3xl font-bold tracking-wide mb-1">~ {profile.displayName}</h1>
+          {profile.bio && <p className="text-[#1e3a8a]/75 text-base max-w-sm mt-1 leading-relaxed">{profile.bio}</p>}
+        </header>
+
+        <nav className="flex flex-col gap-4">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="flex items-center gap-3 p-3 border border-[#1e3a8a]/20 rounded-xl bg-white hover:bg-neutral-50/50 hover:border-[#dc2626] transition-all hover:scale-[1.01] shadow-sm"
+            >
+              <div className="text-2xl text-[#dc2626]">✏️</div>
+              <div className="flex-grow text-left">
+                <strong className="block text-lg font-bold leading-tight">{link.title}</strong>
+                {link.description && <p className="text-sm text-[#1e3a8a]/70 font-medium mt-0.5">{link.description}</p>}
+              </div>
+              <span className="text-xs opacity-50">#</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 16. 🌐 Hologram 3D
+function Hologram3D({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#040c16] text-[#22d3ee] py-16 px-4 relative overflow-hidden">
+      <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&display=swap" rel="stylesheet" />
+      <style dangerouslySetInnerHTML={{ __html: `
+        .hologram-glow {
+          text-shadow: 0 0 10px rgba(6,182,212,0.6), 0 0 20px rgba(6,182,212,0.3);
+        }
+        .holo-card {
+          border: 1px solid rgba(34, 211, 238, 0.2);
+          background: rgba(6, 182, 212, 0.03);
+          box-shadow: inset 0 0 15px rgba(6, 182, 212, 0.05);
+          transition: all 0.3s ease;
+        }
+        .holo-card:hover {
+          border-color: rgba(34, 211, 238, 0.6);
+          background: rgba(6, 182, 212, 0.08);
+          box-shadow: 0 0 20px rgba(34, 211, 238, 0.15);
+          transform: translateY(-2px);
+        }
+      ` }} />
+      
+      {/* Sci-Fi horizontal scanline sweep */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-cyan-500/20 animate-[pulse_3s_infinite] pointer-events-none" />
+
+      <div className="max-w-lg mx-auto font-['Teko'] relative z-10">
+        <header className="text-center mb-10">
+          <div className="w-20 h-20 border border-cyan-500/30 mx-auto mb-4 p-1 bg-black/60 shadow-[0_0_15px_rgba(6,182,212,0.2)] flex items-center justify-center">
+            <div className="w-full h-full flex items-center justify-center overflow-hidden bg-cyan-950/20">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-4xl font-bold uppercase tracking-wider text-white hologram-glow mb-1">{profile.displayName}</h1>
+          {profile.bio && <p className="text-[#22d3ee]/60 text-lg uppercase tracking-widest">{profile.bio}</p>}
+        </header>
+
+        <nav className="flex flex-col gap-4">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="holo-card p-4 rounded flex items-center gap-4"
+            >
+              <div className="w-8 h-8 rounded border border-cyan-500/30 flex items-center justify-center text-lg hologram-glow">▲</div>
+              <div className="flex-grow text-left font-sans tracking-wide">
+                <strong className="block text-sm font-semibold uppercase text-white tracking-widest leading-none mb-1">{link.title}</strong>
+                {link.description && <p className="text-[10px] text-cyan-400 font-medium">{link.description}</p>}
+              </div>
+              <span className="text-[#22d3ee] font-bold text-lg">&gt;</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 17. 🌌 Galaxy Cosmic
+function GalaxyCosmic({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-[#03001e] via-[#7303c0] to-[#ec38bc] text-white py-16 px-4 relative overflow-hidden">
+      <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Montserrat:wght@300;400&display=swap" rel="stylesheet" />
+      <style dangerouslySetInnerHTML={{ __html: `
+        .galaxy-glass {
+          background: rgba(255, 255, 255, 0.08);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          box-shadow: 0 0 25px rgba(236, 56, 188, 0.15);
+          transition: all 0.4s ease;
+        }
+        .galaxy-glass:hover {
+          background: rgba(255, 255, 255, 0.15);
+          border-color: rgba(255, 255, 255, 0.3);
+          box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+          transform: translateY(-3px);
+        }
+      ` }} />
+      
+      <div className="max-w-lg mx-auto font-['Montserrat'] relative z-10">
+        <header className="text-center mb-14">
+          <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border border-white/20 p-1 bg-white/5 backdrop-blur-md flex items-center justify-center">
+            <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-black/40">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="font-['Cinzel'] text-3xl font-bold tracking-widest text-white mb-2">{profile.displayName}</h1>
+          {profile.bio && <p className="text-[#f472b6] text-xs uppercase tracking-widest mt-1 font-semibold">{profile.bio}</p>}
+        </header>
+
+        <nav className="flex flex-col gap-4">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="galaxy-glass p-5 rounded-[30px] flex items-center gap-4"
+            >
+              {link.imageUrl ? (
+                <img src={link.imageUrl} alt="" className="w-12 h-12 rounded-full object-cover border border-white/20" />
+              ) : (
+                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-xl">💫</div>
+              )}
+              <div className="flex-grow text-left">
+                <strong className="font-['Cinzel'] block text-sm font-semibold text-white tracking-widest">{link.title}</strong>
+                {link.description && <p className="text-[10px] text-pink-200 mt-1 font-light tracking-wide">{link.description}</p>}
+              </div>
+              <span className="text-white text-lg opacity-60 group-hover:opacity-100 transition-opacity">✦</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 18. 💥 Pop Comic
+function PopComic({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#fcd34d] text-black py-16 px-4 relative overflow-hidden">
+      <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet" />
+      <style dangerouslySetInnerHTML={{ __html: `
+        .burst-badge {
+          background: #e11d48;
+          color: white;
+          border: 3px solid black;
+          transform: rotate(-5deg);
+        }
+        .pop-card {
+          border: 4px solid black;
+          box-shadow: 6px 6px 0px #000;
+          transition: all 0.2s ease;
+        }
+        .pop-card:hover {
+          transform: translate(-3px, -3px);
+          box-shadow: 9px 9px 0px #e11d48;
+        }
+      ` }} />
+      
+      <div className="max-w-lg mx-auto font-['Bangers']">
+        <header className="text-center mb-12">
+          <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-black p-1 bg-white shadow-[4px_4px_0_0_#000] flex items-center justify-center">
+            <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-yellow-100">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-4xl tracking-widest text-[#e11d48] uppercase [text-shadow:3px_3px_0_#000] mb-2">{profile.displayName}</h1>
+          {profile.bio && (
+            <span className="burst-badge inline-block text-base uppercase px-5 py-1.5 shadow-[3px_3px_0_0_#000] tracking-widest font-black">
+              💥 {profile.bio}
+            </span>
+          )}
+        </header>
+
+        <nav className="flex flex-col gap-5">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="pop-card flex items-center gap-4 p-4 bg-white rounded-none"
+            >
+              {link.imageUrl ? (
+                <img src={link.imageUrl} alt="" className="w-12 h-12 border-3 border-black object-cover" />
+              ) : (
+                <div className="w-12 h-12 border-3 border-black bg-[#e11d48] flex items-center justify-center text-xl font-bold">🔥</div>
+              )}
+              <div className="flex-grow text-left">
+                <strong className="block text-2xl uppercase tracking-wider mb-0.5 leading-none">{link.title}</strong>
+                {link.description && <p className="text-xs font-sans font-semibold text-neutral-600">{link.description}</p>}
+              </div>
+              <span className="text-2xl font-black uppercase">!</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 19. 📐 Avant-Garde
+function AvantGarde({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#edeae4] text-[#2a2d24] py-16 px-4">
+      <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+      <div className="max-w-lg mx-auto font-['EB_Garamond']">
+        <header className="text-left mb-16 pl-2">
+          <div className="w-20 h-20 rounded-none overflow-hidden mb-6 border border-[#2a2d24] p-1 flex items-center justify-center bg-white shadow-sm">
+            <div className="w-full h-full rounded-none overflow-hidden flex items-center justify-center bg-[#edeae4]">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-4xl font-extrabold tracking-tight text-[#2a2d24] leading-none">{profile.displayName}</h1>
+          {profile.bio && <p className="font-['Montserrat'] text-[10px] text-[#d97706] tracking-[0.25em] uppercase font-bold mt-3">{profile.bio}</p>}
+        </header>
+
+        <nav className="flex flex-col gap-6">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="flex gap-5 border border-[#2a2d24] p-5 bg-white hover:bg-[#2a2d24] hover:text-[#edeae4] transition-all duration-300 shadow-[-6px_6px_0px_rgba(42,45,36,0.1)] hover:shadow-[-8px_8px_0px_#d97706]"
+            >
+              {link.imageUrl && (
+                <img src={link.imageUrl} alt="" className="w-14 h-16 object-cover border border-[#2a2d24]" />
+              )}
+              <div className="flex-grow text-left">
+                <strong className="block text-xl font-bold tracking-tight leading-tight mb-1">{link.title}</strong>
+                {link.description && <p className="font-['Montserrat'] text-[10px] tracking-wide opacity-70 leading-relaxed">{link.description}</p>}
+              </div>
+              <span className="self-center font-bold text-lg">➔</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+// 20. 🏆 Minimal Luxury Gold
+function MinimalLuxury({ profile, links }: { profile: Profile; links: Link[] }) {
+  return (
+    <div className="min-h-screen bg-[#faf9f6] text-[#1c1917] py-16 px-4 relative overflow-hidden">
+      <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;500&display=swap" rel="stylesheet" />
+      <style dangerouslySetInnerHTML={{ __html: `
+        .gold-shimmer {
+          background: linear-gradient(135deg, #b89047 0%, #eac775 50%, #b89047 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        .luxury-card {
+          border: 1px solid rgba(184, 144, 71, 0.15);
+          background: #ffffff;
+          box-shadow: 0 4px 30px rgba(184,144,71,0.03);
+          transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .luxury-card:hover {
+          border-color: #b89047;
+          box-shadow: 0 8px 30px rgba(184,144,71,0.08);
+          transform: translateY(-2px);
+        }
+      ` }} />
+      
+      <div className="max-w-lg mx-auto font-['Playfair_Display']">
+        <header className="text-center mb-16">
+          <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border border-[#b89047]/30 p-0.5 bg-white shadow-sm flex items-center justify-center">
+            <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-zinc-50">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="text-4xl font-normal italic text-[#b89047] font-['Great_Vibes'] leading-none mb-2">{profile.displayName}</h1>
+          {profile.bio && <p className="font-['Montserrat'] text-[9px] text-[#1c1917]/60 tracking-[0.25em] uppercase max-w-xs mx-auto leading-relaxed mt-3">{profile.bio}</p>}
+        </header>
+
+        <nav className="flex flex-col gap-5">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="luxury-card p-5 rounded-[24px] flex items-center gap-4"
+            >
+              {link.imageUrl ? (
+                <img src={link.imageUrl} alt="" className="w-12 h-12 rounded-full object-cover border border-[#b89047]/20" />
+              ) : (
+                <div className="w-12 h-12 rounded-full bg-stone-50 border border-stone-200 flex items-center justify-center text-lg text-[#b89047]">✧</div>
+              )}
+              <div className="flex-grow text-left">
+                <strong className="block text-base font-medium text-zinc-950 hover:text-[#b89047] transition-colors leading-tight">{link.title}</strong>
+                {link.description && <p className="font-['Montserrat'] text-[9px] text-stone-500 mt-1 font-light tracking-wide">{link.description}</p>}
+              </div>
+              <span className="text-[#b89047] text-lg font-light">✧</span>
             </a>
           ))}
         </nav>
