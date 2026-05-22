@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import configs from "./configs_summary.json";
 import { EmailCapture } from "@/components/email-capture";
 
@@ -76,7 +78,8 @@ function PremiumWrapper({ templateKey, children }: { templateKey: string | null;
 }
 
 export function StitchTemplate({ template, profile, links }: { template: string; profile: Profile; links: Link[] }) {
-  switch (template) {
+  const renderTemplate = () => {
+    switch (template) {
     case "bento":
       return (
         <PremiumWrapper templateKey="_6">
@@ -348,7 +351,16 @@ export function StitchTemplate({ template, profile, links }: { template: string;
           <LinkBio2 profile={profile} links={links} />
         </PremiumWrapper>
       );
-  }
+    }
+  };
+
+  return (
+    <>
+      {renderTemplate()}
+      <PremiumInteractiveEnhancer profile={profile} links={links} />
+      <PremiumFloatingChatWidget profile={profile} />
+    </>
+  );
 }
 
 /* ───────────────────────────────────────────────────────────
@@ -3890,3 +3902,271 @@ function MinimalLuxury({ profile, links }: { profile: Profile; links: Link[] }) 
     </div>
   );
 }
+
+/* ───────────────────────────────────────────────────────────
+   PREMIUM CLIENT-SIDE INTERACTIVE INTERCEPTORS
+   ─────────────────────────────────────────────────────────── */
+
+export function PremiumInteractiveEnhancer({ profile, links }: { profile: Profile; links: Link[] }) {
+  useEffect(() => {
+    // 1. Interactive Media Players (YouTube, Spotify, SoundCloud, Calendly)
+    // 2. Reviews & Social Proof / Testimonials
+    const anchorTags = document.querySelectorAll('a[href^="/api/click/"]');
+    
+    anchorTags.forEach((a) => {
+      const href = a.getAttribute("href") || "";
+      const match = href.match(/\/api\/click\/([a-zA-Z0-9_-]+)/);
+      if (!match) return;
+      
+      const linkId = match[1];
+      const link = links.find((l) => l.id === linkId);
+      if (!link) return;
+      
+      // A. If it is an Embed
+      const isSpotify = link.url.includes("spotify.com");
+      const isYoutube = link.url.includes("youtube.com") || link.url.includes("youtu.be");
+      const isSoundcloud = link.url.includes("soundcloud.com");
+      const isCalendly = link.url.includes("calendly.com");
+      
+      if (isSpotify || isYoutube || isSoundcloud || isCalendly) {
+        const div = document.createElement("div");
+        div.className = "w-full my-4 rounded-3xl overflow-hidden shadow-xl border border-white/10 p-1 bg-white/5 backdrop-blur-md";
+        
+        let iframeSrc = "";
+        let height = "152";
+        
+        if (isSpotify) {
+          const spotifyMatch = link.url.match(/spotify\.com\/(?:embed\/)?(\w+)\/([\w]+)/);
+          if (spotifyMatch) {
+            iframeSrc = `https://open.spotify.com/embed/${spotifyMatch[1]}/${spotifyMatch[2]}`;
+          } else {
+            iframeSrc = link.url;
+          }
+        } else if (isYoutube) {
+          const ytMatch = link.url.match(/youtu\.be\/([\w-]+)/) || link.url.match(/youtube\.com\/watch\?v=([\w-]+)/) || link.url.match(/youtube\.com\/embed\/([\w-]+)/) || link.url.match(/youtube\.com\/shorts\/([\w-]+)/);
+          if (ytMatch) {
+            iframeSrc = `https://www.youtube.com/embed/${ytMatch[1]}`;
+            height = "240";
+          }
+        } else if (isSoundcloud) {
+          iframeSrc = `https://w.soundcloud.com/player/?url=${encodeURIComponent(link.url)}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true`;
+          height = "166";
+        } else if (isCalendly) {
+          iframeSrc = link.url;
+          height = "480";
+        }
+        
+        if (iframeSrc) {
+          div.innerHTML = `
+            <div class="text-xs font-semibold px-4 py-2.5 text-left opacity-80 flex items-center gap-2 border-b border-white/5 bg-white/5 text-white">
+              <span>${isSpotify ? "🎵 Spotify" : isYoutube ? "🎥 YouTube" : isSoundcloud ? "☁️ SoundCloud" : "📅 Calendly"}</span>
+              <span class="opacity-40">•</span>
+              <span class="truncate flex-1">${link.title}</span>
+            </div>
+            <iframe 
+              src="${iframeSrc}" 
+              width="100%" 
+              height="${height}" 
+              frameborder="0" 
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+              loading="lazy" 
+              class="w-full rounded-b-2xl"
+              style="border: 0;"
+            ></iframe>
+          `;
+          a.parentNode?.replaceChild(div, a);
+        }
+      }
+      
+      // B. If it's a Testimonial (type === 'TEXT')
+      else if (link.type === "TEXT") {
+        const div = document.createElement("div");
+        
+        let rating = 5;
+        const urlVal = link.url.trim();
+        if (/^[1-5]$/.test(urlVal)) {
+          rating = parseInt(urlVal);
+        } else if (/^[1-5]\.[0-9]$/.test(urlVal)) {
+          rating = parseFloat(urlVal);
+        }
+        
+        let starsHtml = "";
+        for (let i = 1; i <= 5; i++) {
+          if (i <= rating) {
+            starsHtml += `<span style="color: #fbbf24; font-size: 1.25rem; margin-right: 2px;">★</span>`;
+          } else {
+            starsHtml += `<span style="color: #4b5563; font-size: 1.25rem; margin-right: 2px;">★</span>`;
+          }
+        }
+        
+        div.className = "w-full my-4 p-6 rounded-[2rem] text-left border border-white/10 bg-white/5 backdrop-blur-xl shadow-lg flex flex-col gap-3 transition-all duration-300 hover:scale-[1.01] hover:border-white/20";
+        div.innerHTML = `
+          <div class="flex justify-between items-start w-full">
+            <div class="flex">${starsHtml}</div>
+            <span class="text-3xl opacity-20 font-serif leading-none text-white">“</span>
+          </div>
+          <p class="text-sm opacity-90 leading-relaxed italic font-light text-white">
+            "${link.description || 'Изключително доволен съм от обслужването и резултатите!'}"
+          </p>
+          <div class="flex items-center gap-3 mt-2">
+            ${link.imageUrl ? `
+              <img src="${link.imageUrl}" alt="${link.title}" class="w-10 h-10 rounded-full object-cover border border-white/20 shadow-sm" />
+            ` : `
+              <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-lime-400 to-emerald-500 flex items-center justify-center font-bold text-white text-sm shadow-sm">
+                ${link.title.slice(0, 1).toUpperCase()}
+              </div>
+            `}
+            <div class="flex flex-col">
+              <span class="text-sm font-semibold opacity-95 text-white">${link.title}</span>
+              ${link.url && !/^[0-5](\.[0-9])?$/.test(urlVal) ? `
+                <a href="${link.url}" target="_blank" class="text-xs text-lime-400 hover:underline truncate max-w-[150px]">${urlVal.replace(/^https?:\/\/(www\.)?/, "")}</a>
+              ` : `
+                <span class="text-xs opacity-60 text-white/80">Доволен клиент</span>
+              `}
+            </div>
+          </div>
+        `;
+        
+        a.parentNode?.replaceChild(div, a);
+      }
+    });
+  }, [links]);
+  
+  return null;
+}
+
+export function PremiumFloatingChatWidget({ profile }: { profile: Profile }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [hasSocials, setHasSocials] = useState(false);
+  
+  useEffect(() => {
+    if (profile.socialInstagram || profile.socialFacebook || profile.socialWhatsapp || profile.socialViber) {
+      setHasSocials(true);
+    }
+  }, [profile]);
+  
+  if (!hasSocials) return null;
+  
+  let viberLink = profile.socialViber || "";
+  if (viberLink && !viberLink.startsWith("viber://")) {
+    const digits = viberLink.replace(/\D/g, "");
+    viberLink = `viber://chat?number=%2B${digits}`;
+  }
+  
+  let whatsappLink = profile.socialWhatsapp || "";
+  if (whatsappLink && !whatsappLink.startsWith("http")) {
+    const digits = whatsappLink.replace(/\D/g, "");
+    whatsappLink = `https://wa.me/${digits}?text=${encodeURIComponent("Здравейте! Пиша Ви от SaasLink.")}`;
+  }
+  
+  return (
+    <div className="fixed bottom-6 right-6 z-[9999] font-sans antialiased text-white">
+      {/* Floating Badge Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-14 h-14 rounded-full bg-gradient-to-tr from-lime-400 to-emerald-500 flex items-center justify-center shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none relative group"
+        aria-label="Chat"
+      >
+        <span className="absolute -inset-1 rounded-full bg-lime-400/30 blur animate-pulse"></span>
+        <span className="material-symbols-outlined text-2xl relative z-10">
+          {isOpen ? "close" : "chat"}
+        </span>
+        <span className="absolute top-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full"></span>
+      </button>
+      
+      {/* Premium Chat Card */}
+      {isOpen && (
+        <div className="absolute bottom-18 right-0 w-80 max-w-[calc(100vw-2rem)] rounded-3xl bg-zinc-950/95 border border-white/10 backdrop-blur-2xl shadow-2xl overflow-hidden transition-all duration-300 scale-100 origin-bottom-right">
+          {/* Header */}
+          <div className="p-4 bg-white/5 border-b border-white/10 flex items-center gap-3">
+            <div className="relative">
+              {profile.avatarUrl ? (
+                <img src={profile.avatarUrl} alt="" className="w-10 h-10 rounded-full object-cover border border-white/20" />
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-lime-400 flex items-center justify-center font-bold text-black text-sm">
+                  {profile.displayName.slice(0, 1).toUpperCase()}
+                </div>
+              )}
+              <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-zinc-900 rounded-full"></span>
+            </div>
+            <div className="flex flex-col text-left">
+              <span className="font-semibold text-sm leading-tight text-white">{profile.displayName}</span>
+              <span className="text-[10px] text-green-400 font-medium">На линия съм • Свържи се с мен</span>
+            </div>
+          </div>
+          
+          {/* Message Area */}
+          <div className="p-4 text-left">
+            <div className="bg-white/5 rounded-2xl p-3 text-xs leading-relaxed max-w-[85%] border border-white/5 shadow-inner text-white/90">
+              Здравейте! 👋 С какво мога да Ви помогна? Изберете предпочитания от Вас чат канал по-долу:
+            </div>
+          </div>
+          
+          {/* Action Channels */}
+          <div className="px-4 pb-5 flex flex-col gap-2">
+            {profile.socialWhatsapp && (
+              <a
+                href={whatsappLink}
+                target="_blank"
+                rel="nofollow noopener"
+                className="flex items-center justify-between p-3 rounded-2xl bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/20 text-white font-medium text-xs transition-colors group/btn"
+              >
+                <div className="flex items-center gap-3">
+                  <img src="/socials/whatsapp.png" alt="WhatsApp" className="w-6 h-6 object-contain" />
+                  <span>WhatsApp</span>
+                </div>
+                <span className="text-xs opacity-60 group-hover/btn:translate-x-1 transition-transform">➔</span>
+              </a>
+            )}
+            
+            {profile.socialViber && (
+              <a
+                href={viberLink}
+                target="_blank"
+                rel="nofollow noopener"
+                className="flex items-center justify-between p-3 rounded-2xl bg-[#7309F3]/10 hover:bg-[#7309F3]/20 border border-[#7309F3]/20 text-white font-medium text-xs transition-colors group/btn"
+              >
+                <div className="flex items-center gap-3">
+                  <img src="/socials/viber.png" alt="Viber" className="w-6 h-6 object-contain" />
+                  <span>Viber Chat</span>
+                </div>
+                <span className="text-xs opacity-60 group-hover/btn:translate-x-1 transition-transform">➔</span>
+              </a>
+            )}
+            
+            {profile.socialInstagram && (
+              <a
+                href={profile.socialInstagram}
+                target="_blank"
+                rel="nofollow noopener"
+                className="flex items-center justify-between p-3 rounded-2xl bg-[#E1306C]/10 hover:bg-[#E1306C]/20 border border-[#E1306C]/20 text-white font-medium text-xs transition-colors group/btn"
+              >
+                <div className="flex items-center gap-3">
+                  <img src="/socials/instagram.png" alt="Instagram" className="w-6 h-6 object-contain" />
+                  <span>Instagram Direct</span>
+                </div>
+                <span className="text-xs opacity-60 group-hover/btn:translate-x-1 transition-transform">➔</span>
+              </a>
+            )}
+            
+            {profile.socialFacebook && (
+              <a
+                href={profile.socialFacebook}
+                target="_blank"
+                rel="nofollow noopener"
+                className="flex items-center justify-between p-3 rounded-2xl bg-[#1877F2]/10 hover:bg-[#1877F2]/20 border border-[#1877F2]/20 text-white font-medium text-xs transition-colors group/btn"
+              >
+                <div className="flex items-center gap-3">
+                  <img src="/socials/facebook.png" alt="Facebook" className="w-6 h-6 object-contain" />
+                  <span>Messenger</span>
+                </div>
+                <span className="text-xs opacity-60 group-hover/btn:translate-x-1 transition-transform">➔</span>
+              </a>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+

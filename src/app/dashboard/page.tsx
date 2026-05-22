@@ -295,17 +295,17 @@ export default async function DashboardPage() {
                   <option value="PRODUCT">Product</option>
                   <option value="BOOKING">Booking</option>
                   <option value="EMAIL_CAPTURE">Email capture</option>
-                  <option value="TEXT">Текстов блок</option>
+                  <option value="TEXT">💬 Отзив от клиент (Testimonial)</option>
                 </select>
               </div>
             </div>
             <div className="field">
-              <label htmlFor="url">URL</label>
-              <input id="url" name="url" type="url" placeholder="https://example.com" required />
+              <label htmlFor="url">URL / Оценка</label>
+              <input id="url" name="url" type="text" placeholder="https://example.com или 5 (за Оценка в звезди)" required />
             </div>
             <div className="field">
               <label htmlFor="description">Описание</label>
-              <input id="description" name="description" placeholder="Кратък контекст под бутона" />
+              <input id="description" name="description" placeholder="Кратък контекст или текст на отзива" />
             </div>
             <div className="field">
               <label htmlFor="imageUrl">Картинка URL (thumbnail)</label>
@@ -356,13 +356,13 @@ export default async function DashboardPage() {
                             <option value="PRODUCT">Product</option>
                             <option value="BOOKING">Booking</option>
                             <option value="EMAIL_CAPTURE">Email capture</option>
-                  <option value="TEXT">Текстов блок</option>
+                            <option value="TEXT">💬 Отзив от клиент (Testimonial)</option>
                           </select>
                         </div>
                       </div>
                       <div className="field">
-                        <label htmlFor={`url-${link.id}`}>URL</label>
-                        <input id={`url-${link.id}`} name="url" type="url" defaultValue={link.url} required />
+                        <label htmlFor={`url-${link.id}`}>URL / Оценка</label>
+                        <input id={`url-${link.id}`} name="url" type="text" defaultValue={link.url} required />
                       </div>
                       <div className="field">
                         <label htmlFor={`description-${link.id}`}>Описание</label>

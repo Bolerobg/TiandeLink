@@ -40,7 +40,7 @@ const profileSchema = z.object({
 
 const linkSchema = z.object({
   title: z.string().min(2).max(90),
-  url: z.string().url(),
+  url: z.string().min(1),
   description: z.string().max(140).optional(),
   imageUrl: z.string().url().max(400).optional().or(z.literal("")),
   icon: z.string().max(6).optional().or(z.literal("")),
