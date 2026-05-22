@@ -238,6 +238,14 @@ export default async function DashboardPage() {
                     <label htmlFor="password">Парола за профил (празно = свободен)</label>
                     <input id="password" name="password" placeholder="********" defaultValue={profile.password || ""} />
                   </div>
+                  <div className="field">
+                    <label htmlFor="toastMinInterval">Поръчки Попъп: Мин. интервал (сек.)</label>
+                    <input id="toastMinInterval" name="toastMinInterval" type="number" min="5" max="3600" defaultValue={theme.toastMinInterval ?? 30} />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="toastMaxInterval">Поръчки Попъп: Макс. интервал (сек.)</label>
+                    <input id="toastMaxInterval" name="toastMaxInterval" type="number" min="5" max="3600" defaultValue={theme.toastMaxInterval ?? 180} />
+                  </div>
                 </div>
 
                 <h3 style={{ margin: 0, fontSize: "0.95rem" }}>Цветове</h3>

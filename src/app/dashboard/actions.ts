@@ -36,6 +36,8 @@ const profileSchema = z.object({
   fontFamily: z.string().max(100),
   template: z.string().max(50),
   buttonStyle: z.enum(["solid", "outline", "soft"]),
+  toastMinInterval: z.preprocess((val) => (val === "" || val === null || val === undefined ? undefined : Number(val)), z.number().min(5).max(3600).default(30)),
+  toastMaxInterval: z.preprocess((val) => (val === "" || val === null || val === undefined ? undefined : Number(val)), z.number().min(5).max(3600).default(180)),
 });
 
 const linkSchema = z.object({
@@ -100,6 +102,8 @@ export async function updateProfile(formData: FormData) {
     fontFamily: formData.get("fontFamily") || defaultTheme.fontFamily,
     template: formData.get("template") || defaultTheme.template,
     buttonStyle: formData.get("buttonStyle") || defaultTheme.buttonStyle,
+    toastMinInterval: formData.get("toastMinInterval"),
+    toastMaxInterval: formData.get("toastMaxInterval"),
   });
   const db = getDb();
 
@@ -162,6 +166,8 @@ export async function updateProfile(formData: FormData) {
         fontFamily: parsed.fontFamily,
         template: parsed.template,
         buttonStyle: parsed.buttonStyle,
+        toastMinInterval: parsed.toastMinInterval,
+        toastMaxInterval: parsed.toastMaxInterval,
       },
     },
   });

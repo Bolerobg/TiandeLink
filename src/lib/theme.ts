@@ -8,6 +8,8 @@ export type ProfileTheme = {
   cardShadow: string;
   fontFamily: string;
   template: string;
+  toastMinInterval?: number;
+  toastMaxInterval?: number;
 };
 
 export const defaultTheme: ProfileTheme = {
@@ -20,6 +22,8 @@ export const defaultTheme: ProfileTheme = {
   cardShadow: "3px 4px 0",
   fontFamily: "Georgia, serif",
   template: "classic",
+  toastMinInterval: 30,
+  toastMaxInterval: 180,
 };
 
 export const presets: { name: string; theme: ProfileTheme }[] = [
@@ -421,5 +425,7 @@ export function parseTheme(value: unknown): ProfileTheme {
     cardShadow: theme.cardShadow || defaultTheme.cardShadow,
     fontFamily: theme.fontFamily || defaultTheme.fontFamily,
     template: theme.template || defaultTheme.template,
+    toastMinInterval: typeof theme.toastMinInterval === "number" ? theme.toastMinInterval : defaultTheme.toastMinInterval,
+    toastMaxInterval: typeof theme.toastMaxInterval === "number" ? theme.toastMaxInterval : defaultTheme.toastMaxInterval,
   };
 }

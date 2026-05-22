@@ -25,6 +25,7 @@ type Profile = {
   donationUrl?: string | null;
   customDomain?: string | null;
   footerBrand?: boolean | null;
+  theme?: any;
 };
 
 function Av({ p }: { p: Profile }) {
@@ -4439,7 +4440,152 @@ export function PremiumInteractiveEnhancer({ profile, links }: { profile: Profil
       }
     });
   }, [links]);
-  
+
+  useEffect(() => {
+    const buyableLinks = links.filter((l) => {
+      const type = l.type || "URL";
+      if (type === "TEXT" || type === "EMAIL_CAPTURE") return false;
+      
+      const urlVal = (l.url || "").trim().toLowerCase();
+      if (
+        urlVal.startsWith("gallery:") ||
+        urlVal.startsWith("timer:") ||
+        urlVal.startsWith("poll:") ||
+        urlVal.startsWith("faq") ||
+        urlVal.startsWith("toast:")
+      ) {
+        return false;
+      }
+      return true;
+    });
+
+    if (buyableLinks.length === 0) return;
+
+    // Parse intervals from theme
+    const theme = (profile as any).theme;
+    let toastMinInterval = 30;
+    let toastMaxInterval = 180;
+    if (theme && typeof theme === "object") {
+      if (typeof theme.toastMinInterval === "number") toastMinInterval = theme.toastMinInterval;
+      else if (typeof theme.toastMinInterval === "string" && !isNaN(Number(theme.toastMinInterval))) toastMinInterval = Number(theme.toastMinInterval);
+      
+      if (typeof theme.toastMaxInterval === "number") toastMaxInterval = theme.toastMaxInterval;
+      else if (typeof theme.toastMaxInterval === "string" && !isNaN(Number(theme.toastMaxInterval))) toastMaxInterval = Number(theme.toastMaxInterval);
+    }
+
+    const minIntervalMs = toastMinInterval * 1000;
+    const maxIntervalMs = toastMaxInterval * 1000;
+
+    const randomBuyers = [
+      { name: "Светлана Г.", city: "Пловдив", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150&q=80" },
+      { name: "Иван П.", city: "София", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&h=150&q=80" },
+      { name: "Мария К.", city: "Варна", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&h=150&q=80" },
+      { name: "Георги Д.", city: "Бургас", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80" },
+      { name: "Елена В.", city: "Русе", avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&h=150&q=80" },
+      { name: "Димитър С.", city: "Стара Загора", avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=150&h=150&q=80" },
+      { name: "Александра И.", city: "Плевен", avatar: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=150&h=150&q=80" },
+      { name: "Николай Т.", city: "Благоевград", avatar: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=150&h=150&q=80" },
+      { name: "Десислава Р.", city: "Велико Търново", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80" },
+      { name: "Петър Б.", city: "Хасково", avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80" },
+    ];
+
+    const showOrderToast = () => {
+      const buyer = randomBuyers[Math.floor(Math.random() * randomBuyers.length)];
+      const linkItem = buyableLinks[Math.floor(Math.random() * buyableLinks.length)];
+      
+      let toastContainer = document.getElementById("saaslink-order-toast-container");
+      if (!toastContainer) {
+        toastContainer = document.createElement("div");
+        toastContainer.id = "saaslink-order-toast-container";
+        toastContainer.className = "fixed bottom-24 md:bottom-6 left-4 right-4 md:right-auto md:w-85 z-[9999] flex flex-col gap-2 pointer-events-none";
+        document.body.appendChild(toastContainer);
+      }
+      
+      const toastCard = document.createElement("div");
+      toastCard.className = "w-full p-3.5 rounded-2xl bg-zinc-950/90 backdrop-blur-xl border border-white/10 shadow-2xl flex items-center gap-3.5 text-left transition-all duration-700 ease-out transform translate-y-[150%] opacity-0 pointer-events-auto hover:border-lime-400/30 cursor-pointer relative";
+      
+      toastCard.onclick = () => {
+        window.open(`/api/click/${linkItem.id}`, '_blank');
+      };
+
+      toastCard.innerHTML = `
+        <div class="relative w-11 h-11 shrink-0">
+          <img src="${buyer.avatar}" class="w-full h-full rounded-full object-cover border border-white/20 shadow-sm" alt="${buyer.name}" />
+          <span class="absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 rounded-full border border-zinc-950 flex items-center justify-center text-[8px] text-white font-bold">✓</span>
+        </div>
+        <div class="flex flex-col flex-1 min-w-0 pr-2">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-[11px] font-bold text-white">${buyer.name} <span class="text-white/60 font-normal">от ${buyer.city}</span></span>
+            <span class="text-[9px] text-emerald-400 font-medium tracking-wide flex items-center gap-0.5 shrink-0">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> на живо
+            </span>
+          </div>
+          <div class="text-[11px] text-white/80 leading-snug mt-0.5 font-light">
+            току-що си купи <span class="text-lime-400 font-semibold truncate hover:underline">${linkItem.title}</span>
+          </div>
+          <div class="text-[9px] text-white/40 mt-1 font-light flex items-center gap-1.5">
+            <span>преди 3 сек</span>
+            <span>•</span>
+            <span class="flex items-center gap-0.5 text-white/50">🛒 Сигурно плащане</span>
+          </div>
+        </div>
+        <button class="toast-close absolute top-2 right-2 text-white/40 hover:text-white/80 transition-colors focus:outline-none p-1 z-10">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+      `;
+      
+      const closeBtn = toastCard.querySelector(".toast-close") as HTMLElement;
+      if (closeBtn) {
+        closeBtn.onclick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          toastCard.classList.add("translate-y-[150%]", "opacity-0");
+          setTimeout(() => toastCard.remove(), 700);
+        };
+      }
+      
+      toastContainer.appendChild(toastCard);
+      
+      setTimeout(() => {
+        toastCard.classList.remove("translate-y-[150%]", "opacity-0");
+        toastCard.classList.add("translate-y-0", "opacity-100");
+      }, 100);
+      
+      setTimeout(() => {
+        if (document.body.contains(toastCard)) {
+          toastCard.classList.add("translate-y-[150%]", "opacity-0");
+          setTimeout(() => {
+            if (document.body.contains(toastCard)) toastCard.remove();
+          }, 700);
+        }
+      }, 6000);
+    };
+
+    // First toast: 6s delay
+    const initialTimeout = setTimeout(showOrderToast, 6000);
+    
+    // Looping recursive logic
+    let loopTimeout: NodeJS.Timeout;
+    const scheduleNext = () => {
+      const delay = Math.random() * (maxIntervalMs - minIntervalMs) + minIntervalMs;
+      loopTimeout = setTimeout(() => {
+        showOrderToast();
+        scheduleNext();
+      }, delay);
+    };
+
+    // Start scheduling loop (after initial toast delay)
+    const startLoopTimeout = setTimeout(scheduleNext, 6000);
+
+    return () => {
+      clearTimeout(initialTimeout);
+      clearTimeout(startLoopTimeout);
+      clearTimeout(loopTimeout);
+      const container = document.getElementById("saaslink-order-toast-container");
+      if (container) container.remove();
+    };
+  }, [links, profile]);
+
   return null;
 }
 
