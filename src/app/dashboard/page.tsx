@@ -295,17 +295,17 @@ export default async function DashboardPage() {
                   <option value="PRODUCT">Product</option>
                   <option value="BOOKING">Booking</option>
                   <option value="EMAIL_CAPTURE">Email capture</option>
-                  <option value="TEXT">💬 Отзив от клиент (Testimonial)</option>
+                  <option value="TEXT">💬 Интерактивен Блок / Отзив / Галерия / Таймер / Анкета / FAQ / Известия</option>
                 </select>
               </div>
             </div>
             <div className="field">
-              <label htmlFor="url">URL / Оценка</label>
-              <input id="url" name="url" type="text" placeholder="https://example.com или 5 (за Оценка в звезди)" required />
+              <label htmlFor="url">URL / Оценка / Код</label>
+              <input id="url" name="url" type="text" placeholder="Напр. gallery:url1,url2... или timer:2026-12-31T23:59 или poll:Да|Не или faq или toast:Иван си купи... или 5 за отзив" required />
             </div>
             <div className="field">
               <label htmlFor="description">Описание</label>
-              <input id="description" name="description" placeholder="Кратък контекст или текст на отзива" />
+              <input id="description" name="description" placeholder="Отговор на ЧЗВ, описание на галерия/таймер или текст на отзива" />
             </div>
             <div className="field">
               <label htmlFor="imageUrl">Картинка URL (thumbnail)</label>
@@ -321,6 +321,46 @@ export default async function DashboardPage() {
                 <input id="endsAt" name="endsAt" type="datetime-local" />
               </div>
             </div>
+
+            {/* ГИД ЗА ИНТЕРАКТИВНИ БЛОКОВЕ */}
+            <div style={{
+              margin: "12px 0 20px 0",
+              padding: "16px",
+              background: "rgba(255, 255, 255, 0.03)",
+              border: "1px solid rgba(255, 255, 255, 0.08)",
+              borderRadius: "1.25rem",
+              fontSize: "0.82rem",
+              lineHeight: "1.5",
+              color: "rgba(255, 255, 255, 0.85)"
+            }}>
+              <h4 style={{ margin: "0 0 8px 0", color: "#a3e635", display: "flex", alignItems: "center", gap: "6px", fontWeight: "600" }}>
+                💡 Ръководство за Интерактивни Блокове
+              </h4>
+              <p style={{ margin: "0 0 12px 0", fontSize: "0.78rem", opacity: 0.75 }}>
+                Изберете тип <strong>💬 Интерактивен Блок...</strong> и въведете в <strong>URL / Оценка / Код</strong>:
+              </p>
+              <ul style={{ margin: 0, paddingLeft: "16px", display: "flex", flexDirection: "column", gap: "8px", listStyleType: "disc" }}>
+                <li>
+                  <strong>📸 Слайдър/Галерия:</strong> <code>gallery:линк1,линк2,линк3</code> (картинки със запетая).
+                </li>
+                <li>
+                  <strong>⏳ Обратно броене:</strong> <code>timer:YYYY-MM-DDTHH:MM</code> (напр. <code>timer:2026-12-31T23:59</code>).
+                </li>
+                <li>
+                  <strong>📊 Анкета/Poll:</strong> <code>poll:Опция А|Опция Б|Опция В</code> (разделени с права черта <code>|</code>).
+                </li>
+                <li>
+                  <strong>❓ ЧЗВ Акордеон:</strong> <code>faq</code>. Заглавието е въпросът, а Описанието е отговорът.
+                </li>
+                <li>
+                  <strong>🔔 Известия (Toasts):</strong> <code>toast:събитие1,събитие2</code> (известия на живо долу вляво).
+                </li>
+                <li>
+                  <strong>💬 Отзив:</strong> <code>1</code> до <code>5</code> (оценка в звезди) или произволен стандартен линк.
+                </li>
+              </ul>
+            </div>
+
             <label className="check-row">
               <input name="spotlight" type="checkbox" />
               <span>Spotlight</span>
@@ -356,17 +396,17 @@ export default async function DashboardPage() {
                             <option value="PRODUCT">Product</option>
                             <option value="BOOKING">Booking</option>
                             <option value="EMAIL_CAPTURE">Email capture</option>
-                            <option value="TEXT">💬 Отзив от клиент (Testimonial)</option>
+                            <option value="TEXT">💬 Интерактивен Блок / Отзив / Галерия / Таймер / Анкета / FAQ / Известия</option>
                           </select>
                         </div>
                       </div>
                       <div className="field">
-                        <label htmlFor={`url-${link.id}`}>URL / Оценка</label>
-                        <input id={`url-${link.id}`} name="url" type="text" defaultValue={link.url} required />
+                        <label htmlFor={`url-${link.id}`}>URL / Оценка / Код</label>
+                        <input id={`url-${link.id}`} name="url" type="text" defaultValue={link.url} placeholder="gallery:..., timer:..., poll:..., faq, toast:..." required />
                       </div>
                       <div className="field">
                         <label htmlFor={`description-${link.id}`}>Описание</label>
-                        <input id={`description-${link.id}`} name="description" defaultValue={link.description || ""} />
+                        <input id={`description-${link.id}`} name="description" defaultValue={link.description || ""} placeholder="Текст на отговора, описание или отзив" />
                       </div>
                       <div className="field">
                         <label htmlFor={`imageUrl-${link.id}`}>Картинка URL</label>

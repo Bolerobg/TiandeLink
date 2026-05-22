@@ -4027,53 +4027,415 @@ export function PremiumInteractiveEnhancer({ profile, links }: { profile: Profil
       // B. If it's a Testimonial (type === 'TEXT')
       else if (link.type === "TEXT") {
         const div = document.createElement("div");
-        
-        let rating = 5;
         const urlVal = link.url.trim();
-        if (/^[1-5]$/.test(urlVal)) {
-          rating = parseInt(urlVal);
-        } else if (/^[1-5]\.[0-9]$/.test(urlVal)) {
-          rating = parseFloat(urlVal);
+
+        // 1. IMAGE GALLERY / SLIDER
+        if (urlVal.startsWith("gallery:")) {
+          const imageUrls = urlVal.substring(8).split(",").map(s => s.trim()).filter(Boolean);
+          if (imageUrls.length === 0) {
+            imageUrls.push(
+              "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
+              "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80",
+              "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80"
+            );
+          }
+
+          let dotsHtml = "";
+          imageUrls.forEach((_, idx) => {
+            dotsHtml += `
+              <button data-slide="${idx}" class="w-2.5 h-2.5 rounded-full bg-white/${idx === 0 ? "80" : "30"} transition-all duration-300 hover:bg-white/60 focus:outline-none"></button>
+            `;
+          });
+
+          div.className = "w-full my-4 p-4 rounded-[2rem] text-left border border-white/10 bg-white/5 backdrop-blur-xl shadow-lg flex flex-col gap-3 relative overflow-hidden transition-all duration-300 hover:border-white/20";
+          div.innerHTML = `
+            ${link.title ? `<h3 class="text-sm font-semibold text-white/90 px-1 truncate">${link.title}</h3>` : ""}
+            ${link.description ? `<p class="text-xs text-white/60 px-1 -mt-1 font-light leading-relaxed">${link.description}</p>` : ""}
+            
+            <div class="relative w-full overflow-hidden rounded-2xl bg-black/20" style="height: 12rem;">
+              <!-- Slides Viewport Container -->
+              <div class="slides-container flex w-full h-full transition-transform duration-500 ease-out" style="transform: translateX(0%);">
+                ${imageUrls.map((img, idx) => `
+                  <div class="w-full h-full flex-shrink-0 relative">
+                    <img src="${img}" class="w-full h-full object-cover" alt="Slide ${idx + 1}" loading="lazy" />
+                  </div>
+                `).join("")}
+              </div>
+              
+              <!-- Navigation Arrows -->
+              <button class="prev-btn absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 flex items-center justify-center text-white/80 transition-all focus:outline-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+              </button>
+              <button class="next-btn absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 flex items-center justify-center text-white/80 transition-all focus:outline-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+              </button>
+            </div>
+            
+            <!-- Dots Indicators -->
+            <div class="dots-container flex justify-center gap-1.5 py-1">
+              ${dotsHtml}
+            </div>
+          `;
+
+          let activeIndex = 0;
+          const container = div.querySelector(".slides-container") as HTMLElement;
+          const dots = div.querySelectorAll("[data-slide]") as NodeListOf<HTMLElement>;
+          const prevBtn = div.querySelector(".prev-btn") as HTMLElement;
+          const nextBtn = div.querySelector(".next-btn") as HTMLElement;
+
+          const updateSlider = (newIdx: number) => {
+            activeIndex = (newIdx + imageUrls.length) % imageUrls.length;
+            if (container) {
+              container.style.transform = `translateX(-${activeIndex * 100}%)`;
+            }
+            dots.forEach((dot, idx) => {
+              if (idx === activeIndex) {
+                dot.className = "w-5 h-2.5 rounded-full bg-lime-400 transition-all duration-300 focus:outline-none";
+              } else {
+                dot.className = "w-2.5 h-2.5 rounded-full bg-white/30 transition-all duration-300 hover:bg-white/60 focus:outline-none";
+              }
+            });
+          };
+
+          if (prevBtn) prevBtn.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); updateSlider(activeIndex - 1); });
+          if (nextBtn) nextBtn.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); updateSlider(activeIndex + 1); });
+          dots.forEach((dot) => {
+            dot.addEventListener("click", (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const idx = parseInt(dot.getAttribute("data-slide") || "0");
+              updateSlider(idx);
+            });
+          });
+
+          // Auto-advance
+          let interval = setInterval(() => updateSlider(activeIndex + 1), 4000);
+          div.addEventListener("mouseenter", () => clearInterval(interval));
+          div.addEventListener("mouseleave", () => {
+            clearInterval(interval);
+            interval = setInterval(() => updateSlider(activeIndex + 1), 4000);
+          });
+
+          a.parentNode?.replaceChild(div, a);
         }
-        
-        let starsHtml = "";
-        for (let i = 1; i <= 5; i++) {
-          if (i <= rating) {
-            starsHtml += `<span style="color: #fbbf24; font-size: 1.25rem; margin-right: 2px;">★</span>`;
-          } else {
-            starsHtml += `<span style="color: #4b5563; font-size: 1.25rem; margin-right: 2px;">★</span>`;
+
+        // 2. COUNTDOWN TIMER
+        else if (urlVal.startsWith("timer:")) {
+          const targetDateStr = urlVal.substring(6).trim();
+          const targetDate = new Date(targetDateStr).getTime();
+
+          div.className = "w-full my-4 p-5 rounded-[2rem] text-center border border-white/10 bg-white/5 backdrop-blur-xl shadow-lg flex flex-col gap-3 relative overflow-hidden transition-all duration-300 hover:border-white/20";
+          div.innerHTML = `
+            <div class="text-sm font-semibold text-white/95 truncate px-2">${link.title || "⏳ ОГРАНИЧЕНА ОФЕРТА"}</div>
+            ${link.description ? `<p class="text-xs text-white/60 -mt-1 px-2 leading-relaxed font-light">${link.description}</p>` : ""}
+            
+            <div class="flex justify-center items-center gap-3 mt-1.5">
+              <div class="flex flex-col items-center min-w-[50px] p-2 bg-white/5 rounded-2xl border border-white/5 shadow-inner">
+                <span class="days-val text-xl md:text-2xl font-bold text-lime-400 font-mono tracking-tight">00</span>
+                <span class="text-[9px] uppercase tracking-wider text-white/50 mt-1">дни</span>
+              </div>
+              <span class="text-xl font-bold text-white/30 -mt-4">:</span>
+              <div class="flex flex-col items-center min-w-[50px] p-2 bg-white/5 rounded-2xl border border-white/5 shadow-inner">
+                <span class="hours-val text-xl md:text-2xl font-bold text-lime-400 font-mono tracking-tight">00</span>
+                <span class="text-[9px] uppercase tracking-wider text-white/50 mt-1">часа</span>
+              </div>
+              <span class="text-xl font-bold text-white/30 -mt-4">:</span>
+              <div class="flex flex-col items-center min-w-[50px] p-2 bg-white/5 rounded-2xl border border-white/5 shadow-inner">
+                <span class="minutes-val text-xl md:text-2xl font-bold text-lime-400 font-mono tracking-tight">00</span>
+                <span class="text-[9px] uppercase tracking-wider text-white/50 mt-1">мин</span>
+              </div>
+              <span class="text-xl font-bold text-white/30 -mt-4">:</span>
+              <div class="flex flex-col items-center min-w-[50px] p-2 bg-white/5 rounded-2xl border border-white/5 shadow-inner">
+                <span class="seconds-val text-xl md:text-2xl font-bold text-rose-450 font-mono tracking-tight animate-pulse">00</span>
+                <span class="text-[9px] uppercase tracking-wider text-white/50 mt-1">сек</span>
+              </div>
+            </div>
+            
+            <div class="expired-msg hidden text-xs font-semibold text-rose-450 uppercase tracking-widest mt-1 bg-rose-500/10 py-2.5 rounded-xl border border-rose-500/20">
+              ⚠️ Офертата изтече!
+            </div>
+          `;
+
+          const daysVal = div.querySelector(".days-val") as HTMLElement;
+          const hoursVal = div.querySelector(".hours-val") as HTMLElement;
+          const minutesVal = div.querySelector(".minutes-val") as HTMLElement;
+          const secondsVal = div.querySelector(".seconds-val") as HTMLElement;
+          const expiredMsg = div.querySelector(".expired-msg") as HTMLElement;
+          const timerBox = div.querySelector(".flex.justify-center.items-center.gap-3") as HTMLElement;
+
+          const updateTimer = () => {
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+            
+            if (isNaN(targetDate) || diff <= 0) {
+              if (expiredMsg) expiredMsg.classList.remove("hidden");
+              if (timerBox) timerBox.classList.add("hidden");
+              clearInterval(timerInterval);
+              return;
+            }
+            
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            if (daysVal) daysVal.innerText = String(d).padStart(2, "0");
+            if (hoursVal) hoursVal.innerText = String(h).padStart(2, "0");
+            if (minutesVal) minutesVal.innerText = String(m).padStart(2, "0");
+            if (secondsVal) secondsVal.innerText = String(s).padStart(2, "0");
+          };
+
+          updateTimer();
+          const timerInterval = setInterval(updateTimer, 1000);
+
+          // Cleanup interval when elements are removed
+          const observer = new MutationObserver(() => {
+            if (!document.body.contains(div)) {
+              clearInterval(timerInterval);
+              observer.disconnect();
+            }
+          });
+          observer.observe(document.body, { childList: true, subtree: true });
+
+          a.parentNode?.replaceChild(div, a);
+        }
+
+        // 3. INTERACTIVE POLL / SURVEY
+        else if (urlVal.startsWith("poll:")) {
+          const rawOptions = urlVal.substring(5).split(/[|]/).map(s => s.trim()).filter(Boolean);
+          const options = rawOptions.length > 0 ? rawOptions : ["Да, супер е!", "Добре е", "Има какво да се желае"];
+          const seedVotes = options.map((opt) => (opt.length * 7 + 13) % 47 + 5);
+          const storageKey = `saaslink_poll_${link.id}`;
+
+          div.className = "w-full my-4 p-5 rounded-[2rem] text-left border border-white/10 bg-white/5 backdrop-blur-xl shadow-lg flex flex-col gap-4 transition-all duration-300 hover:border-white/20";
+
+          const renderPollUI = () => {
+            const votedIdx = localStorage.getItem(storageKey);
+            const isVoted = votedIdx !== null;
+            const activeVoteIdx = isVoted ? parseInt(votedIdx as string) : -1;
+            
+            const currentVotes = [...seedVotes];
+            if (isVoted && activeVoteIdx >= 0 && activeVoteIdx < currentVotes.length) {
+              currentVotes[activeVoteIdx] += 1;
+            }
+            const totalVotes = currentVotes.reduce((x, y) => x + y, 0);
+            
+            let optionsHtml = "";
+            options.forEach((opt, idx) => {
+              const percent = totalVotes > 0 ? Math.round((currentVotes[idx] / totalVotes) * 100) : 0;
+              const isSelected = idx === activeVoteIdx;
+              
+              if (isVoted) {
+                optionsHtml += `
+                  <div class="relative w-full p-3.5 rounded-2xl bg-white/5 border border-white/5 overflow-hidden flex justify-between items-center text-sm text-white/90">
+                    <div class="absolute inset-y-0 left-0 bg-lime-400/20 transition-all duration-1000 ease-out" style="width: ${percent}%;"></div>
+                    <span class="relative font-medium flex items-center gap-2">
+                      ${isSelected ? `<span class="text-lime-400">✓</span>` : ""}
+                      ${opt}
+                    </span>
+                    <span class="relative font-mono font-bold opacity-80">${percent}%</span>
+                  </div>
+                `;
+              } else {
+                optionsHtml += `
+                  <button data-poll-opt="${idx}" class="w-full p-3.5 text-left text-sm font-medium rounded-2xl bg-white/5 border border-white/10 text-white/90 hover:bg-white/10 hover:border-lime-400/50 hover:text-white transition-all duration-200 active:scale-[0.99] flex items-center justify-between focus:outline-none">
+                    <span>${opt}</span>
+                    <span class="text-xs text-lime-400 opacity-60">гласувай →</span>
+                  </button>
+                `;
+              }
+            });
+            
+            div.innerHTML = `
+              <div class="flex justify-between items-center w-full px-1">
+                <h3 class="text-sm font-semibold text-white/95 truncate pr-2">${link.title || "📊 Бърза анкета"}</h3>
+                <span class="text-[10px] text-white/40 uppercase tracking-widest font-mono shrink-0">${totalVotes} гласа</span>
+              </div>
+              ${link.description ? `<p class="text-xs text-white/60 -mt-2 px-1 font-light leading-relaxed">${link.description}</p>` : ""}
+              <div class="flex flex-col gap-2">
+                ${optionsHtml}
+              </div>
+            `;
+            
+            if (!isVoted) {
+              const buttons = div.querySelectorAll("[data-poll-opt]") as NodeListOf<HTMLElement>;
+              buttons.forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  const idx = btn.getAttribute("data-poll-opt");
+                  if (idx !== null) {
+                    localStorage.setItem(storageKey, idx);
+                    renderPollUI();
+                  }
+                });
+              });
+            }
+          };
+
+          renderPollUI();
+          a.parentNode?.replaceChild(div, a);
+        }
+
+        // 4. FAQ ACCORDION
+        else if (urlVal.toLowerCase().startsWith("faq") || urlVal.toLowerCase() === "faq") {
+          div.className = "w-full my-3 p-4 rounded-[1.5rem] border border-white/10 bg-white/5 backdrop-blur-xl shadow-md flex flex-col text-left transition-all duration-300 hover:border-white/20";
+          div.innerHTML = `
+            <button class="faq-trigger w-full flex justify-between items-center gap-4 text-sm font-semibold text-white/90 hover:text-white py-1 focus:outline-none">
+              <span class="text-left">${link.title || "Въпрос?"}</span>
+              <svg class="faq-icon w-4 h-4 text-white/60 transition-transform duration-300 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="faq-answer-container max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+              <p class="faq-answer text-xs text-white/70 leading-relaxed font-light mt-3 pt-3 border-t border-white/5">
+                ${link.description || "Няма предоставен отговор."}
+              </p>
+            </div>
+          `;
+
+          const trigger = div.querySelector(".faq-trigger") as HTMLElement;
+          const answerContainer = div.querySelector(".faq-answer-container") as HTMLElement;
+          const icon = div.querySelector(".faq-icon") as HTMLElement;
+
+          trigger.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const isExpanded = answerContainer.style.maxHeight !== "0px" && answerContainer.style.maxHeight !== "";
+            
+            if (isExpanded) {
+              answerContainer.style.maxHeight = "0px";
+              icon.style.transform = "rotate(0deg)";
+            } else {
+              const answerEl = div.querySelector(".faq-answer") as HTMLElement;
+              const height = answerEl.offsetHeight + 24; 
+              answerContainer.style.maxHeight = `${height}px`;
+              icon.style.transform = "rotate(180deg)";
+            }
+          });
+
+          a.parentNode?.replaceChild(div, a);
+        }
+
+        // 5. SOCIAL PROOF TOAST NOTIFICATIONS
+        else if (urlVal.startsWith("toast:")) {
+          const toastEvents = urlVal.substring(6).split(",").map(s => s.trim()).filter(Boolean);
+          
+          // Hide standard block in the profile grid
+          div.style.display = "none";
+          a.parentNode?.replaceChild(div, a);
+
+          if (toastEvents.length > 0) {
+            let toastContainer = document.getElementById("saaslink-toast-container");
+            if (!toastContainer) {
+              toastContainer = document.createElement("div");
+              toastContainer.id = "saaslink-toast-container";
+              toastContainer.className = "fixed bottom-24 md:bottom-6 left-4 right-4 md:right-auto md:w-80 z-[9999] flex flex-col gap-2 pointer-events-none";
+              document.body.appendChild(toastContainer);
+            }
+
+            let toastIdx = 0;
+            const showNextToast = () => {
+              if (toastEvents.length === 0 || !toastContainer) return;
+              
+              const eventText = toastEvents[toastIdx];
+              toastIdx = (toastIdx + 1) % toastEvents.length;
+              
+              const toastCard = document.createElement("div");
+              toastCard.className = "w-full p-3.5 rounded-2xl bg-black/85 backdrop-blur-xl border border-white/10 shadow-2xl flex items-center gap-3 text-left transition-all duration-500 ease-out transform translate-x-[-120%] opacity-0 pointer-events-auto hover:border-lime-400/30";
+              
+              const icons = ["🛍️", "✅", "🔥", "✨", "❤️"];
+              const activeIcon = icons[Math.floor(Math.random() * icons.length)];
+              
+              toastCard.innerHTML = `
+                <div class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-lg shadow-inner shrink-0">
+                  ${activeIcon}
+                </div>
+                <div class="flex flex-col flex-1 min-w-0">
+                  <span class="text-[11px] font-semibold text-white/95 truncate">${link.title || "Активност на живо"}</span>
+                  <span class="text-[10px] text-white/80 font-light leading-snug mt-0.5 line-clamp-2">${eventText}</span>
+                </div>
+              `;
+              
+              toastContainer.appendChild(toastCard);
+              
+              setTimeout(() => {
+                toastCard.classList.remove("translate-x-[-120%]", "opacity-0");
+                toastCard.classList.add("translate-x-0", "opacity-100");
+              }, 100);
+              
+              setTimeout(() => {
+                toastCard.classList.remove("translate-x-0", "opacity-100");
+                toastCard.classList.add("translate-x-[-120%]", "opacity-0");
+                setTimeout(() => {
+                  toastCard.remove();
+                }, 500);
+              }, 5000);
+            };
+
+            const initialDelay = setTimeout(showNextToast, 2000);
+            const interval = setInterval(showNextToast, 12000);
+
+            // MutationObserver cleanup on unmount
+            const observer = new MutationObserver(() => {
+              if (!document.body.contains(div)) {
+                clearInterval(interval);
+                clearTimeout(initialDelay);
+                observer.disconnect();
+              }
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
           }
         }
-        
-        div.className = "w-full my-4 p-6 rounded-[2rem] text-left border border-white/10 bg-white/5 backdrop-blur-xl shadow-lg flex flex-col gap-3 transition-all duration-300 hover:scale-[1.01] hover:border-white/20";
-        div.innerHTML = `
-          <div class="flex justify-between items-start w-full">
-            <div class="flex">${starsHtml}</div>
-            <span class="text-3xl opacity-20 font-serif leading-none text-white">“</span>
-          </div>
-          <p class="text-sm opacity-90 leading-relaxed italic font-light text-white">
-            "${link.description || 'Изключително доволен съм от обслужването и резултатите!'}"
-          </p>
-          <div class="flex items-center gap-3 mt-2">
-            ${link.imageUrl ? `
-              <img src="${link.imageUrl}" alt="${link.title}" class="w-10 h-10 rounded-full object-cover border border-white/20 shadow-sm" />
-            ` : `
-              <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-lime-400 to-emerald-500 flex items-center justify-center font-bold text-white text-sm shadow-sm">
-                ${link.title.slice(0, 1).toUpperCase()}
-              </div>
-            `}
-            <div class="flex flex-col">
-              <span class="text-sm font-semibold opacity-95 text-white">${link.title}</span>
-              ${link.url && !/^[0-5](\.[0-9])?$/.test(urlVal) ? `
-                <a href="${link.url}" target="_blank" class="text-xs text-lime-400 hover:underline truncate max-w-[150px]">${urlVal.replace(/^https?:\/\/(www\.)?/, "")}</a>
-              ` : `
-                <span class="text-xs opacity-60 text-white/80">Доволен клиент</span>
-              `}
+
+        // FALLBACK: ORIGINAL TESTIMONIAL (STAR REVIEW) CARD
+        else {
+          let rating = 5;
+          if (/^[1-5]$/.test(urlVal)) {
+            rating = parseInt(urlVal);
+          } else if (/^[1-5]\.[0-9]$/.test(urlVal)) {
+            rating = parseFloat(urlVal);
+          }
+          
+          let starsHtml = "";
+          for (let i = 1; i <= 5; i++) {
+            if (i <= rating) {
+              starsHtml += `<span style="color: #fbbf24; font-size: 1.25rem; margin-right: 2px;">★</span>`;
+            } else {
+              starsHtml += `<span style="color: #4b5563; font-size: 1.25rem; margin-right: 2px;">★</span>`;
+            }
+          }
+          
+          div.className = "w-full my-4 p-6 rounded-[2rem] text-left border border-white/10 bg-white/5 backdrop-blur-xl shadow-lg flex flex-col gap-3 transition-all duration-300 hover:scale-[1.01] hover:border-white/20";
+          div.innerHTML = `
+            <div class="flex justify-between items-start w-full">
+              <div class="flex">${starsHtml}</div>
+              <span class="text-3xl opacity-20 font-serif leading-none text-white">“</span>
             </div>
-          </div>
-        `;
-        
-        a.parentNode?.replaceChild(div, a);
+            <p class="text-sm opacity-90 leading-relaxed italic font-light text-white">
+              "${link.description || 'Изключително доволен съм от обслужването и резултатите!'}"
+            </p>
+            <div class="flex items-center gap-3 mt-2">
+              ${link.imageUrl ? `
+                <img src="${link.imageUrl}" alt="${link.title}" class="w-10 h-10 rounded-full object-cover border border-white/20 shadow-sm" />
+              ` : `
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-lime-400 to-emerald-500 flex items-center justify-center font-bold text-white text-sm shadow-sm">
+                  ${link.title.slice(0, 1).toUpperCase()}
+                </div>
+              `}
+              <div class="flex flex-col">
+                <span class="text-sm font-semibold opacity-95 text-white">${link.title}</span>
+                ${link.url && !/^[0-5](\.[0-9])?$/.test(urlVal) ? `
+                  <a href="${link.url}" target="_blank" class="text-xs text-lime-400 hover:underline truncate max-w-[150px]">${urlVal.replace(/^https?:\/\/(www\.)?/, "")}</a>
+                ` : `
+                  <span class="text-xs opacity-60 text-white/80">Доволен клиент</span>
+                `}
+              </div>
+            </div>
+          `;
+          
+          a.parentNode?.replaceChild(div, a);
+        }
       }
     });
   }, [links]);
