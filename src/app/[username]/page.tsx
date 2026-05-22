@@ -8,7 +8,7 @@ import { CopyButton } from "@/components/copy-button";
 import { QrModal } from "@/components/qr-modal";
 import { ShareButton } from "@/components/share-button";
 import { PasswordGate } from "@/components/password-gate";
-import { StitchTemplate } from "@/templates/renderer";
+import { StitchTemplate, PremiumInteractiveEnhancer, PremiumFloatingChatWidget } from "@/templates/renderer";
 
 export const dynamic = "force-dynamic";
 
@@ -119,146 +119,161 @@ export default async function PublicProfilePage({
   }
 
   return (
-    <main
-      className="bio-page"
-      data-template={theme.template}
-      style={{
-        background: theme.background,
-        color: theme.text,
-        fontFamily: theme.fontFamily,
-        ["--profile-background" as string]: theme.background,
-        ["--profile-surface" as string]: theme.surface,
-        ["--profile-text" as string]: theme.text,
-        ["--profile-accent" as string]: theme.accent,
-        ["--card-radius" as string]: theme.cardRadius,
-        ["--card-shadow" as string]: theme.cardShadow,
-      }}
-    >
-      {profile.backgroundVideo ? (
-        <video
-          className="bio-video-bg"
-          src={profile.backgroundVideo}
-          autoPlay
-          muted
-          loop
-          playsInline
-        />
-      ) : null}
+    <>
+      <main
+        className="bio-page"
+        data-template={theme.template}
+        style={{
+          background: theme.background,
+          color: theme.text,
+          fontFamily: theme.fontFamily,
+          ["--profile-background" as string]: theme.background,
+          ["--profile-surface" as string]: theme.surface,
+          ["--profile-text" as string]: theme.text,
+          ["--profile-accent" as string]: theme.accent,
+          ["--card-radius" as string]: theme.cardRadius,
+          ["--card-shadow" as string]: theme.cardShadow,
+        }}
+      >
+        {profile.backgroundVideo ? (
+          <video
+            className="bio-video-bg"
+            src={profile.backgroundVideo}
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+        ) : null}
 
-      <div className="bio-frame">
-        <section className="bio-card" aria-label={`${profile.displayName} links`}>
-          <header className="bio-header">
-            <div className="avatar">
-              {profile.avatarUrl ? <img alt="" src={profile.avatarUrl} /> : profile.displayName.slice(0, 1).toUpperCase()}
-            </div>
-            <h1>{profile.displayName}</h1>
-            {profile.bio ? <p>{profile.bio}</p> : null}
-            <div className="bio-views">👁 {displayViews.toLocaleString("bg")} посещения</div>
-          </header>
+        <div className="bio-frame">
+          <section className="bio-card" aria-label={`${profile.displayName} links`}>
+            <header className="bio-header">
+              <div className="avatar">
+                {profile.avatarUrl ? <img alt="" src={profile.avatarUrl} /> : profile.displayName.slice(0, 1).toUpperCase()}
+              </div>
+              <h1>{profile.displayName}</h1>
+              {profile.bio ? <p>{profile.bio}</p> : null}
+              <div className="bio-views">👁 {displayViews.toLocaleString("bg")} посещения</div>
+            </header>
 
-          {(profileSocials.length > 0 || socialPlatforms.length > 0) ? (
-            <div className="bio-socials">
-              {profileSocials.map((s) => (
-                <a key={s.p} href={s.u!} target="_blank" rel="nofollow noopener" className="social-icon" aria-label={s.p}>
-                  <SocialIcon platform={s.p} />
-                </a>
-              ))}
-              {socialPlatforms.map((link) => {
-                const p = detectPlatform(link.url);
-                if (p && profileSocials.some((s) => s.p === p)) return null;
-                return p ? (
-                  <a key={link.id} href={link.url} target="_blank" rel="nofollow noopener" className="social-icon" aria-label={p}>
-                    <SocialIcon platform={p} />
+            {(profileSocials.length > 0 || socialPlatforms.length > 0) ? (
+              <div className="bio-socials">
+                {profileSocials.map((s) => (
+                  <a key={s.p} href={s.u!} target="_blank" rel="nofollow noopener" className="social-icon" aria-label={s.p}>
+                    <SocialIcon platform={s.p} />
                   </a>
-                ) : null;
-              })}
-            </div>
-          ) : null}
+                ))}
+                {socialPlatforms.map((link) => {
+                  const p = detectPlatform(link.url);
+                  if (p && profileSocials.some((s) => s.p === p)) return null;
+                  return p ? (
+                    <a key={link.id} href={link.url} target="_blank" rel="nofollow noopener" className="social-icon" aria-label={p}>
+                      <SocialIcon platform={p} />
+                    </a>
+                  ) : null;
+                })}
+              </div>
+            ) : null}
 
-          <div className="bio-links">
-            {mainLinks.map((link) => {
-              const embed = detectEmbed(link.url);
+            <div className="bio-links">
+              {mainLinks.map((link) => {
+                const embed = detectEmbed(link.url);
 
-              if (link.type === "EMAIL_CAPTURE") {
+                if (link.type === "EMAIL_CAPTURE") {
+                  return (
+                    <div className="linktree-card no-image" key={link.id}>
+                      <div className="linktree-body" style={{ width: "100%" }}>
+                        <strong>{link.icon ? `${link.icon} ` : ""}{link.title}</strong>
+                        {link.description ? <small>{link.description}</small> : null}
+                        <EmailCapture linkId={link.id} />
+                      </div>
+                    </div>
+                  );
+                }
+
+                if (embed === "spotify") {
+                  const m = link.url.match(/spotify\.com\/(?:embed\/)?(\w+)\/([\w]+)/);
+                  if (m) return (
+                    <div className="linktree-embed" key={link.id}>
+                      <iframe src={`https://open.spotify.com/embed/${m[1]}/${m[2]}`} width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title={link.title} />
+                    </div>
+                  );
+                }
+
+                if (embed === "youtube") {
+                  const m = link.url.match(/youtu\.be\/([\w-]+)/) || link.url.match(/youtube\.com\/watch\?v=([\w-]+)/) || link.url.match(/youtube\.com\/embed\/([\w-]+)/);
+                  if (m) return (
+                    <div className="linktree-embed" key={link.id}>
+                      <iframe src={`https://www.youtube.com/embed/${m[1]}`} width="100%" height="200" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowFullScreen loading="lazy" title={link.title} style={{ borderRadius: 18 }} />
+                    </div>
+                  );
+                }
+
+                if (embed === "calendly") {
+                  return (
+                    <div className="linktree-embed" key={link.id}>
+                      <iframe src={link.url} width="100%" height="580" frameBorder="0" loading="lazy" title={link.title} style={{ borderRadius: 18 }} />
+                    </div>
+                  );
+                }
+
                 return (
-                  <div className="linktree-card no-image" key={link.id}>
-                    <div className="linktree-body" style={{ width: "100%" }}>
+                  <a
+                    className={`linktree-card ${!link.imageUrl ? "no-image" : ""}`}
+                    data-link-type={link.type}
+                    href={`/api/click/${link.id}`}
+                    key={link.id}
+                    rel="nofollow"
+                  >
+                    {link.imageUrl ? (
+                      <div className="linktree-thumb"><img alt="" src={link.imageUrl} loading="lazy" /></div>
+                    ) : null}
+                    {link.type !== "URL" ? (
+                      <span className="linktree-type-badge">
+                        {link.type === "FEATURED" ? "⭐ Featured" : link.type === "PRODUCT" ? "🛍" : link.type === "BOOKING" ? "📅" : link.type === "TEXT" ? "📄" : ""}
+                      </span>
+                    ) : null}
+                    <div className="linktree-body">
                       <strong>{link.icon ? `${link.icon} ` : ""}{link.title}</strong>
                       {link.description ? <small>{link.description}</small> : null}
-                      <EmailCapture linkId={link.id} />
                     </div>
-                  </div>
+                  </a>
                 );
-              }
-
-              if (embed === "spotify") {
-                const m = link.url.match(/spotify\.com\/(?:embed\/)?(\w+)\/([\w]+)/);
-                if (m) return (
-                  <div className="linktree-embed" key={link.id}>
-                    <iframe src={`https://open.spotify.com/embed/${m[1]}/${m[2]}`} width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title={link.title} />
-                  </div>
-                );
-              }
-
-              if (embed === "youtube") {
-                const m = link.url.match(/youtu\.be\/([\w-]+)/) || link.url.match(/youtube\.com\/watch\?v=([\w-]+)/) || link.url.match(/youtube\.com\/embed\/([\w-]+)/);
-                if (m) return (
-                  <div className="linktree-embed" key={link.id}>
-                    <iframe src={`https://www.youtube.com/embed/${m[1]}`} width="100%" height="200" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowFullScreen loading="lazy" title={link.title} style={{ borderRadius: 18 }} />
-                  </div>
-                );
-              }
-
-              if (embed === "calendly") {
-                return (
-                  <div className="linktree-embed" key={link.id}>
-                    <iframe src={link.url} width="100%" height="580" frameBorder="0" loading="lazy" title={link.title} style={{ borderRadius: 18 }} />
-                  </div>
-                );
-              }
-
-              return (
-                <a
-                  className={`linktree-card ${!link.imageUrl ? "no-image" : ""}`}
-                  data-link-type={link.type}
-                  href={`/api/click/${link.id}`}
-                  key={link.id}
-                  rel="nofollow"
-                >
-                  {link.imageUrl ? (
-                    <div className="linktree-thumb"><img alt="" src={link.imageUrl} loading="lazy" /></div>
-                  ) : null}
-                  {link.type !== "URL" ? (
-                    <span className="linktree-type-badge">
-                      {link.type === "FEATURED" ? "⭐ Featured" : link.type === "PRODUCT" ? "🛍" : link.type === "BOOKING" ? "📅" : link.type === "TEXT" ? "📄" : ""}
-                    </span>
-                  ) : null}
-                  <div className="linktree-body">
-                    <strong>{link.icon ? `${link.icon} ` : ""}{link.title}</strong>
-                    {link.description ? <small>{link.description}</small> : null}
-                  </div>
-                </a>
-              );
-            })}
-          </div>
-
-          {profile.donationUrl ? (
-            <div style={{ textAlign: "center", marginTop: 14 }}>
-              <a href={profile.donationUrl} target="_blank" rel="nofollow noopener" className="donation-btn">
-                ☕ Подкрепи ме
-              </a>
+              })}
             </div>
-          ) : null}
 
-          <div className="bio-tools">
-            <CopyButton profileUrl={profileUrl} />
-            <QrModal qrUrl={qrUrl} profileUrl={profileUrl} />
-            <ShareButton profileUrl={profileUrl} displayName={profile.displayName} />
-          </div>
+            {profile.donationUrl ? (
+              <div style={{ textAlign: "center", marginTop: 14 }}>
+                <a href={profile.donationUrl} target="_blank" rel="nofollow noopener" className="donation-btn">
+                  ☕ Подкрепи ме
+                </a>
+              </div>
+            ) : null}
 
-          {profile.footerBrand ? <div className="footer-brand">Made with SaasLink</div> : null}
-        </section>
-      </div>
-    </main>
+            <div className="bio-tools">
+              <CopyButton profileUrl={profileUrl} />
+              <QrModal qrUrl={qrUrl} profileUrl={profileUrl} />
+              <ShareButton profileUrl={profileUrl} displayName={profile.displayName} />
+            </div>
+
+            {profile.footerBrand ? <div className="footer-brand">Made with SaasLink</div> : null}
+          </section>
+        </div>
+      </main>
+      <PremiumInteractiveEnhancer
+        profile={profile as any}
+        links={mainLinks.map((link) => ({
+          id: link.id,
+          title: link.title,
+          url: link.url,
+          description: link.description,
+          imageUrl: link.imageUrl,
+          icon: (link as any).icon,
+          type: link.type,
+        }))}
+      />
+      <PremiumFloatingChatWidget profile={profile as any} />
+    </>
   );
 }
