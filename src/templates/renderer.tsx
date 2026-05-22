@@ -1,116 +1,1940 @@
-type Link = { id: string; title: string; url: string; description?: string | null; imageUrl?: string | null };
-type Profile = { displayName: string; bio?: string | null; avatarUrl?: string | null };
+import React from "react";
+import configs from "./configs_summary.json";
+import { EmailCapture } from "@/components/email-capture";
+
+type Link = {
+  id: string;
+  title: string;
+  url: string;
+  description?: string | null;
+  imageUrl?: string | null;
+  icon?: string | null;
+  type?: string | null;
+};
+
+type Profile = {
+  displayName: string;
+  bio?: string | null;
+  avatarUrl?: string | null;
+  socialInstagram?: string | null;
+  socialFacebook?: string | null;
+  socialWhatsapp?: string | null;
+  socialViber?: string | null;
+  donationUrl?: string | null;
+  customDomain?: string | null;
+  footerBrand?: boolean | null;
+};
 
 function Av({ p }: { p: Profile }) {
-  return p.avatarUrl
-    ? <img src={p.avatarUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-    : <span style={{ fontSize: "1.5rem", fontWeight: 700 }}>{p.displayName[0]}</span>;
+  return p.avatarUrl ? (
+    <img src={p.avatarUrl} alt="" className="w-full h-full object-cover" />
+  ) : (
+    <span className="text-xl font-bold">{p.displayName[0]}</span>
+  );
+}
+
+// Unified wrapper to inject custom Fonts, Tailwind script, custom tailwind configs, and custom styles
+function PremiumWrapper({ templateKey, children }: { templateKey: string; children: React.ReactNode }) {
+  const config = (configs as any)[templateKey];
+  if (!config) return <>{children}</>;
+
+  const { fonts, tailwind_config, styles, body_class } = config;
+
+  return (
+    <>
+      {/* 1. Inject Theme Fonts */}
+      {fonts &&
+        fonts.map((fontUrl: string, idx: number) => {
+          const cleanUrl = fontUrl.replace(/&amp;/g, "&");
+          return <link key={idx} rel="stylesheet" href={cleanUrl} />;
+        })}
+
+      {/* 2. Inject Tailwind CDN script */}
+      <script src="https://cdn.tailwindcss.com"></script>
+
+      {/* 3. Inject Dynamic Custom Tailwind config */}
+      {tailwind_config && (
+        <script
+          id={`tailwind-config-${templateKey}`}
+          dangerouslySetInnerHTML={{ __html: tailwind_config }}
+        />
+      )}
+
+      {/* 4. Inject Theme-specific custom style overrides */}
+      {styles && (
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+              /* Custom styles for theme ${templateKey} */
+              ${styles}
+            `,
+          }}
+        />
+      )}
+
+      {/* 5. Render children in a container carrying the precise theme body classes */}
+      <div className={`${body_class || ""} min-h-screen w-full`}>{children}</div>
+    </>
+  );
 }
 
 export function StitchTemplate({ template, profile, links }: { template: string; profile: Profile; links: Link[] }) {
   switch (template) {
-    case "bento": return <Bento profile={profile} links={links} />;
-    case "wellness": return <Wellness profile={profile} links={links} />;
-    case "fullglass": return <FullGlass profile={profile} links={links} />;
-    case "neumorph": return <Neumorph profile={profile} links={links} />;
-    case "masonry": return <Masonry profile={profile} links={links} />;
-    case "linkbio1": return <LinkBio1 profile={profile} links={links} />;
-    case "linkbio2": return <LinkBio2 profile={profile} links={links} />;
-    case "clean": return <Clean profile={profile} links={links} />;
-    case "blobs": return <Blobs profile={profile} links={links} />;
-    case "zglass": return <ZGlass profile={profile} links={links} />;
-    case "o1": return <O1 profile={profile} links={links} />;
-    case "o2": return <O2 profile={profile} links={links} />;
-    case "organic": return <OrganicElegance profile={profile} links={links} />;
-    case "pinterest": return <Pinterest profile={profile} links={links} />;
-    case "notes": return <Notes profile={profile} links={links} />;
-    case "twitter": return <Twitter profile={profile} links={links} />;
-    case "netflix": return <Netflix profile={profile} links={links} />;
-    case "discord": return <Discord profile={profile} links={links} />;
-    case "spotify": return <SpotifyWrapped profile={profile} links={links} />;
-    case "github": return <GitHub profile={profile} links={links} />;
-    case "airbnb": return <Airbnb profile={profile} links={links} />;
-    case "chatgpt": return <ChatGPT profile={profile} links={links} />;
-    case "arcade": return <Arcade profile={profile} links={links} />;
-    default: return <LinkBio2 profile={profile} links={links} />;
+    case "bento":
+      return (
+        <PremiumWrapper templateKey="_6">
+          <Bento profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "wellness":
+      return (
+        <PremiumWrapper templateKey="_7">
+          <Wellness profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "fullglass":
+      return (
+        <PremiumWrapper templateKey="glassmorphism">
+          <FullGlass profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "neumorph":
+      return (
+        <PremiumWrapper templateKey="soft_ui">
+          <Neumorph profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "masonry":
+      return (
+        <PremiumWrapper templateKey="_8">
+          <Masonry profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "linkbio1":
+      return (
+        <PremiumWrapper templateKey="link_in_bio_1">
+          <LinkBio1 profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "linkbio2":
+      return (
+        <PremiumWrapper templateKey="_3">
+          <LinkBio2 profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "clean":
+      return (
+        <PremiumWrapper templateKey="link_in_bio_2">
+          <Clean profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "blobs":
+    case "softblob":
+      return (
+        <PremiumWrapper templateKey="_9">
+          <Blobs profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "zglass":
+      return (
+        <PremiumWrapper templateKey="_4">
+          <ZGlass profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "o1":
+      return (
+        <PremiumWrapper templateKey="_2">
+          <O1 profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "o2":
+      return (
+        <PremiumWrapper templateKey="_1">
+          <O2 profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "offset":
+      return (
+        <PremiumWrapper templateKey="_5">
+          <Offset profile={profile} links={links} />
+        </PremiumWrapper>
+      );
+    case "organic":
+      return <OrganicElegance profile={profile} links={links} />;
+    case "pinterest":
+      return <Pinterest profile={profile} links={links} />;
+    case "notes":
+      return <Notes profile={profile} links={links} />;
+    case "twitter":
+      return <Twitter profile={profile} links={links} />;
+    case "netflix":
+      return <Netflix profile={profile} links={links} />;
+    case "discord":
+      return <Discord profile={profile} links={links} />;
+    case "spotify":
+      return <SpotifyWrapped profile={profile} links={links} />;
+    case "github":
+      return <GitHub profile={profile} links={links} />;
+    case "airbnb":
+      return <Airbnb profile={profile} links={links} />;
+    case "chatgpt":
+      return <ChatGPT profile={profile} links={links} />;
+    case "arcade":
+      return <Arcade profile={profile} links={links} />;
+    default:
+      return (
+        <PremiumWrapper templateKey="_3">
+          <LinkBio2 profile={profile} links={links} />
+        </PremiumWrapper>
+      );
   }
 }
 
-const T = { p: "#1e0f0b", m: "#4f4442", gold: "#C7B98B", cream: "#fbf9f4", crd: "#F2EFE9" };
+/* ───────────────────────────────────────────────────────────
+   PREMIUM DYNAMIC TEMPLATE COMPONENTS (Tailwind Powered)
+   ─────────────────────────────────────────────────────────── */
 
-function Bento({ profile, links }: { profile: Profile; links: Link[] }) {
+function O2({ profile, links }: { profile: Profile; links: Link[] }) {
+  const featured = links.filter((l) => l.imageUrl);
+  const standard = links.filter((l) => !l.imageUrl);
+
+  const finalFeatured = featured.length > 0 ? featured.slice(0, 2) : links.slice(0, 2);
+  const finalStandard = featured.length > 0 ? standard : links.slice(2);
+
+  const socials = [
+    { name: "Instagram", icon: "photo_camera", url: profile.socialInstagram },
+    { name: "Facebook", icon: "public", url: profile.socialFacebook },
+    { name: "WhatsApp", icon: "chat", url: profile.socialWhatsapp },
+    { name: "Viber", icon: "call", url: profile.socialViber },
+  ].filter((s) => s.url);
+
   return (
-    <div style={{ minHeight: "100vh", background: T.cream, fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 96 }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
-        <div style={{ width: 80, height: 80, borderRadius: "50%", overflow: "hidden", border: `2px solid ${T.gold}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+    <main className="max-w-2xl mx-auto px-margin-mobile py-section-gap flex flex-col gap-16">
+      {/* Header */}
+      <header className="flex flex-col items-center text-center gap-6">
+        <div className="relative w-32 h-32 rounded-full overflow-hidden border border-outline-variant shadow-sm p-1 bg-surface-container-lowest flex items-center justify-center">
+          <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-surface-container">
+            <Av p={profile} />
+          </div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <h1 className="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary">
+            {profile.displayName}
+          </h1>
+          {profile.bio && (
+            <p className="font-body-lg text-body-lg text-on-surface-variant max-w-md mx-auto">
+              {profile.bio}
+            </p>
+          )}
+        </div>
+        {socials.length > 0 && (
+          <div className="flex gap-4 mt-2">
+            {socials.map((s, idx) => (
+              <a
+                key={idx}
+                href={s.url!}
+                aria-label={s.name}
+                className="p-2 rounded-full border border-outline-variant text-primary hover:bg-surface-container-low transition-colors duration-200"
+              >
+                <span className="material-symbols-outlined">{s.icon}</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </header>
+
+      {/* Featured Grid */}
+      {finalFeatured.length > 0 && (
+        <section className="flex flex-col gap-6">
+          <h2 className="font-headline-sm text-headline-sm text-primary text-center">Любими Продукти</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {finalFeatured.map((link) => (
+              <div
+                key={link.id}
+                className="group relative flex flex-col rounded-xl overflow-hidden bg-surface-container-lowest border border-outline-variant hover:border-secondary transition-all duration-300 shadow-sm"
+              >
+                <div className="aspect-[4/5] relative overflow-hidden">
+                  {link.imageUrl ? (
+                    <img
+                      src={link.imageUrl}
+                      alt={link.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-surface-container flex items-center justify-center">
+                      <span className="material-symbols-outlined text-primary/30 text-4xl">shopping_bag</span>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div className="absolute bottom-0 left-0 p-6 w-full z-10">
+                    <h3 className="font-headline-sm text-headline-sm text-on-tertiary mb-2">{link.title}</h3>
+                    {link.description && (
+                      <p className="font-label-sm text-label-sm text-on-tertiary/80 uppercase tracking-widest">
+                        {link.description}
+                      </p>
+                    )}
+                    {link.type === "EMAIL_CAPTURE" ? (
+                      <div className="mt-3 relative z-20" onClick={(e) => e.stopPropagation()}>
+                        <EmailCapture linkId={link.id} />
+                      </div>
+                    ) : (
+                      <a
+                        href={`/api/click/${link.id}`}
+                        className="absolute inset-0 z-0"
+                        aria-label={link.title}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Standard Links List */}
+      {finalStandard.length > 0 && (
+        <section className="flex flex-col gap-4">
+          {finalStandard.map((link, idx) => {
+            const icons = ["face", "spa", "local_fire_department", "content_cut", "favorite", "star"];
+            const currentIcon = link.icon || icons[idx % icons.length];
+
+            if (link.type === "EMAIL_CAPTURE") {
+              return (
+                <div
+                  key={link.id}
+                  className="p-5 bg-surface-container-lowest border border-outline-variant rounded-lg"
+                >
+                  <div className="flex items-center gap-4 mb-3">
+                    <span className="material-symbols-outlined text-primary">{currentIcon}</span>
+                    <span className="font-label-md text-label-md text-primary">{link.title}</span>
+                  </div>
+                  {link.description && (
+                    <p className="text-sm text-on-surface-variant mb-4">{link.description}</p>
+                  )}
+                  <EmailCapture linkId={link.id} />
+                </div>
+              );
+            }
+
+            return (
+              <a
+                key={link.id}
+                href={`/api/click/${link.id}`}
+                className="flex items-center justify-between p-4 bg-surface-container-lowest border border-outline-variant rounded-lg hover:border-secondary hover:shadow-sm transition-all duration-200 group"
+              >
+                <div className="flex items-center gap-4">
+                  <span className="material-symbols-outlined text-primary group-hover:text-secondary transition-colors">
+                    {currentIcon}
+                  </span>
+                  <span className="font-label-md text-label-md text-primary">{link.title}</span>
+                </div>
+                <span className="material-symbols-outlined text-outline-variant group-hover:text-secondary transition-colors">
+                  chevron_right
+                </span>
+              </a>
+            );
+          })}
+        </section>
+      )}
+
+      {/* Dynamic Action / Join Card */}
+      {profile.donationUrl && (
+        <section className="relative rounded-xl overflow-hidden border border-outline-variant group shadow-sm bg-surface-container-high">
+          <div className="aspect-[16/9] w-full relative">
+            <div className="absolute inset-0 bg-primary/40 backdrop-blur-[2px] z-10"></div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-20 gap-6">
+              <h2 className="font-display-lg-mobile text-display-lg-mobile text-on-tertiary">СТАНИ ЕДНА ОТ НАС</h2>
+              <a
+                href={profile.donationUrl}
+                className="inline-flex items-center justify-center px-8 py-4 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-secondary transition-colors border border-outline/30 shadow-sm uppercase tracking-wider"
+              >
+                Присъедини се сега
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Footer */}
+      <footer className="w-full mt-section-gap border-t border-outline-variant flex flex-col items-center gap-4 py-12 px-margin-mobile md:px-margin-desktop mb-24 bg-background">
+        <a className="font-display-lg-mobile text-display-lg-mobile tracking-widest text-primary uppercase" href="#">
+          {profile.displayName}
+        </a>
+        <p className="font-label-sm text-label-sm text-on-surface-variant/60">
+          © {new Date().getFullYear()} {profile.displayName}. All Rights Reserved.
+        </p>
+      </footer>
+    </main>
+  );
+}
+
+function O1({ profile, links }: { profile: Profile; links: Link[] }) {
+  const featured = links.filter((l) => l.imageUrl);
+  const standard = links.filter((l) => !l.imageUrl);
+
+  const finalFeatured = featured.length > 0 ? featured.slice(0, 3) : links.slice(0, 3);
+  const finalStandard = featured.length > 0 ? standard : links.slice(3);
+
+  const socials = [
+    { name: "Instagram", icon: "photo_camera", url: profile.socialInstagram },
+    { name: "Facebook", icon: "public", url: profile.socialFacebook },
+    { name: "WhatsApp", icon: "chat", url: profile.socialWhatsapp },
+    { name: "Viber", icon: "call", url: profile.socialViber },
+  ].filter((s) => s.url);
+
+  return (
+    <main className="w-full max-w-[480px] px-margin-mobile py-8 flex flex-col gap-10 mx-auto">
+      {/* Header */}
+      <header className="flex flex-col items-center text-center gap-4 pt-4">
+        <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg border-2 border-surface-container-high flex items-center justify-center bg-surface-container">
           <Av p={profile} />
         </div>
-        <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "2rem", fontWeight: 600, color: T.p, marginTop: 16, letterSpacing: "-0.02em" }}>{profile.displayName}</h1>
-        {profile.bio && <p style={{ color: T.m, fontStyle: "italic", textAlign: "center", marginTop: 8, maxWidth: 400 }}>{profile.bio}</p>}
-      </div>
-      <div style={{ maxWidth: 580, margin: "0 auto", padding: "0 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-        {links.map((link, i) => (
-          <a key={link.id} href={`/api/click/${link.id}`} style={{
-            display: "block", borderRadius: 16, overflow: "hidden", position: "relative",
-            gridColumn: i === 0 ? "1 / -1" : "auto", minHeight: i === 0 ? 220 : 140,
-            boxShadow: "0 4px 20px rgba(30,15,11,0.05)", border: "none", textDecoration: "none",
-          }}>
-            {link.imageUrl && <img src={link.imageUrl} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />}
-            <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: 16, background: link.imageUrl ? "linear-gradient(to top, rgba(0,0,0,0.6), transparent)" : "#fff" }}>
-              <strong style={{ fontFamily: "EB Garamond, serif", fontSize: "1.1rem", color: link.imageUrl ? "#fff" : T.p }}>{link.title}</strong>
-              {link.description && <small style={{ fontSize: "0.85rem", marginTop: 4, opacity: 0.7, color: link.imageUrl ? "rgba(255,255,255,0.8)" : T.m }}>{link.description}</small>}
+        <div className="space-y-2">
+          <h1 className="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">
+            {profile.displayName}
+          </h1>
+          {profile.bio && (
+            <p className="font-body-md text-body-md text-on-surface-variant max-w-[280px] mx-auto leading-relaxed">
+              {profile.bio}
+            </p>
+          )}
+        </div>
+        {socials.length > 0 && (
+          <div className="flex gap-4 mt-2 text-primary">
+            {socials.map((s, idx) => (
+              <a
+                key={idx}
+                href={s.url!}
+                aria-label={s.name}
+                className="p-2 rounded-full hover:bg-surface-container-high transition-colors"
+              >
+                <span className="material-symbols-outlined text-2xl">{s.icon}</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </header>
+
+      {/* Featured Bento Grid */}
+      {finalFeatured.length > 0 && (
+        <section className="grid grid-cols-2 gap-4">
+          {finalFeatured[0] && (
+            <div className="col-span-1 row-span-2 group relative rounded-xl overflow-hidden shadow-lg h-64 bg-cream-surface border border-surface-container-high">
+              {finalFeatured[0].imageUrl && (
+                <div
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                  style={{ backgroundImage: `url(${finalFeatured[0].imageUrl})` }}
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
+              <div className="absolute bottom-0 left-0 p-4 z-20 w-full">
+                <h2 className="font-label-lg text-label-lg text-white mb-1 uppercase tracking-wider line-clamp-2">
+                  {finalFeatured[0].title}
+                </h2>
+                {finalFeatured[0].type === "EMAIL_CAPTURE" ? (
+                  <EmailCapture linkId={finalFeatured[0].id} />
+                ) : (
+                  <a href={`/api/click/${finalFeatured[0].id}`} className="absolute inset-0" />
+                )}
+              </div>
             </div>
+          )}
+
+          {finalFeatured[1] && (
+            <div className="col-span-1 group relative rounded-xl overflow-hidden shadow-sm h-[120px] bg-cream-surface border border-surface-container-high">
+              {finalFeatured[1].imageUrl && (
+                <div
+                  className="absolute inset-0 bg-cover bg-center opacity-80 transition-transform duration-700 group-hover:scale-105"
+                  style={{ backgroundImage: `url(${finalFeatured[1].imageUrl})` }}
+                />
+              )}
+              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors z-10" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-3 text-center z-20">
+                <h3 className="font-label-md text-label-md text-white uppercase tracking-widest drop-shadow-md line-clamp-2">
+                  {finalFeatured[1].title}
+                </h3>
+                {finalFeatured[1].type === "EMAIL_CAPTURE" ? (
+                  <EmailCapture linkId={finalFeatured[1].id} />
+                ) : (
+                  <a href={`/api/click/${finalFeatured[1].id}`} className="absolute inset-0" />
+                )}
+              </div>
+            </div>
+          )}
+
+          {finalFeatured[2] && (
+            <div className="col-span-1 group relative rounded-xl overflow-hidden shadow-sm h-[120px] bg-cream-surface border border-surface-container-high">
+              {finalFeatured[2].imageUrl && (
+                <div
+                  className="absolute inset-0 bg-cover bg-center opacity-80 transition-transform duration-700 group-hover:scale-105"
+                  style={{ backgroundImage: `url(${finalFeatured[2].imageUrl})` }}
+                />
+              )}
+              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors z-10" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-3 text-center z-20">
+                <h3 className="font-label-md text-label-md text-white uppercase tracking-widest drop-shadow-md line-clamp-2">
+                  {finalFeatured[2].title}
+                </h3>
+                {finalFeatured[2].type === "EMAIL_CAPTURE" ? (
+                  <EmailCapture linkId={finalFeatured[2].id} />
+                ) : (
+                  <a href={`/api/click/${finalFeatured[2].id}`} className="absolute inset-0" />
+                )}
+              </div>
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* Standard Links */}
+      {finalStandard.length > 0 && (
+        <section className="flex flex-col gap-3">
+          {finalStandard.map((link, idx) => {
+            const icons = ["spa", "local_fire_department", "medication", "face", "favorite", "grade"];
+            const currentIcon = link.icon || icons[idx % icons.length];
+
+            if (link.type === "EMAIL_CAPTURE") {
+              return (
+                <div
+                  key={link.id}
+                  className="p-4 rounded-xl bg-cream-surface border border-surface-container"
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="material-symbols-outlined text-tertiary">{currentIcon}</span>
+                    <span className="font-label-lg text-label-lg text-on-surface">{link.title}</span>
+                  </div>
+                  {link.description && (
+                    <p className="text-xs text-on-surface-variant mb-3">{link.description}</p>
+                  )}
+                  <EmailCapture linkId={link.id} />
+                </div>
+              );
+            }
+
+            return (
+              <a
+                key={link.id}
+                href={`/api/click/${link.id}`}
+                className="flex items-center justify-between p-4 rounded-xl bg-cream-surface border border-surface-container hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 group"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="material-symbols-outlined text-tertiary">{currentIcon}</span>
+                  <span className="font-label-lg text-label-lg text-on-surface group-hover:text-primary transition-colors">
+                    {link.title}
+                  </span>
+                </div>
+                <span className="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">
+                  chevron_right
+                </span>
+              </a>
+            );
+          })}
+        </section>
+      )}
+
+      {/* Join Call to Action Banner */}
+      {profile.donationUrl && (
+        <section className="mt-4 w-full rounded-xl bg-primary text-on-primary p-8 text-center shadow-lg relative overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-container/40 to-transparent pointer-events-none"></div>
+          <div className="relative z-10 flex flex-col items-center gap-4">
+            <h2 className="font-headline-lg-mobile text-headline-lg-mobile text-inverse-primary tracking-tight">
+              СТАНИ ЕДНА ОТ НАС
+            </h2>
+            <p className="font-body-md text-body-md text-on-primary/80 mb-2">
+              Присъедини се към общността за здраве и красота.
+            </p>
+            <a
+              href={profile.donationUrl}
+              className="inline-block bg-inverse-primary text-primary font-label-lg text-label-lg px-8 py-3 rounded-lg hover:bg-surface-container-lowest transition-colors shadow-sm uppercase tracking-wider"
+            >
+              Научи повече
+            </a>
+          </div>
+        </section>
+      )}
+
+      {/* Footer */}
+      <footer className="full-width py-12 flex flex-col items-center justify-center space-y-4 mb-20 text-center px-margin-mobile mt-auto">
+        <div className="font-label-md text-label-md text-on-surface-variant">
+          © {new Date().getFullYear()} {profile.displayName}. Всички права запазени.
+        </div>
+      </footer>
+    </main>
+  );
+}
+
+function LinkBio2({ profile, links }: { profile: Profile; links: Link[] }) {
+  const featured = links.filter((l) => l.imageUrl);
+  const standard = links.filter((l) => !l.imageUrl);
+
+  const finalFeatured = featured.length > 0 ? featured.slice(0, 3) : links.slice(0, 3);
+  const finalStandard = featured.length > 0 ? standard : links.slice(3);
+
+  const socials = [
+    { name: "Instagram", url: profile.socialInstagram, img: "/socials/instagram.png" },
+    { name: "Facebook", url: profile.socialFacebook, img: "/socials/facebook.png" },
+    { name: "WhatsApp", url: profile.socialWhatsapp, img: "/socials/whatsapp.png" },
+    { name: "Viber", url: profile.socialViber, img: "/socials/viber.png" },
+  ].filter((s) => s.url);
+
+  return (
+    <main className="w-full max-w-md px-margin-mobile pt-12 pb-24 flex flex-col items-center gap-10 relative z-10 mx-auto">
+      {/* Header */}
+      <header className="flex flex-col items-center text-center space-y-4">
+        <div className="relative w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden shadow-sm flex items-center justify-center bg-surface-container border border-surface-container-high">
+          <Av p={profile} />
+        </div>
+        <div className="space-y-1">
+          <h1 className="font-headline-lg text-headline-lg text-primary">{profile.displayName}</h1>
+          {profile.bio && (
+            <p className="font-body-md text-body-md text-on-surface-variant max-w-xs mx-auto">
+              {profile.bio}
+            </p>
+          )}
+        </div>
+      </header>
+
+      {/* Social Icons */}
+      {socials.length > 0 && (
+        <nav aria-label="Social Links" className="flex justify-center gap-6 text-on-surface-variant w-full">
+          {socials.map((s, idx) => (
+            <a
+              key={idx}
+              href={s.url!}
+              aria-label={s.name}
+              className="hover:text-primary transition-colors p-2"
+            >
+              <img
+                src={s.img}
+                alt={s.name}
+                className="w-6 h-6 opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0"
+              />
+            </a>
+          ))}
+        </nav>
+      )}
+
+      {/* Large Featured Card */}
+      {finalFeatured[0] && (
+        <section aria-label="Featured Product" className="w-full">
+          <div className="group block bg-cream-surface rounded-lg overflow-hidden shadow-[0px_4px_20px_rgba(30,15,11,0.05)] hover:shadow-[0px_8px_30px_rgba(30,15,11,0.08)] transition-all duration-300">
+            <div className="aspect-video relative overflow-hidden bg-surface-container-low">
+              {finalFeatured[0].imageUrl ? (
+                <img
+                  src={finalFeatured[0].imageUrl}
+                  alt={finalFeatured[0].title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+              ) : (
+                <div className="w-full h-full bg-surface-container flex items-center justify-center">
+                  <span className="material-symbols-outlined text-primary/30 text-4xl">grade</span>
+                </div>
+              )}
+            </div>
+            <div className="p-6 flex flex-col items-center text-center">
+              <h2 className="font-headline-md text-headline-md text-primary mb-2">
+                {finalFeatured[0].title}
+              </h2>
+              {finalFeatured[0].description && (
+                <p className="text-sm text-on-surface-variant mb-4">{finalFeatured[0].description}</p>
+              )}
+              {finalFeatured[0].type === "EMAIL_CAPTURE" ? (
+                <EmailCapture linkId={finalFeatured[0].id} />
+              ) : (
+                <a
+                  href={`/api/click/${finalFeatured[0].id}`}
+                  className="font-label-lg text-label-lg text-tertiary flex items-center gap-1 uppercase tracking-wider"
+                >
+                  ВИЖ ПОВЕЧЕ <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+                </a>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Two Grid Products */}
+      {finalFeatured.slice(1, 3).length > 0 && (
+        <section aria-label="Product Grid" className="w-full grid grid-cols-2 gap-4">
+          {finalFeatured.slice(1, 3).map((link) => (
+            <div key={link.id} className="group flex flex-col gap-3">
+              <div className="aspect-square bg-cream-surface rounded-lg overflow-hidden relative shadow-[0px_2px_10px_rgba(30,15,11,0.03)]">
+                {link.imageUrl ? (
+                  <img
+                    src={link.imageUrl}
+                    alt={link.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-surface-container flex items-center justify-center">
+                    <span className="material-symbols-outlined text-primary/30 text-3xl">shopping_bag</span>
+                  </div>
+                )}
+                {link.type === "EMAIL_CAPTURE" ? (
+                  <div className="absolute inset-0 bg-black/60 p-3 flex flex-col justify-end">
+                    <EmailCapture linkId={link.id} />
+                  </div>
+                ) : (
+                  <a href={`/api/click/${link.id}`} className="absolute inset-0" />
+                )}
+              </div>
+              <div className="text-center">
+                <h3 className="font-body-md text-body-md text-primary">{link.title}</h3>
+              </div>
+            </div>
+          ))}
+        </section>
+      )}
+
+      {/* Link List */}
+      {finalStandard.length > 0 && (
+        <section aria-label="Link List" className="w-full flex flex-col gap-3">
+          {finalStandard.map((link) => {
+            if (link.type === "EMAIL_CAPTURE") {
+              return (
+                <div
+                  key={link.id}
+                  className="py-5 px-6 bg-cream-surface rounded-lg shadow-[0px_2px_10px_rgba(30,15,11,0.03)]"
+                >
+                  <strong className="font-body-lg text-body-lg text-primary block mb-2">{link.title}</strong>
+                  {link.description && (
+                    <p className="text-xs text-on-surface-variant mb-3">{link.description}</p>
+                  )}
+                  <EmailCapture linkId={link.id} />
+                </div>
+              );
+            }
+
+            return (
+              <a
+                key={link.id}
+                href={`/api/click/${link.id}`}
+                className="flex justify-between items-center w-full py-5 px-6 bg-cream-surface rounded-lg hover:bg-surface-container-high transition-colors shadow-[0px_2px_10px_rgba(30,15,11,0.03)]"
+              >
+                <span className="font-body-lg text-body-lg text-primary">{link.title}</span>
+                <span className="material-symbols-outlined text-outline">arrow_forward</span>
+              </a>
+            );
+          })}
+        </section>
+      )}
+
+      {/* Join call out */}
+      {profile.donationUrl && (
+        <section
+          aria-label="Join Our Team"
+          className="w-full bg-surface-bright rounded-lg p-8 text-center border border-surface-container-low"
+        >
+          <h2 className="font-headline-md text-headline-md text-primary mb-3">Присъедини се сега</h2>
+          <p className="font-body-md text-body-md text-on-surface-variant mb-6">
+            Стани част от нашия красив свят и постигни целите си.
+          </p>
+          <a
+            href={profile.donationUrl}
+            className="inline-block bg-primary text-on-primary font-label-lg text-label-lg uppercase tracking-wider py-3 px-8 rounded-lg hover:bg-opacity-90 transition-opacity"
+          >
+            Научи повече
           </a>
-        ))}
-      </div>
-    </div>
+        </section>
+      )}
+
+      {/* Footer */}
+      <footer className="full-width py-12 flex flex-col items-center justify-center space-y-4 mb-20 text-center px-margin-mobile bg-transparent mt-auto relative z-10 w-full max-w-md mx-auto">
+        <p className="font-label-md text-label-md text-on-surface-variant">
+          © {new Date().getFullYear()} {profile.displayName}. Всички права запазени.
+        </p>
+      </footer>
+    </main>
+  );
+}
+
+function ZGlass({ profile, links }: { profile: Profile; links: Link[] }) {
+  const featured = links.filter((l) => l.imageUrl);
+  const standard = links.filter((l) => !l.imageUrl);
+
+  const finalFeatured = featured.length > 0 ? featured : links.slice(0, 3);
+  const finalStandard = featured.length > 0 ? standard : links.slice(3);
+
+  const socials = [
+    { name: "Instagram", icon: "photo_camera", url: profile.socialInstagram },
+    { name: "Facebook", icon: "public", url: profile.socialFacebook },
+    { name: "WhatsApp", icon: "chat", url: profile.socialWhatsapp },
+    { name: "Viber", icon: "call", url: profile.socialViber },
+  ].filter((s) => s.url);
+
+  return (
+    <main className="w-full max-w-md px-margin-mobile pt-12 pb-24 flex flex-col items-center gap-10 relative z-10 mx-auto">
+      {/* Decorative dots background texture */}
+      <div className="absolute top-0 inset-x-0 h-full bg-gradient-texture -z-10" />
+
+      {/* Header */}
+      <header className="flex flex-col items-center text-center space-y-4">
+        <div className="relative w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden shadow-sm flex items-center justify-center bg-surface-container border border-surface-container-high">
+          <Av p={profile} />
+        </div>
+        <div className="space-y-1">
+          <h1 className="font-headline-lg text-headline-lg text-primary">{profile.displayName}</h1>
+          {profile.bio && (
+            <p className="font-body-md text-body-md text-on-surface-variant max-w-xs mx-auto">
+              {profile.bio}
+            </p>
+          )}
+        </div>
+      </header>
+
+      {/* Social Links Strip */}
+      {socials.length > 0 && (
+        <nav aria-label="Social Links" className="flex justify-center gap-6 text-on-surface-variant w-full">
+          {socials.map((s, idx) => (
+            <a
+              key={idx}
+              href={s.url!}
+              aria-label={s.name}
+              className="text-on-surface-variant hover:text-primary transition-colors p-2"
+            >
+              <span className="material-symbols-outlined text-2xl">{s.icon}</span>
+            </a>
+          ))}
+        </nav>
+      )}
+
+      {/* Alternating Z-Pattern featured list */}
+      {finalFeatured.length > 0 && (
+        <section aria-label="Featured Section" className="w-full flex flex-col gap-8">
+          {finalFeatured.map((link, idx) => {
+            const isEven = idx % 2 === 0;
+            return (
+              <div
+                key={link.id}
+                className={`z-pattern-card glass-panel rounded-2xl p-6 flex flex-col md:flex-row gap-6 items-center w-full group transition-all duration-300 hover:scale-[1.02] shadow-sm`}
+              >
+                {link.imageUrl ? (
+                  <div className="w-full md:w-1/3 rounded-xl overflow-hidden shadow-sm aspect-video md:aspect-square flex-shrink-0">
+                    <img
+                      src={link.imageUrl}
+                      alt={link.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-full md:w-1/3 rounded-xl overflow-hidden aspect-video md:aspect-square flex-shrink-0 bg-surface-container flex items-center justify-center">
+                    <span className="material-symbols-outlined text-primary/30 text-3xl">shopping_bag</span>
+                  </div>
+                )}
+                <div className="flex-1 text-center md:text-left">
+                  <h2 className="font-headline-md text-headline-md text-primary mb-2">{link.title}</h2>
+                  {link.description && (
+                    <p className="text-sm text-on-surface-variant mb-4">{link.description}</p>
+                  )}
+                  {link.type === "EMAIL_CAPTURE" ? (
+                    <EmailCapture linkId={link.id} />
+                  ) : (
+                    <a
+                      href={`/api/click/${link.id}`}
+                      className="inline-flex items-center gap-1 text-primary font-semibold hover:text-secondary transition-colors"
+                    >
+                      ВИЖ ПОВЕЧЕ <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </section>
+      )}
+
+      {/* Standard Links */}
+      {finalStandard.length > 0 && (
+        <section aria-label="Links List" className="w-full flex flex-col gap-3">
+          {finalStandard.map((link) => {
+            if (link.type === "EMAIL_CAPTURE") {
+              return (
+                <div key={link.id} className="glass-panel p-5 rounded-xl w-full">
+                  <strong className="font-body-lg text-body-lg text-primary block mb-2">{link.title}</strong>
+                  {link.description && (
+                    <p className="text-xs text-on-surface-variant mb-3">{link.description}</p>
+                  )}
+                  <EmailCapture linkId={link.id} />
+                </div>
+              );
+            }
+
+            return (
+              <a
+                key={link.id}
+                href={`/api/click/${link.id}`}
+                className="glass-panel flex justify-between items-center p-5 rounded-xl hover:bg-surface-container-low/80 transition-all duration-300 w-full group"
+              >
+                <span className="font-body-lg text-body-lg text-primary group-hover:text-secondary transition-colors">
+                  {link.title}
+                </span>
+                <span className="material-symbols-outlined text-outline group-hover:text-secondary transition-colors">
+                  arrow_forward
+                </span>
+              </a>
+            );
+          })}
+        </section>
+      )}
+
+      {/* Join Block */}
+      {profile.donationUrl && (
+        <section className="w-full glass-panel rounded-2xl p-8 text-center border border-surface-container-low shadow-sm">
+          <h2 className="font-headline-md text-headline-md text-primary mb-3">Присъедини се към нас</h2>
+          <p className="font-body-md text-body-md text-on-surface-variant mb-6">
+            Заедно можем да постигнем по-големи върхове в красотата и личния растеж.
+          </p>
+          <a
+            href={profile.donationUrl}
+            className="inline-block bg-primary text-on-primary font-label-lg text-label-lg uppercase tracking-wider py-3 px-8 rounded-lg hover:bg-opacity-95 transition-opacity shadow-md"
+          >
+            Научи повече
+          </a>
+        </section>
+      )}
+
+      {/* Footer */}
+      <footer className="full-width py-12 flex flex-col items-center justify-center space-y-4 mb-20 text-center px-margin-mobile mt-auto">
+        <p className="font-label-md text-label-md text-on-surface-variant">
+          © {new Date().getFullYear()} {profile.displayName}. Всички права запазени.
+        </p>
+      </footer>
+    </main>
+  );
+}
+
+function Offset({ profile, links }: { profile: Profile; links: Link[] }) {
+  const featured = links.filter((l) => l.imageUrl);
+  const standard = links.filter((l) => !l.imageUrl);
+
+  const finalFeatured = featured.length > 0 ? featured : links.slice(0, 3);
+  const finalStandard = featured.length > 0 ? standard : links.slice(3);
+
+  const socials = [
+    { name: "Instagram", icon: "photo_camera", url: profile.socialInstagram },
+    { name: "Facebook", icon: "public", url: profile.socialFacebook },
+    { name: "WhatsApp", icon: "chat", url: profile.socialWhatsapp },
+    { name: "Viber", icon: "call", url: profile.socialViber },
+  ].filter((s) => s.url);
+
+  return (
+    <>
+      {/* Top Header Docked Bar */}
+      <header className="bg-surface/80 backdrop-blur-md top-0 sticky flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 z-50 border-b border-outline-variant/10">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full overflow-hidden border border-outline-variant flex items-center justify-center bg-surface-container">
+            <Av p={profile} />
+          </div>
+          <h1 className="font-headline-md text-headline-md-mobile md:text-headline-md text-primary">
+            {profile.displayName}
+          </h1>
+        </div>
+        <button className="text-primary hover:text-soft-gold transition-colors duration-300 flex items-center justify-center p-2 rounded-full hover:bg-surface-container">
+          <span className="material-symbols-outlined">more_vert</span>
+        </button>
+      </header>
+
+      <main className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-32 pt-8">
+        {/* Hero Banner with custom blur decorators */}
+        <section className="relative mb-24 md:mb-32 mt-8 md:mt-16 flex flex-col items-center text-center">
+          <div className="relative w-full max-w-2xl mx-auto z-10">
+            <h2 className="font-display-lg text-display-lg text-primary mb-6 relative z-20 mix-blend-multiply opacity-90 leading-tight">
+              {profile.bio || "Открий изкуството на релаксацията и красотата"}
+            </h2>
+            <div className="absolute -top-12 -left-8 w-24 h-24 bg-soft-gold/20 rounded-full blur-2xl z-0"></div>
+            <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-primary-fixed-dim/30 rounded-full blur-3xl z-0"></div>
+          </div>
+
+          {/* Social Links floating glass strip */}
+          {socials.length > 0 && (
+            <div className="glass-panel mt-8 px-8 py-4 rounded-full flex gap-6 items-center shadow-lg relative z-20">
+              {socials.map((s, idx) => (
+                <a
+                  key={idx}
+                  href={s.url!}
+                  className="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center"
+                >
+                  <span className="material-symbols-outlined text-2xl">{s.icon}</span>
+                </a>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Dynamic Offset Card featured list */}
+        {finalFeatured.length > 0 && (
+          <section className="flex flex-col gap-16 mb-24 max-w-4xl mx-auto">
+            {finalFeatured.map((link) => (
+              <div
+                key={link.id}
+                className="offset-border-card border border-outline-variant bg-surface rounded-2xl overflow-hidden soft-shadow block group transition-all duration-500 hover:-translate-y-1"
+              >
+                <div className="flex flex-col md:flex-row">
+                  {link.imageUrl ? (
+                    <div className="w-full md:w-1/2 aspect-video md:aspect-auto md:h-96 relative overflow-hidden bg-surface-container-low flex-shrink-0">
+                      <img
+                        src={link.imageUrl}
+                        alt={link.title}
+                        className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-full md:w-1/2 aspect-video md:aspect-auto md:h-96 bg-surface-container flex items-center justify-center flex-shrink-0">
+                      <span className="material-symbols-outlined text-primary/30 text-5xl">shopping_bag</span>
+                    </div>
+                  )}
+                  <div className="p-8 md:p-12 flex flex-col justify-center flex-1">
+                    <h3 className="font-headline-md text-headline-md text-primary mb-4">{link.title}</h3>
+                    {link.description && (
+                      <p className="text-on-surface-variant font-body-md text-body-md mb-8 leading-relaxed">
+                        {link.description}
+                      </p>
+                    )}
+                    {link.type === "EMAIL_CAPTURE" ? (
+                      <EmailCapture linkId={link.id} />
+                    ) : (
+                      <a
+                        href={`/api/click/${link.id}`}
+                        className="inline-flex items-center justify-center bg-primary text-on-primary font-label-lg text-label-lg px-8 py-4 rounded-xl hover:bg-soft-gold transition-colors uppercase tracking-wider w-max shadow-sm"
+                      >
+                        Виж повече
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </section>
+        )}
+
+        {/* Standard row links */}
+        {finalStandard.length > 0 && (
+          <section className="flex flex-col gap-4 max-w-2xl mx-auto mb-24">
+            {finalStandard.map((link, idx) => {
+              const icons = ["spa", "favorite", "bubble_chart", "grade", "public", "face"];
+              const currentIcon = link.icon || icons[idx % icons.length];
+
+              if (link.type === "EMAIL_CAPTURE") {
+                return (
+                  <div
+                    key={link.id}
+                    className="p-5 bg-surface-container-lowest border border-outline-variant rounded-xl"
+                  >
+                    <div className="flex items-center gap-4 mb-3">
+                      <span className="material-symbols-outlined text-tertiary">{currentIcon}</span>
+                      <strong className="font-label-lg text-label-lg text-primary uppercase">
+                        {link.title}
+                      </strong>
+                    </div>
+                    {link.description && (
+                      <p className="text-sm text-on-surface-variant mb-4 leading-relaxed">
+                        {link.description}
+                      </p>
+                    )}
+                    <EmailCapture linkId={link.id} />
+                  </div>
+                );
+              }
+
+              return (
+                <a
+                  key={link.id}
+                  href={`/api/click/${link.id}`}
+                  className="flex items-center justify-between p-5 bg-surface-container-lowest border border-outline-variant rounded-xl hover:border-soft-gold hover:-translate-y-0.5 hover:shadow-sm transition-all duration-300 group"
+                >
+                  <div className="flex items-center gap-4">
+                    <span className="material-symbols-outlined text-tertiary group-hover:text-primary transition-colors">
+                      {currentIcon}
+                    </span>
+                    <span className="font-label-lg text-label-lg text-on-surface group-hover:text-primary transition-colors uppercase tracking-wider">
+                      {link.title}
+                    </span>
+                  </div>
+                  <span className="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">
+                    arrow_forward
+                  </span>
+                </a>
+              );
+            })}
+          </section>
+        )}
+
+        {/* CTA Section */}
+        {profile.donationUrl && (
+          <section className="mt-8 w-full max-w-4xl mx-auto rounded-2xl bg-primary text-on-primary p-8 md:p-12 text-center shadow-lg relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-container/40 to-transparent pointer-events-none"></div>
+            <div className="relative z-10 flex flex-col items-center gap-4">
+              <h2 className="font-headline-lg-mobile text-headline-lg-mobile text-inverse-primary tracking-tight">
+                СТАНИ ЕДНА ОТ НАС
+              </h2>
+              <p className="font-body-md text-body-md text-on-primary/80 mb-6 max-w-md leading-relaxed">
+                Свържи се с мен днес за персонални препоръки, консултации и партньорства.
+              </p>
+              <a
+                href={profile.donationUrl}
+                className="inline-block bg-inverse-primary text-primary font-label-lg text-label-lg px-8 py-4 rounded-xl hover:bg-surface-container-lowest transition-colors shadow-sm uppercase tracking-wider"
+              >
+                Присъедини се сега
+              </a>
+            </div>
+          </section>
+        )}
+
+        {/* Footer */}
+        <footer className="bg-surface font-body-md text-body-md pb-24 md:pb-8 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 flex flex-col items-center gap-4 text-center mt-12 border-t border-outline-variant/20">
+          <div className="text-primary font-headline-md mb-2">{profile.displayName}</div>
+          <p className="text-on-surface-variant text-sm">
+            © {new Date().getFullYear()} {profile.displayName}. All Rights Reserved.
+          </p>
+        </footer>
+      </main>
+    </>
+  );
+}
+
+function Bento({ profile, links }: { profile: Profile; links: Link[] }) {
+  const featured = links.filter((l) => l.imageUrl);
+  const standard = links.filter((l) => !l.imageUrl);
+
+  const hasImages = featured.length > 0;
+  const featuredLinks = hasImages ? featured : links.slice(0, 3);
+  const standardLinks = hasImages ? standard : links.slice(3);
+
+  const socials = [
+    { name: "Instagram", icon: "photo_camera", url: profile.socialInstagram },
+    { name: "Facebook", icon: "public", url: profile.socialFacebook },
+    { name: "WhatsApp", icon: "chat", url: profile.socialWhatsapp },
+    { name: "Viber", icon: "call", url: profile.socialViber },
+  ].filter((s) => s.url);
+
+  return (
+    <>
+      {/* Top App Bar */}
+      <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm transition-all duration-300">
+        <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full max-w-container-max mx-auto">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full overflow-hidden border border-outline-variant flex items-center justify-center bg-surface-container">
+              <Av p={profile} />
+            </div>
+            <h1 className="font-headline-md text-headline-md text-primary font-bold tracking-tight">
+              {profile.displayName}
+            </h1>
+          </div>
+          <button
+            aria-label="Share"
+            className="p-2 rounded-full hover:bg-surface-variant transition-colors text-primary scale-95"
+          >
+            <span className="material-symbols-outlined">share</span>
+          </button>
+        </div>
+      </header>
+
+      <main className="pt-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
+        {/* Intro */}
+        <section className="text-center mb-12 flex flex-col items-center">
+          {profile.bio && (
+            <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-6 italic leading-relaxed">
+              {profile.bio}
+            </p>
+          )}
+
+          {socials.length > 0 && (
+            <div className="flex gap-4 mb-8">
+              {socials.map((s, idx) => (
+                <a
+                  key={idx}
+                  href={s.url!}
+                  aria-label={s.name}
+                  className="w-12 h-12 rounded-full bg-cream-surface soft-shadow flex items-center justify-center text-primary hover:-translate-y-1 transition-transform duration-300 border border-outline-variant/30"
+                >
+                  <span className="material-symbols-outlined">{s.icon}</span>
+                </a>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Bento Grid Canvas */}
+        <div className="bento-grid">
+          {/* Card 0: Hero Card */}
+          {featuredLinks[0] && (
+            <div className="col-span-2 md:col-span-4 relative h-[60vh] md:h-[70vh] rounded-[2rem] overflow-hidden group soft-shadow block">
+              {featuredLinks[0].imageUrl ? (
+                <img
+                  src={featuredLinks[0].imageUrl}
+                  alt={featuredLinks[0].title}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-primary-container/20" />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent z-10"></div>
+              <div className="absolute inset-0 p-8 flex flex-col justify-end items-center text-center z-20">
+                <h2 className="font-display-lg text-display-lg text-on-primary mb-4 drop-shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 leading-tight">
+                  {featuredLinks[0].title}
+                </h2>
+                {featuredLinks[0].description && (
+                  <p className="text-on-primary/80 max-w-md line-clamp-2 mb-3">{featuredLinks[0].description}</p>
+                )}
+                {featuredLinks[0].type === "EMAIL_CAPTURE" ? (
+                  <div className="w-full max-w-sm mt-3" onClick={(e) => e.stopPropagation()}>
+                    <EmailCapture linkId={featuredLinks[0].id} />
+                  </div>
+                ) : (
+                  <a href={`/api/click/${featuredLinks[0].id}`} className="absolute inset-0 z-0" />
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Card 1: Feature Card 1 */}
+          {featuredLinks[1] && (
+            <div className="col-span-2 md:col-span-2 relative h-80 rounded-[2rem] overflow-hidden group soft-shadow block bg-cream-surface">
+              {featuredLinks[1].imageUrl ? (
+                <img
+                  src={featuredLinks[1].imageUrl}
+                  alt={featuredLinks[1].title}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-surface-container" />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-surface/90 to-surface/10 p-6 flex flex-col justify-end z-10">
+                <h3 className="font-headline-md text-headline-md text-primary mb-3">{featuredLinks[1].title}</h3>
+                {featuredLinks[1].description && (
+                  <p className="text-on-surface-variant text-sm mb-3 line-clamp-2">
+                    {featuredLinks[1].description}
+                  </p>
+                )}
+                {featuredLinks[1].type === "EMAIL_CAPTURE" ? (
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <EmailCapture linkId={featuredLinks[1].id} />
+                  </div>
+                ) : (
+                  <a
+                    href={`/api/click/${featuredLinks[1].id}`}
+                    className="inline-flex items-center justify-center bg-primary text-on-primary font-label-lg text-label-lg px-6 py-3 rounded-full w-max hover:bg-primary-container transition-colors shadow-sm"
+                  >
+                    ВИЖ ПОВЕЧЕ
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Card 2: Feature Card 2 */}
+          {featuredLinks[2] && (
+            <div className="col-span-1 md:col-span-1 relative h-80 organic-shape-1 overflow-hidden group soft-shadow block bg-surface-variant flex items-center justify-center p-4">
+              {featuredLinks[2].imageUrl && (
+                <img
+                  src={featuredLinks[2].imageUrl}
+                  alt={featuredLinks[2].title}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 mix-blend-multiply"
+                />
+              )}
+              <div className="relative z-10 glass-overlay p-6 rounded-full text-center aspect-square flex flex-col items-center justify-center border border-on-primary/20">
+                <span className="material-symbols-outlined text-primary mb-2 text-3xl">auto_awesome</span>
+                <h3 className="font-headline-md text-headline-md text-primary leading-tight line-clamp-2">
+                  {featuredLinks[2].title}
+                </h3>
+                {featuredLinks[2].type === "EMAIL_CAPTURE" ? (
+                  <div className="mt-2" onClick={(e) => e.stopPropagation()}>
+                    <EmailCapture linkId={featuredLinks[2].id} />
+                  </div>
+                ) : (
+                  <a href={`/api/click/${featuredLinks[2].id}`} className="absolute inset-0" />
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Subsequent rotating templates */}
+          {standardLinks.map((link, idx) => {
+            const layoutIdx = idx % 3;
+            if (layoutIdx === 0) {
+              return (
+                <div
+                  key={link.id}
+                  className="col-span-1 md:col-span-1 relative h-80 rounded-[2rem] overflow-hidden group soft-shadow block bg-cream-surface flex flex-col"
+                >
+                  <div className="h-1/2 w-full relative overflow-hidden">
+                    {link.imageUrl ? (
+                      <img
+                        src={link.imageUrl}
+                        alt={link.title}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 bg-primary/5 flex items-center justify-center">
+                        <span className="material-symbols-outlined text-primary/30">link</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="h-1/2 p-5 flex flex-col justify-center bg-cream-surface relative z-10">
+                    <h4 className="font-label-lg text-label-lg text-primary uppercase tracking-wider mb-1 line-clamp-1">
+                      {link.title}
+                    </h4>
+                    {link.description && (
+                      <p className="text-xs text-on-surface-variant line-clamp-2">{link.description}</p>
+                    )}
+                    {link.type === "EMAIL_CAPTURE" ? (
+                      <div className="mt-2" onClick={(e) => e.stopPropagation()}>
+                        <EmailCapture linkId={link.id} />
+                      </div>
+                    ) : (
+                      <a href={`/api/click/${link.id}`} className="absolute inset-0" />
+                    )}
+                  </div>
+                </div>
+              );
+            } else if (layoutIdx === 1) {
+              return (
+                <div
+                  key={link.id}
+                  className="col-span-2 md:col-span-2 relative h-80 rounded-[2rem] overflow-hidden group soft-shadow block bg-cream-surface flex items-center pl-8"
+                >
+                  <div className="flex-1 pr-6 z-10">
+                    <h4 className="font-headline-md text-headline-md text-primary mb-2 line-clamp-1">
+                      {link.title}
+                    </h4>
+                    {link.description && (
+                      <p className="font-body-md text-body-md text-on-surface-variant line-clamp-2">
+                        {link.description}
+                      </p>
+                    )}
+                    {link.type === "EMAIL_CAPTURE" ? (
+                      <div className="mt-3" onClick={(e) => e.stopPropagation()}>
+                        <EmailCapture linkId={link.id} />
+                      </div>
+                    ) : (
+                      <a href={`/api/click/${link.id}`} className="absolute inset-0 z-0" />
+                    )}
+                  </div>
+                  {link.imageUrl && (
+                    <div className="w-40 h-40 rounded-full overflow-hidden mr-8 border border-outline-variant flex-shrink-0 relative z-10">
+                      <img
+                        src={link.imageUrl}
+                        alt=""
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                  )}
+                </div>
+              );
+            } else {
+              return (
+                <div
+                  key={link.id}
+                  className="col-span-2 md:col-span-2 relative h-80 organic-shape-2 overflow-hidden group soft-shadow block bg-cream-surface"
+                >
+                  {link.imageUrl ? (
+                    <img
+                      src={link.imageUrl}
+                      alt={link.title}
+                      className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-40 transition-transform duration-700 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-primary/5" />
+                  )}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-10">
+                    <h4 className="font-display-lg text-headline-lg text-primary mb-2 line-clamp-1">
+                      {link.title}
+                    </h4>
+                    {link.description && (
+                      <p className="font-body-md text-on-surface-variant max-w-sm line-clamp-2">
+                        {link.description}
+                      </p>
+                    )}
+                    {link.type === "EMAIL_CAPTURE" ? (
+                      <div className="w-full max-w-xs mt-3" onClick={(e) => e.stopPropagation()}>
+                        <EmailCapture linkId={link.id} />
+                      </div>
+                    ) : (
+                      <a href={`/api/click/${link.id}`} className="absolute inset-0" />
+                    )}
+                  </div>
+                </div>
+              );
+            }
+          })}
+        </div>
+
+        {/* CTA Banner */}
+        {profile.donationUrl && (
+          <section className="relative my-24 rounded-[3rem] overflow-hidden group soft-shadow">
+            <div className="absolute inset-0 bg-primary opacity-90 mix-blend-luminosity"></div>
+            <div className="relative z-10 py-24 px-8 md:px-16 text-center flex flex-col items-center glass-overlay rounded-[3rem] m-4 md:m-8 border border-surface/20">
+              <h2 className="font-display-lg text-display-lg text-on-primary mb-6">СТАНИ ЕДНА ОТ НАС</h2>
+              <p className="font-body-lg text-body-lg text-surface-variant max-w-lg mb-10">
+                Присъедини се към нашия екип и започни своето пътешествие в света на красотата и здравето.
+              </p>
+              <a
+                href={profile.donationUrl}
+                className="bg-surface text-primary font-label-lg text-label-lg uppercase px-8 py-4 rounded-full hover:bg-surface-variant transition-colors duration-300 shadow-lg flex items-center gap-2"
+              >
+                Кандидатствай сега
+                <span className="material-symbols-outlined">arrow_outward</span>
+              </a>
+            </div>
+          </section>
+        )}
+      </main>
+    </>
   );
 }
 
 function Wellness({ profile, links }: { profile: Profile; links: Link[] }) {
+  const featured = links.filter((l) => l.imageUrl);
+  const standard = links.filter((l) => !l.imageUrl);
+
+  const finalFeatured = featured.length > 0 ? featured : links.slice(0, 1);
+  const finalStandard = featured.length > 0 ? standard : links.slice(1);
+
   return (
-    <div style={{ minHeight: "100vh", background: "#f4f0e6", fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 96 }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "64px 16px 32px" }}>
-        <div style={{ width: 80, height: 80, border: "2px solid #1e0f0b", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <Av p={profile} />
+    <>
+      <header className="fixed top-0 w-full z-50 bg-transparent flex items-center justify-between px-margin-mobile md:px-margin-desktop py-4 transition-all duration-300">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high border border-outline-variant flex items-center justify-center">
+            <Av p={profile} />
+          </div>
+          <h1 className="font-display-lg text-display-lg tracking-tight text-primary dark:text-primary-fixed-dim m-0 leading-none">
+            {profile.displayName}
+          </h1>
         </div>
-        <h1 style={{ fontSize: "2.5rem", fontWeight: 700, color: T.p, textTransform: "uppercase", letterSpacing: "-0.03em", marginTop: 16 }}>{profile.displayName}</h1>
-        {profile.bio && <p style={{ color: T.m, textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: 1, marginTop: 8 }}>{profile.bio}</p>}
-      </div>
-      <div style={{ maxWidth: 520, margin: "0 auto", padding: "0 16px", display: "grid", gap: 16 }}>
-        {links.map((link) => (
-          <a key={link.id} href={`/api/click/${link.id}`} style={{
-            display: "block", border: "2px solid #1e0f0b", background: "#fff", padding: 20,
-            fontWeight: 700, fontSize: "0.9rem", textTransform: "uppercase", textDecoration: "none", color: T.p, letterSpacing: 1,
-          }}>
-            {link.title}
-          </a>
-        ))}
-      </div>
-    </div>
+        <button
+          aria-label="Share"
+          className="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity scale-95 duration-200 p-2 rounded-full hover:bg-surface-container-low"
+        >
+          <span className="material-symbols-outlined">share</span>
+        </button>
+      </header>
+
+      <main className="flex-grow flex flex-col items-center w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-24 md:pt-32 pb-12 gap-12">
+        {/* Brutalist Hero section */}
+        {finalFeatured[0] && (
+          <section className="w-full relative flex flex-col items-center justify-center mb-12">
+            <div className="w-full aspect-[4/5] md:aspect-[21/9] bg-surface-container-high relative overflow-hidden flex items-center justify-center border-2 border-primary">
+              {finalFeatured[0].imageUrl ? (
+                <img
+                  src={finalFeatured[0].imageUrl}
+                  alt={finalFeatured[0].title}
+                  className="w-full h-full object-cover mix-blend-multiply opacity-80 filter grayscale sepia-[.3] contrast-125"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-secondary-container/20" />
+              )}
+              <h2
+                className="absolute inset-0 flex items-center justify-center font-display-lg text-[10vw] md:text-[6vw] leading-none text-primary uppercase mix-blend-color-burn font-bold tracking-tighter text-center z-10 px-4 pointer-events-none"
+                style={{ textShadow: "2px 2px 0px #fbf9f4, -2px -2px 0px #fbf9f4" }}
+              >
+                {finalFeatured[0].title}
+              </h2>
+              {finalFeatured[0].type === "EMAIL_CAPTURE" ? (
+                <div className="absolute bottom-6 inset-x-0 max-w-sm mx-auto px-4 z-20">
+                  <EmailCapture linkId={finalFeatured[0].id} />
+                </div>
+              ) : (
+                <a href={`/api/click/${finalFeatured[0].id}`} className="absolute inset-0" />
+              )}
+            </div>
+            {profile.bio && (
+              <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl text-center mt-8 px-4 leading-relaxed">
+                {profile.bio}
+              </p>
+            )}
+          </section>
+        )}
+
+        {/* Dynamic brutalist cards */}
+        {finalStandard.length > 0 && (
+          <section className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl">
+            {finalStandard.map((link) => {
+              if (link.type === "EMAIL_CAPTURE") {
+                return (
+                  <div
+                    key={link.id}
+                    className="relative w-full bg-cream-surface border-2 border-primary p-6 flex flex-col justify-between min-h-[160px]"
+                  >
+                    <div>
+                      <h3 className="font-headline-md text-headline-md text-primary uppercase mb-2">
+                        {link.title}
+                      </h3>
+                      {link.description && (
+                        <p className="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2">
+                          {link.description}
+                        </p>
+                      )}
+                    </div>
+                    <EmailCapture linkId={link.id} />
+                  </div>
+                );
+              }
+
+              return (
+                <a
+                  key={link.id}
+                  href={`/api/click/${link.id}`}
+                  className="group relative w-full bg-cream-surface border-2 border-primary p-6 flex flex-col justify-between min-h-[160px] hover:-translate-y-1 hover:shadow-[4px_4px_0px_#1e0f0b] transition-all duration-200"
+                >
+                  <div className="flex justify-between items-start">
+                    <h3 className="font-headline-md text-headline-md text-primary uppercase group-hover:underline leading-tight line-clamp-2">
+                      {link.title}
+                    </h3>
+                    <span className="material-symbols-outlined text-primary text-3xl">arrow_outward</span>
+                  </div>
+                  {link.description && (
+                    <p className="font-body-md text-body-md text-on-surface-variant mt-4 line-clamp-2">
+                      {link.description}
+                    </p>
+                  )}
+                </a>
+              );
+            })}
+          </section>
+        )}
+
+        {/* Join button */}
+        {profile.donationUrl && (
+          <section className="w-full max-w-4xl text-center py-12 border-y-2 border-primary mt-12 bg-surface-container-low px-4">
+            <h2 className="font-display-lg text-[6vw] md:text-[3vw] text-primary uppercase font-bold tracking-tighter mb-4">
+              СТАНИ ЕДНА ОТ НАС
+            </h2>
+            <p className="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-md mx-auto">
+              Развивай се с нас, израствай в красотата и постигай финансова свобода.
+            </p>
+            <a
+              href={profile.donationUrl}
+              className="inline-block bg-primary text-on-primary border-2 border-primary font-label-lg text-label-lg uppercase px-12 py-4 hover:bg-transparent hover:text-primary transition-colors duration-200 shadow-[4px_4px_0px_#C7B98B]"
+            >
+              Кандидатствай сега
+            </a>
+          </section>
+        )}
+      </main>
+
+      <footer className="font-body-md text-body-md text-on-surface flex flex-col items-center gap-4 py-12 px-margin-mobile w-full mt-auto mb-20 md:mb-0 border-t border-primary/10">
+        <div className="font-headline-md text-headline-md text-primary mb-2">{profile.displayName}</div>
+        <p className="text-on-surface-variant mt-2 text-sm">
+          © {new Date().getFullYear()} {profile.displayName}. All rights reserved.
+        </p>
+      </footer>
+    </>
+  );
+}
+
+function Masonry({ profile, links }: { profile: Profile; links: Link[] }) {
+  const featured = links.filter((l) => l.imageUrl);
+  const standard = links.filter((l) => !l.imageUrl);
+
+  const hasImages = featured.length > 0;
+  const masonryLinks = hasImages ? featured : links;
+  const standardLinks = hasImages ? standard : [];
+
+  return (
+    <>
+      <header className="fixed top-0 w-full z-50 bg-transparent transition-all duration-300" id="main-header">
+        <div className="flex items-center justify-between px-margin-mobile md:px-margin-desktop py-4 w-full max-w-container-max mx-auto">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full overflow-hidden border border-outline-variant flex items-center justify-center bg-surface-container">
+              <Av p={profile} />
+            </div>
+            <span className="text-sm font-semibold tracking-wider uppercase text-primary">
+              {profile.displayName}
+            </span>
+          </div>
+          <button className="text-primary hover:opacity-80 transition-opacity p-2 rounded-full">
+            <span className="material-symbols-outlined">share</span>
+          </button>
+        </div>
+      </header>
+
+      <main className="flex-grow pt-24 pb-32 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
+        {/* Title */}
+        <section className="mb-16 md:mb-24 text-center mt-8">
+          <h1 className="font-display-lg text-display-lg text-primary tracking-tight mb-4">
+            {profile.displayName}
+          </h1>
+          {profile.bio && (
+            <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-8 leading-relaxed">
+              {profile.bio}
+            </p>
+          )}
+          <div className="h-px w-24 bg-outline-variant mx-auto"></div>
+        </section>
+
+        {/* Editorial Masonry Grid */}
+        <div className="editorial-masonry">
+          {masonryLinks.map((link) => (
+            <article
+              key={link.id}
+              className="masonry-item relative group overflow-hidden bg-cream-surface rounded-lg shadow-[0px_4px_20px_rgba(30,15,11,0.05)] transition-all duration-300 hover:shadow-[0px_8px_30px_rgba(30,15,11,0.08)] mb-6 break-inside-avoid"
+            >
+              {link.imageUrl ? (
+                <div className="relative overflow-hidden aspect-[3/4]">
+                  <img
+                    src={link.imageUrl}
+                    alt={link.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+              ) : (
+                <div className="p-8 bg-surface-container flex items-center justify-center aspect-[4/3]">
+                  <span className="material-symbols-outlined text-primary/30 text-4xl">grade</span>
+                </div>
+              )}
+              <div className="p-6">
+                <h3 className="font-headline-md text-headline-sm text-primary mb-2 line-clamp-1">{link.title}</h3>
+                {link.description && (
+                  <p className="text-sm text-on-surface-variant mb-4 line-clamp-2">{link.description}</p>
+                )}
+                {link.type === "EMAIL_CAPTURE" ? (
+                  <EmailCapture linkId={link.id} />
+                ) : (
+                  <a
+                    href={`/api/click/${link.id}`}
+                    className="font-label-lg text-label-lg text-primary flex items-center gap-1 uppercase tracking-wider hover:text-secondary transition-colors"
+                  >
+                    Виж повече <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* Standard links fallback */}
+        {standardLinks.length > 0 && (
+          <section className="mt-16 flex flex-col gap-4 max-w-xl mx-auto">
+            {standardLinks.map((link) => {
+              if (link.type === "EMAIL_CAPTURE") {
+                return (
+                  <div key={link.id} className="p-5 bg-cream-surface border border-outline-variant rounded-lg">
+                    <strong className="font-headline-sm text-primary block mb-2">{link.title}</strong>
+                    {link.description && (
+                      <p className="text-xs text-on-surface-variant mb-3">{link.description}</p>
+                    )}
+                    <EmailCapture linkId={link.id} />
+                  </div>
+                );
+              }
+
+              return (
+                <a
+                  key={link.id}
+                  href={`/api/click/${link.id}`}
+                  className="flex justify-between items-center p-4 bg-cream-surface border border-outline-variant rounded-lg hover:border-secondary transition-all"
+                >
+                  <span className="font-label-md text-primary font-semibold uppercase">{link.title}</span>
+                  <span className="material-symbols-outlined">arrow_forward</span>
+                </a>
+              );
+            })}
+          </section>
+        )}
+
+        {/* Join block */}
+        {profile.donationUrl && (
+          <section className="relative rounded-lg overflow-hidden border border-outline-variant group mt-24 max-w-4xl mx-auto">
+            <div className="aspect-[16/9] w-full relative">
+              <div className="absolute inset-0 bg-primary/40 backdrop-blur-[2px] z-10" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-20 gap-6">
+                <h2 className="font-display-lg-mobile text-display-lg-mobile text-on-tertiary">СТАНИ ЕДНА ОТ НАС</h2>
+                <a
+                  href={profile.donationUrl}
+                  className="inline-flex items-center justify-center px-8 py-4 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-secondary transition-colors border border-outline/30 shadow-sm uppercase tracking-wider"
+                >
+                  Присъедини се сега
+                </a>
+              </div>
+            </div>
+          </section>
+        )}
+      </main>
+
+      <footer className="w-full relative border-t border-outline-variant flex flex-col items-center gap-4 py-12 px-margin-mobile mt-auto bg-surface pb-24 md:pb-12">
+        <div className="font-headline-md text-headline-md text-primary mb-2">{profile.displayName}</div>
+        <p className="text-on-surface-variant text-sm">
+          © {new Date().getFullYear()} {profile.displayName}. All rights reserved.
+        </p>
+      </footer>
+    </>
+  );
+}
+
+function Blobs({ profile, links }: { profile: Profile; links: Link[] }) {
+  const featured = links.filter((l) => l.imageUrl);
+  const standard = links.filter((l) => !l.imageUrl);
+
+  const finalFeatured = featured.length > 0 ? featured : links.slice(0, 3);
+  const finalStandard = featured.length > 0 ? standard : links.slice(3);
+
+  const socials = [
+    { name: "Instagram", icon: "favorite", url: profile.socialInstagram },
+    { name: "Facebook", icon: "spa", url: profile.socialFacebook },
+    { name: "WhatsApp", icon: "chat", url: profile.socialWhatsapp },
+    { name: "Viber", icon: "call", url: profile.socialViber },
+  ].filter((s) => s.url);
+
+  return (
+    <>
+      <header className="hidden md:flex items-center justify-between px-margin-desktop py-4 w-full fixed top-0 z-50 bg-transparent transition-all duration-300">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-full overflow-hidden border border-outline-variant flex items-center justify-center bg-surface-container">
+            <Av p={profile} />
+          </div>
+          <h1 className="font-display-lg text-headline-lg tracking-tight text-primary">
+            {profile.displayName}
+          </h1>
+        </div>
+        <button className="text-primary hover:opacity-80 transition-opacity scale-95 duration-200">
+          <span className="material-symbols-outlined text-2xl">share</span>
+        </button>
+      </header>
+
+      <main className="w-full max-w-container-max px-margin-mobile md:px-margin-desktop pt-12 md:pt-32 pb-24 relative flex flex-col items-center mx-auto">
+        {/* Floating background decorative blobs */}
+        <div className="absolute top-20 left-[-10%] w-64 h-64 bg-secondary-container opacity-40 organic-blob-1 -z-10 blur-xl mix-blend-multiply"></div>
+        <div className="absolute top-1/3 right-[-5%] w-80 h-80 bg-tertiary-container opacity-30 organic-blob-2 -z-10 blur-2xl mix-blend-multiply"></div>
+
+        {/* Profile identity */}
+        <section className="flex flex-col items-center text-center mb-16 relative w-full max-w-2xl">
+          <div className="relative mb-8">
+            <div className="absolute inset-0 bg-soft-gold opacity-20 rounded-full scale-110 organic-blob-1 animate-pulse" />
+            <div className="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden organic-blob-2 shadow-lg relative z-10 border-4 border-surface flex items-center justify-center bg-surface-container">
+              <Av p={profile} />
+            </div>
+          </div>
+          <h1 className="font-headline-lg-mobile md:font-headline-lg text-primary mb-2">
+            {profile.displayName}
+          </h1>
+          {profile.bio && (
+            <p className="font-body-md text-on-surface-variant max-w-md mx-auto mb-6 leading-relaxed">
+              {profile.bio}
+            </p>
+          )}
+
+          {/* Socials floating icons */}
+          {socials.length > 0 && (
+            <div className="flex gap-4">
+              {socials.map((s, idx) => (
+                <a
+                  key={idx}
+                  href={s.url!}
+                  aria-label={s.name}
+                  className="text-outline cursor-pointer hover:text-primary transition-colors flex items-center justify-center"
+                >
+                  <span className="material-symbols-outlined text-2xl">{s.icon}</span>
+                </a>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Dynamic products blob grid */}
+        {finalFeatured.length > 0 && (
+          <section className="w-full flex flex-col gap-12 max-w-4xl z-10 mb-20">
+            {finalFeatured.map((link, idx) => {
+              const shapes = ["organic-blob-1", "organic-blob-2", "organic-blob-1"];
+              const shapeClass = shapes[idx % shapes.length];
+              const isEven = idx % 2 === 0;
+
+              return (
+                <div
+                  key={link.id}
+                  className={`backdrop-blur-xl bg-surface/75 rounded-3xl p-8 flex flex-col ${
+                    isEven ? "md:flex-row" : "md:flex-row-reverse"
+                  } gap-8 items-center w-full shadow-lg border border-surface-container-high transition-transform duration-300 hover:scale-[1.01]`}
+                >
+                  {link.imageUrl ? (
+                    <div
+                      className={`w-full md:w-1/2 aspect-square max-w-[320px] ${shapeClass} overflow-hidden shadow-md flex-shrink-0`}
+                    >
+                      <img
+                        src={link.imageUrl}
+                        alt={link.title}
+                        className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      className={`w-full md:w-1/2 aspect-square max-w-[320px] ${shapeClass} bg-surface-container flex items-center justify-center flex-shrink-0 shadow-sm`}
+                    >
+                      <span className="material-symbols-outlined text-primary/30 text-5xl">spa</span>
+                    </div>
+                  )}
+                  <div className="flex-1 text-center md:text-left flex flex-col justify-center">
+                    <h2 className="font-headline-lg-mobile md:font-headline-lg text-primary mb-3">
+                      {link.title}
+                    </h2>
+                    {link.description && (
+                      <p className="text-on-surface-variant font-body-md text-body-md mb-6 leading-relaxed">
+                        {link.description}
+                      </p>
+                    )}
+                    {link.type === "EMAIL_CAPTURE" ? (
+                      <EmailCapture linkId={link.id} />
+                    ) : (
+                      <a
+                        href={`/api/click/${link.id}`}
+                        className="inline-flex items-center justify-center bg-primary text-on-primary font-label-lg text-label-lg px-8 py-3 rounded-full hover:bg-secondary transition-colors uppercase tracking-wider w-max mx-auto md:mx-0 shadow-sm"
+                      >
+                        Виж повече
+                      </a>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </section>
+        )}
+
+        {/* Standard links list */}
+        {finalStandard.length > 0 && (
+          <section className="w-full flex flex-col gap-4 max-w-xl z-10 mb-20">
+            {finalStandard.map((link) => {
+              if (link.type === "EMAIL_CAPTURE") {
+                return (
+                  <div
+                    key={link.id}
+                    className="p-5 rounded-2xl bg-surface/85 backdrop-blur-xl border border-surface-container-high shadow-sm"
+                  >
+                    <strong className="font-headline-sm text-primary block mb-2">{link.title}</strong>
+                    {link.description && (
+                      <p className="text-xs text-on-surface-variant mb-3">{link.description}</p>
+                    )}
+                    <EmailCapture linkId={link.id} />
+                  </div>
+                );
+              }
+
+              return (
+                <a
+                  key={link.id}
+                  href={`/api/click/${link.id}`}
+                  className="flex justify-between items-center w-full py-5 px-6 rounded-2xl bg-surface/85 backdrop-blur-xl hover:bg-cream-surface transition-colors shadow-sm border border-surface-container-high group"
+                >
+                  <span className="font-headline-sm text-primary font-semibold leading-none">
+                    {link.title}
+                  </span>
+                  <span className="material-symbols-outlined text-outline group-hover:text-primary transition-colors">
+                    arrow_forward
+                  </span>
+                </a>
+              );
+            })}
+          </section>
+        )}
+
+        {/* CTA Section */}
+        {profile.donationUrl && (
+          <section className="relative rounded-[3rem] overflow-hidden group shadow-lg w-full max-w-4xl z-10 bg-surface-container-high border border-surface-container-high mb-16">
+            <div className="absolute inset-0 bg-primary opacity-80 mix-blend-multiply pointer-events-none"></div>
+            <div className="relative z-10 py-16 px-8 md:px-16 text-center flex flex-col items-center glass-overlay rounded-[3rem] m-4 md:m-8 border border-surface/20">
+              <h2 className="font-headline-lg text-primary text-white mb-4">СТАНИ ЕДНА ОТ НАС</h2>
+              <p className="font-body-md text-on-surface-variant text-white/90 max-w-md mb-8 leading-relaxed">
+                Свържи се с мен за допълнителна информация относно членство, продукти и бизнес възможности.
+              </p>
+              <a
+                href={profile.donationUrl}
+                className="bg-surface text-primary font-label-lg text-label-lg uppercase px-8 py-3 rounded-full hover:bg-cream-surface transition-colors shadow-md inline-flex items-center gap-1"
+              >
+                Присъедини се сега
+              </a>
+            </div>
+          </section>
+        )}
+      </main>
+
+      <footer className="flex flex-col items-center gap-4 py-12 px-margin-mobile w-full mt-auto border-t border-outline-variant bg-surface relative z-10 mb-20 md:mb-0">
+        <h2 className="font-headline-md text-primary">{profile.displayName}</h2>
+        <p className="font-body-md text-on-surface-variant mt-2 text-sm opacity-70">
+          © {new Date().getFullYear()} {profile.displayName}. All rights reserved.
+        </p>
+      </footer>
+    </>
   );
 }
 
 function FullGlass({ profile, links }: { profile: Profile; links: Link[] }) {
   return (
-    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg, #fbf9f4 0%, #eae8e3 100%)", fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 96 }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
-        <div style={{ width: 80, height: 80, borderRadius: "50%", overflow: "hidden", background: "rgba(255,255,255,0.3)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.5)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <Av p={profile} />
+    <div className="min-h-screen py-16 px-margin-mobile flex flex-col items-center justify-center relative">
+      {/* Dynamic flowing gradient background overlay applied in container */}
+      <div className="w-full max-w-md flex flex-col items-center gap-10 relative z-10">
+        {/* Header */}
+        <header className="flex flex-col items-center text-center space-y-4 w-full">
+          <div className="relative w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden shadow-lg flex items-center justify-center bg-white/20 backdrop-blur-md border border-white/40">
+            <Av p={profile} />
+          </div>
+          <div className="space-y-1">
+            <h1 className="font-headline-lg text-headline-lg text-primary font-bold">{profile.displayName}</h1>
+            {profile.bio && (
+              <p className="font-body-md text-body-md text-on-surface-variant max-w-xs mx-auto italic">
+                {profile.bio}
+              </p>
+            )}
+          </div>
+        </header>
+
+        {/* Links Grid */}
+        <div className="w-full flex flex-col gap-4">
+          {links.map((link) => {
+            if (link.type === "EMAIL_CAPTURE") {
+              return (
+                <div
+                  key={link.id}
+                  className="w-full p-6 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 shadow-lg"
+                >
+                  <strong className="font-headline-sm text-primary block mb-2">{link.title}</strong>
+                  {link.description && (
+                    <p className="text-xs text-on-surface-variant mb-4 leading-relaxed">
+                      {link.description}
+                    </p>
+                  )}
+                  <EmailCapture linkId={link.id} />
+                </div>
+              );
+            }
+
+            return (
+              <a
+                key={link.id}
+                href={`/api/click/${link.id}`}
+                className="w-full p-5 rounded-2xl bg-white/25 hover:bg-white/35 backdrop-blur-md border border-white/45 shadow-md flex items-center gap-4 transition-all duration-300 hover:scale-[1.01]"
+              >
+                {link.imageUrl && (
+                  <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 shadow-sm">
+                    <img src={link.imageUrl} alt="" className="w-full h-full object-cover" />
+                  </div>
+                )}
+                <div className="flex-1">
+                  <strong className="font-headline-sm text-primary text-[1.05rem] block">{link.title}</strong>
+                  {link.description && (
+                    <span className="text-xs text-on-surface-variant line-clamp-1 mt-0.5">
+                      {link.description}
+                    </span>
+                  )}
+                </div>
+                <span className="material-symbols-outlined text-outline-variant">chevron_right</span>
+              </a>
+            );
+          })}
         </div>
-        <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "2rem", fontWeight: 600, color: T.p, marginTop: 16 }}>{profile.displayName}</h1>
-        {profile.bio && <p style={{ color: T.m, fontStyle: "italic", textAlign: "center", marginTop: 8, maxWidth: 360 }}>{profile.bio}</p>}
-      </div>
-      <div style={{ maxWidth: 520, margin: "0 auto", padding: "0 16px", display: "grid", gap: 12 }}>
-        {links.map((link) => (
-          <a key={link.id} href={`/api/click/${link.id}`} style={{
-            display: "block", padding: 20, borderRadius: 16, textDecoration: "none",
-            background: "rgba(255,255,255,0.4)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
-            border: "1px solid rgba(255,255,255,0.6)", boxShadow: "0 8px 32px -8px rgba(30,15,11,0.06)",
-          }}>
-            <strong style={{ fontFamily: "EB Garamond, serif", fontSize: "1.1rem", color: T.p }}>{link.title}</strong>
+
+        {/* Optional Action Card */}
+        {profile.donationUrl && (
+          <a
+            href={profile.donationUrl}
+            className="w-full py-4 rounded-2xl bg-primary text-on-primary text-center font-label-lg text-label-lg uppercase tracking-wider shadow-lg hover:opacity-95 transition-opacity mt-4 block"
+          >
+            Свържи се с мен
           </a>
-        ))}
+        )}
+
+        {/* Footer */}
+        <footer className="py-8 text-center text-xs text-on-surface-variant/80">
+          © {new Date().getFullYear()} {profile.displayName}. All Rights Reserved.
+        </footer>
       </div>
     </div>
   );
@@ -118,101 +1942,188 @@ function FullGlass({ profile, links }: { profile: Profile; links: Link[] }) {
 
 function Neumorph({ profile, links }: { profile: Profile; links: Link[] }) {
   return (
-    <div style={{ minHeight: "100vh", background: T.cream, fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 96 }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
-        <div style={{
-          width: 80, height: 80, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center",
-          background: "linear-gradient(145deg, #ffffff, #e6e3dd)",
-          boxShadow: "4px 4px 10px rgba(30,15,11,0.04), -4px -4px 10px rgba(255,255,255,0.8)",
-        }}>
-          <Av p={profile} />
-        </div>
-        <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "2rem", fontWeight: 600, color: T.p, marginTop: 16 }}>{profile.displayName}</h1>
-        {profile.bio && <p style={{ color: T.m, fontStyle: "italic", textAlign: "center", marginTop: 8, maxWidth: 360 }}>{profile.bio}</p>}
-      </div>
-      <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 16px", display: "grid", gap: 16 }}>
-        {links.map((link) => (
-          <a key={link.id} href={`/api/click/${link.id}`} style={{
-            display: "block", padding: 20, borderRadius: 12, textDecoration: "none",
-            background: "linear-gradient(145deg, #ffffff, #e6e3dd)",
-            boxShadow: "4px 4px 10px rgba(30,15,11,0.04), -4px -4px 10px rgba(255,255,255,0.8)",
-          }}>
-            <strong style={{ fontFamily: "EB Garamond, serif", fontSize: "1.1rem", color: T.p }}>{link.title}</strong>
-          </a>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function Masonry({ profile, links }: { profile: Profile; links: Link[] }) {
-  return (
-    <div style={{ minHeight: "100vh", background: "#fafaf9", fontFamily: "EB Garamond, serif", paddingBottom: 96 }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
-        <h1 style={{ fontSize: "2.8rem", fontWeight: 700, color: T.p, borderBottom: "2px solid #e7e5e4", paddingBottom: 16, marginBottom: 12 }}>{profile.displayName}</h1>
-        {profile.bio && <p style={{ color: T.m, fontStyle: "italic", fontSize: "1.1rem", textAlign: "center", maxWidth: 400 }}>{profile.bio}</p>}
-      </div>
-      <div style={{ maxWidth: 640, margin: "0 auto", padding: "0 16px", columns: "2 240px", columnGap: 12 }}>
-        {links.map((link) => (
-          <a key={link.id} href={`/api/click/${link.id}`} style={{
-            display: "block", breakInside: "avoid", marginBottom: 12, background: "#fff", borderRadius: 4, overflow: "hidden",
-            border: "1px solid #e7e5e4", boxShadow: "0 2px 12px rgba(30,15,11,0.03)", textDecoration: "none",
-          }}>
-            {link.imageUrl && <img src={link.imageUrl} alt="" style={{ width: "100%" }} />}
-            <div style={{ padding: 16 }}>
-              <strong style={{ color: T.p, fontSize: "1rem" }}>{link.title}</strong>
-              {link.description && <p style={{ color: T.m, fontSize: "0.85rem", marginTop: 4, opacity: 0.7 }}>{link.description}</p>}
+    <div className="min-h-screen py-16 px-margin-mobile flex flex-col items-center bg-[#eae1d9] dark:bg-background">
+      <div className="w-full max-w-md flex flex-col items-center gap-10">
+        {/* Header */}
+        <header className="flex flex-col items-center text-center space-y-4">
+          <div className="relative w-28 h-28 md:w-32 md:h-32 rounded-full flex items-center justify-center p-1 bg-background shadow-[6px_6px_12px_#cac2ba,-6px_-6px_12px_#ffffff] border border-white/10">
+            <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-background">
+              <Av p={profile} />
             </div>
+          </div>
+          <div className="space-y-1">
+            <h1 className="font-headline-lg text-headline-lg text-primary font-bold">{profile.displayName}</h1>
+            {profile.bio && (
+              <p className="font-body-md text-body-md text-on-surface-variant max-w-xs mx-auto">
+                {profile.bio}
+              </p>
+            )}
+          </div>
+        </header>
+
+        {/* Neumorphic lists */}
+        <div className="w-full flex flex-col gap-6">
+          {links.map((link) => {
+            if (link.type === "EMAIL_CAPTURE") {
+              return (
+                <div
+                  key={link.id}
+                  className="w-full p-6 rounded-2xl bg-[#eae1d9] dark:bg-background shadow-[6px_6px_12px_#cac2ba,-6px_-6px_12px_#ffffff] border border-white/5"
+                >
+                  <strong className="font-headline-sm text-primary block mb-2">{link.title}</strong>
+                  {link.description && (
+                    <p className="text-xs text-on-surface-variant mb-4 leading-relaxed">
+                      {link.description}
+                    </p>
+                  )}
+                  <EmailCapture linkId={link.id} />
+                </div>
+              );
+            }
+
+            return (
+              <a
+                key={link.id}
+                href={`/api/click/${link.id}`}
+                className="w-full p-5 rounded-2xl bg-[#eae1d9] dark:bg-background shadow-[4px_4px_8px_#cac2ba,-4px_-4px_8px_#ffffff] hover:shadow-[inset_2px_2px_5px_#cac2ba,inset_-2px_-2px_5px_#ffffff] border border-white/5 flex items-center gap-4 transition-all duration-200"
+              >
+                {link.imageUrl && (
+                  <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 shadow-inner border border-white/10">
+                    <img src={link.imageUrl} alt="" className="w-full h-full object-cover" />
+                  </div>
+                )}
+                <div className="flex-1">
+                  <strong className="font-headline-sm text-primary text-[1rem] block">{link.title}</strong>
+                  {link.description && (
+                    <span className="text-xs text-on-surface-variant line-clamp-1 mt-0.5">
+                      {link.description}
+                    </span>
+                  )}
+                </div>
+                <span className="material-symbols-outlined text-outline-variant">chevron_right</span>
+              </a>
+            );
+          })}
+        </div>
+
+        {/* CTA */}
+        {profile.donationUrl && (
+          <a
+            href={profile.donationUrl}
+            className="w-full py-4 rounded-2xl bg-[#eae1d9] dark:bg-background text-primary font-semibold text-center shadow-[4px_4px_8px_#cac2ba,-4px_-4px_8px_#ffffff] active:shadow-[inset_2px_2px_5px_#cac2ba,inset_-2px_-2px_5px_#ffffff] transition-all uppercase tracking-wider text-sm mt-4 block"
+          >
+            Свържи се с мен
           </a>
-        ))}
+        )}
+
+        {/* Footer */}
+        <footer className="py-8 text-center text-xs text-on-surface-variant/80">
+          © {new Date().getFullYear()} {profile.displayName}. All Rights Reserved.
+        </footer>
       </div>
     </div>
   );
 }
 
 function LinkBio1({ profile, links }: { profile: Profile; links: Link[] }) {
-  return (
-    <div style={{ minHeight: "100vh", background: "linear-gradient(180deg, #d4c69c 0%, #fbf9f4 40%)", fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 64 }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "64px 16px 32px" }}>
-        <div style={{ width: 96, height: 96, borderRadius: "50%", overflow: "hidden", border: "4px solid #fff", boxShadow: "0 4px 12px rgba(0,0,0,0.1)", display: "flex", alignItems: "center", justifyContent: "center", background: T.crd }}>
-          <Av p={profile} />
-        </div>
-        <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "2rem", fontWeight: 600, color: T.p, marginTop: 16 }}>{profile.displayName}</h1>
-        {profile.bio && <p style={{ color: T.m, marginTop: 8, textAlign: "center", maxWidth: 360 }}>{profile.bio}</p>}
-      </div>
-      <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 16px", display: "grid", gap: 16 }}>
-        {links.map((link) => (
-          <a key={link.id} href={`/api/click/${link.id}`} style={{
-            display: "block", padding: 16, borderRadius: 16, textDecoration: "none",
-            background: "rgba(242,239,233,0.7)", backdropFilter: "blur(8px)", border: "1px solid rgba(199,185,139,0.2)", boxShadow: "0 4px 20px rgba(30,15,11,0.04)",
-          }}>
-            <strong style={{ fontFamily: "EB Garamond, serif", fontSize: "1.1rem", color: T.p }}>{link.title}</strong>
-          </a>
-        ))}
-      </div>
-    </div>
-  );
-}
+  const socials = [
+    { name: "Instagram", icon: "photo_camera", url: profile.socialInstagram },
+    { name: "Facebook", icon: "public", url: profile.socialFacebook },
+    { name: "WhatsApp", icon: "chat", url: profile.socialWhatsapp },
+    { name: "Viber", icon: "call", url: profile.socialViber },
+  ].filter((s) => s.url);
 
-function LinkBio2({ profile, links }: { profile: Profile; links: Link[] }) {
   return (
-    <div style={{ minHeight: "100vh", background: T.cream, fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 64 }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
-        <div style={{ width: 80, height: 80, borderRadius: "50%", overflow: "hidden", border: `2px solid ${T.gold}`, display: "flex", alignItems: "center", justifyContent: "center", background: T.crd }}>
-          <Av p={profile} />
+    <div className="min-h-screen py-16 px-margin-mobile flex flex-col items-center justify-center relative">
+      {/* Layout uses top gradient flow details */}
+      <div className="w-full max-w-md flex flex-col items-center gap-10 relative z-10 mx-auto">
+        {/* Header */}
+        <header className="flex flex-col items-center text-center space-y-4 pt-8">
+          <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg border-4 border-white flex items-center justify-center bg-surface-container">
+            <Av p={profile} />
+          </div>
+          <div className="space-y-1">
+            <h1 className="font-headline-lg text-headline-lg text-primary font-bold">{profile.displayName}</h1>
+            {profile.bio && (
+              <p className="font-body-md text-body-md text-on-surface-variant max-w-xs mx-auto italic">
+                {profile.bio}
+              </p>
+            )}
+          </div>
+        </header>
+
+        {/* Social Link block */}
+        {socials.length > 0 && (
+          <div className="flex gap-4">
+            {socials.map((s, idx) => (
+              <a
+                key={idx}
+                href={s.url!}
+                className="w-10 h-10 rounded-full bg-white/40 backdrop-blur-md shadow-sm border border-white/50 flex items-center justify-center text-primary hover:scale-105 transition-transform"
+              >
+                <span className="material-symbols-outlined">{s.icon}</span>
+              </a>
+            ))}
+          </div>
+        )}
+
+        {/* Card Links */}
+        <div className="w-full flex flex-col gap-4">
+          {links.map((link) => {
+            if (link.type === "EMAIL_CAPTURE") {
+              return (
+                <div
+                  key={link.id}
+                  className="w-full p-6 rounded-2xl bg-white/50 backdrop-blur-md border border-white/60 shadow-md"
+                >
+                  <strong className="font-headline-sm text-primary block mb-2">{link.title}</strong>
+                  {link.description && (
+                    <p className="text-xs text-on-surface-variant mb-4">{link.description}</p>
+                  )}
+                  <EmailCapture linkId={link.id} />
+                </div>
+              );
+            }
+
+            return (
+              <a
+                key={link.id}
+                href={`/api/click/${link.id}`}
+                className="w-full p-5 rounded-2xl bg-white/50 hover:bg-white/65 backdrop-blur-md border border-white/60 shadow-sm flex items-center gap-4 transition-all hover:scale-[1.01]"
+              >
+                {link.imageUrl && (
+                  <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 shadow-sm border border-white/40">
+                    <img src={link.imageUrl} alt="" className="w-full h-full object-cover" />
+                  </div>
+                )}
+                <div className="flex-1">
+                  <strong className="font-headline-sm text-primary text-[1.02rem] block">{link.title}</strong>
+                  {link.description && (
+                    <span className="text-xs text-on-surface-variant line-clamp-1 mt-0.5">
+                      {link.description}
+                    </span>
+                  )}
+                </div>
+                <span className="material-symbols-outlined text-outline-variant">chevron_right</span>
+              </a>
+            );
+          })}
         </div>
-        <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "1.8rem", fontWeight: 600, color: T.p, marginTop: 16 }}>{profile.displayName}</h1>
-        {profile.bio && <p style={{ color: T.m, marginTop: 8, textAlign: "center", maxWidth: 360 }}>{profile.bio}</p>}
-      </div>
-      <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 16px", display: "grid", gap: 12 }}>
-        {links.map((link) => (
-          <a key={link.id} href={`/api/click/${link.id}`} style={{
-            display: "block", padding: 16, borderRadius: 16, textDecoration: "none",
-            background: "#f0eee9", boxShadow: "0 2px 12px rgba(30,15,11,0.04)",
-          }}>
-            <strong style={{ fontFamily: "EB Garamond, serif", fontSize: "1.1rem", color: T.p }}>{link.title}</strong>
+
+        {/* CTA */}
+        {profile.donationUrl && (
+          <a
+            href={profile.donationUrl}
+            className="w-full py-4 rounded-2xl bg-primary text-on-primary text-center font-label-lg text-label-lg uppercase tracking-wider shadow-md hover:opacity-95 transition-opacity mt-4 block"
+          >
+            Свържи се с мен
           </a>
-        ))}
+        )}
+
+        {/* Footer */}
+        <footer className="py-8 text-center text-xs text-on-surface-variant/80 w-full mt-auto">
+          © {new Date().getFullYear()} {profile.displayName}. All Rights Reserved.
+        </footer>
       </div>
     </div>
   );
@@ -220,251 +2131,207 @@ function LinkBio2({ profile, links }: { profile: Profile; links: Link[] }) {
 
 function Clean({ profile, links }: { profile: Profile; links: Link[] }) {
   return (
-    <div style={{ minHeight: "100vh", background: T.cream, fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 80 }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "40px 16px 24px" }}>
-        <div style={{ width: 56, height: 56, borderRadius: "50%", overflow: "hidden", border: "1px solid #e4e2dd", display: "flex", alignItems: "center", justifyContent: "center" }}>
+    <main className="min-h-screen py-16 px-margin-mobile flex flex-col items-center justify-center max-w-md mx-auto">
+      {/* Header */}
+      <header className="flex flex-col items-center text-center space-y-4 mb-10 w-full">
+        <div className="w-16 h-16 rounded-full overflow-hidden border border-outline-variant flex items-center justify-center bg-surface-container shadow-sm">
           <Av p={profile} />
         </div>
-        <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "1.3rem", fontWeight: 600, color: T.p, marginTop: 12 }}>{profile.displayName}</h1>
-        {profile.bio && <p style={{ color: T.m, fontSize: "0.85rem", marginTop: 4, textAlign: "center", maxWidth: 280 }}>{profile.bio}</p>}
-      </div>
-      <div style={{ maxWidth: 440, margin: "0 auto", padding: "0 16px", display: "grid", gap: 8 }}>
-        {links.map((link) => (
-          <a key={link.id} href={`/api/click/${link.id}`} style={{
-            display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", background: "#fff", borderRadius: 8, textDecoration: "none",
-            boxShadow: "0 2px 10px rgba(30,15,11,0.03)",
-          }}>
-            {link.imageUrl && <img src={link.imageUrl} alt="" style={{ width: 40, height: 40, borderRadius: 4, objectFit: "cover" }} />}
-            <strong style={{ color: T.p, fontSize: "0.9rem" }}>{link.title}</strong>
-          </a>
-        ))}
-      </div>
-    </div>
-  );
-}
+        <div className="space-y-1">
+          <h1 className="font-headline-md text-headline-md text-primary font-bold">{profile.displayName}</h1>
+          {profile.bio && (
+            <p className="font-body-md text-body-md text-on-surface-variant max-w-xs mx-auto text-sm leading-relaxed">
+              {profile.bio}
+            </p>
+          )}
+        </div>
+      </header>
 
-function Blobs({ profile, links }: { profile: Profile; links: Link[] }) {
-  return (
-    <div style={{ minHeight: "100vh", background: T.cream, fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 96 }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
-        <div style={{ width: 80, height: 80, borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%", overflow: "hidden", border: `2px solid ${T.gold}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <Av p={profile} />
-        </div>
-        <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "2rem", fontWeight: 600, color: T.p, marginTop: 16 }}>{profile.displayName}</h1>
-        {profile.bio && <p style={{ color: T.m, fontStyle: "italic", textAlign: "center", marginTop: 8, maxWidth: 360 }}>{profile.bio}</p>}
-      </div>
-      <div style={{ maxWidth: 520, margin: "0 auto", padding: "0 16px", display: "grid", gap: 16 }}>
-        {links.map((link, i) => {
-          const shapes = ["40% 60% 70% 30% / 40% 50% 60% 50%", "60% 40% 30% 70% / 60% 30% 70% 40%", "50% 50% 45% 55% / 55% 45% 55% 45%"];
+      {/* Grid Links List */}
+      <div className="w-full flex flex-col gap-3">
+        {links.map((link) => {
+          if (link.type === "EMAIL_CAPTURE") {
+            return (
+              <div key={link.id} className="w-full p-5 bg-white border border-outline-variant rounded-xl shadow-sm">
+                <strong className="font-label-lg text-primary block mb-2">{link.title}</strong>
+                {link.description && (
+                  <p className="text-xs text-on-surface-variant mb-4 leading-relaxed">{link.description}</p>
+                )}
+                <EmailCapture linkId={link.id} />
+              </div>
+            );
+          }
+
           return (
-            <a key={link.id} href={`/api/click/${link.id}`} style={{
-              display: "block", padding: 20, borderRadius: shapes[i % 3], textDecoration: "none",
-              background: "#fff", boxShadow: "0 4px 20px rgba(30,15,11,0.04)",
-            }}>
-              <strong style={{ fontFamily: "EB Garamond, serif", fontSize: "1.1rem", color: T.p }}>{link.title}</strong>
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="w-full p-4 bg-white border border-outline-variant rounded-xl shadow-sm flex items-center gap-4 hover:border-primary transition-colors hover:shadow-md"
+            >
+              {link.imageUrl ? (
+                <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 border border-outline-variant shadow-sm">
+                  <img src={link.imageUrl} alt="" className="w-full h-full object-cover" />
+                </div>
+              ) : (
+                <div className="w-12 h-12 rounded-lg flex-shrink-0 bg-surface-container flex items-center justify-center border border-outline-variant text-primary/30">
+                  <span className="material-symbols-outlined text-xl">link</span>
+                </div>
+              )}
+              <div className="flex-1">
+                <strong className="text-primary text-[0.95rem] block">{link.title}</strong>
+                {link.description && (
+                  <span className="text-xs text-on-surface-variant line-clamp-1 mt-0.5">{link.description}</span>
+                )}
+              </div>
+              <span className="material-symbols-outlined text-outline-variant text-xl">chevron_right</span>
             </a>
           );
         })}
       </div>
-    </div>
+
+      {/* Optional CTA */}
+      {profile.donationUrl && (
+        <a
+          href={profile.donationUrl}
+          className="w-full py-4 bg-primary text-on-primary text-center font-label-lg text-label-lg uppercase tracking-wider rounded-xl shadow-sm hover:opacity-95 transition-opacity mt-4 block"
+        >
+          Свържи се с мен
+        </a>
+      )}
+
+      {/* Footer */}
+      <footer className="py-12 text-center text-xs text-on-surface-variant/70 w-full mt-auto">
+        © {new Date().getFullYear()} {profile.displayName}. All Rights Reserved.
+      </footer>
+    </main>
   );
 }
 
-function ZGlass({ profile, links }: { profile: Profile; links: Link[] }) {
-  return (
-    <div style={{ minHeight: "100vh", background: T.cream, fontFamily: "Hanken Grotesk, sans-serif", paddingBottom: 96 }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
-        <div style={{ width: 80, height: 80, borderRadius: "50%", overflow: "hidden", border: `2px solid ${T.gold}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <Av p={profile} />
-        </div>
-        <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "2rem", fontWeight: 600, color: T.p, marginTop: 16 }}>{profile.displayName}</h1>
-        {profile.bio && <p style={{ color: T.m, fontStyle: "italic", textAlign: "center", marginTop: 8, maxWidth: 360 }}>{profile.bio}</p>}
-      </div>
-      <div style={{ maxWidth: 520, margin: "0 auto", padding: "0 16px", display: "grid", gap: 16 }}>
-        {links.map((link, i) => (
-          <a key={link.id} href={`/api/click/${link.id}`} style={{
-            display: "block", padding: 16, borderRadius: 16, textDecoration: "none", transform: i % 2 === 0 ? "translateX(-4px)" : "translateX(4px)",
-            background: "rgba(242,239,233,0.7)", backdropFilter: "blur(12px)", border: "1px solid rgba(199,185,139,0.15)", boxShadow: "0 10px 40px -8px rgba(30,15,11,0.08)",
-          }}>
-            <strong style={{ fontFamily: "EB Garamond, serif", fontSize: "1.1rem", color: T.p }}>{link.title}</strong>
-          </a>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function O1({ profile, links }: { profile: Profile; links: Link[] }) {
-  return (
-    <div style={{ minHeight: "100vh", background: "#fff8f3", fontFamily: "DM Sans, sans-serif", paddingBottom: 96 }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
-        <div style={{ width: 80, height: 80, borderRadius: "50%", overflow: "hidden", border: "2px solid rgba(119,90,25,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <Av p={profile} />
-        </div>
-        <h1 style={{ fontSize: "2rem", fontWeight: 400, color: "#181512", marginTop: 16 }}>{profile.displayName}</h1>
-        {profile.bio && <p style={{ color: "rgba(24,21,18,0.6)", textAlign: "center", marginTop: 8, maxWidth: 360 }}>{profile.bio}</p>}
-      </div>
-      <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 16px", display: "grid", gap: 12 }}>
-        {links.map((link) => (
-          <a key={link.id} href={`/api/click/${link.id}`} style={{
-            display: "block", padding: 20, borderRadius: 8, textDecoration: "none",
-            background: "#fffaf5", border: "1px solid rgba(119,90,25,0.15)", boxShadow: "0 2px 16px -2px rgba(0,0,0,0.04)",
-          }}>
-            <strong style={{ color: "#181512", fontSize: "1rem" }}>{link.title}</strong>
-          </a>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function O2({ profile, links }: { profile: Profile; links: Link[] }) {
-  return (
-    <div style={{ minHeight: "100vh", background: "#FFF8F3", fontFamily: "DM Sans, sans-serif", paddingBottom: 96 }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 16px 32px" }}>
-        <div style={{ width: 80, height: 80, borderRadius: "50%", overflow: "hidden", border: "1px solid rgba(119,90,25,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <Av p={profile} />
-        </div>
-        <h1 style={{ fontSize: "2.4rem", fontWeight: 500, color: "#181512", letterSpacing: "-0.02em", marginTop: 16 }}>{profile.displayName}</h1>
-        {profile.bio && <p style={{ color: "rgba(24,21,18,0.6)", textAlign: "center", marginTop: 8, maxWidth: 360, lineHeight: 1.7 }}>{profile.bio}</p>}
-      </div>
-      <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 16px", display: "grid", gap: 16 }}>
-        {links.map((link) => (
-          <a key={link.id} href={`/api/click/${link.id}`} style={{
-            display: "block", padding: "16px 20px", borderRadius: 4, textDecoration: "none",
-            background: "#fffaf5", border: "1px solid rgba(119,90,25,0.1)", transition: "box-shadow 0.2s",
-          }}>
-            <strong style={{ color: "#181512", fontSize: "1rem" }}>{link.title}</strong>
-          </a>
-        ))}
-      </div>
-    </div>
-  );
-}
+/* ───────────────────────────────────────────────────────────
+   BACKWARD COMPATIBLE & STANDALONE PLATFORM RENDERERS (Intact)
+   ─────────────────────────────────────────────────────────── */
 
 function OrganicElegance({ profile, links }: { profile: Profile; links: Link[] }) {
   const s = { boxShadow: "0 4px 20px rgba(30,15,11,0.05)" };
   return (
-    <div style={{ minHeight: "100vh", background: "#fbf9f4", color: "#1e0f0b", fontFamily: "Hanken Grotesk, sans-serif" }}>
-      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(251,249,244,0.85)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(0,0,0,0.05)", padding: "12px 16px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ width: 40, height: 40, borderRadius: "50%", overflow: "hidden", border: "1px solid #d3c3bf", display: "flex", alignItems: "center", justifyContent: "center" }}>
+    <div className="min-h-screen bg-[#fbf9f4] text-[#1e0f0b] font-sans antialiased relative">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-[#fbf9f4]/85 backdrop-blur-md border-b border-black/5 padding-12 px-6 py-3">
+        <div className="max-w-[1200px] margin-auto flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full overflow-hidden border border-[#d3c3bf] flex items-center justify-center bg-white">
             <Av p={profile} />
           </div>
-          <h1 style={{ fontFamily: "EB Garamond, serif", fontSize: "1.5rem", fontWeight: 700, margin: 0 }}>{profile.displayName}</h1>
+          <h1 className="font-serif text-2xl font-bold">{profile.displayName}</h1>
         </div>
       </div>
-      <div style={{ height: 96 }} />
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "16px 24px" }}>
+      <div className="h-24" />
+      <div className="max-w-[1200px] margin-auto px-6 py-6 flex flex-col gap-10">
         {profile.bio && (
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <p style={{ fontSize: "1.1rem", lineHeight: 1.75, color: "#4f4442", fontStyle: "italic", maxWidth: 640, margin: "0 auto 24px" }}>{profile.bio}</p>
-            <div style={{ display: "flex", justifyContent: "center", gap: 16 }}>
-              {["photo_camera","play_arrow","thumb_up","chat"].map((icon) => (
-                <div key={icon} style={{ width: 48, height: 48, borderRadius: "50%", background: "#F2EFE9", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid rgba(211,195,191,0.3)", ...s }}>
-                  <span className="material-symbols-outlined" style={{ fontSize: 22, color: "#1e0f0b" }}>{icon}</span>
+          <div className="text-center mb-6">
+            <p className="text-lg leading-relaxed text-[#4f4442] italic max-w-2xl mx-auto mb-6">{profile.bio}</p>
+            <div className="flex justify-center gap-4">
+              {["photo_camera", "play_arrow", "thumb_up", "chat"].map((icon) => (
+                <div
+                  key={icon}
+                  style={s}
+                  className="w-12 h-12 rounded-full bg-[#F2EFE9] flex items-center justify-center border border-[#d3c3bf]/30"
+                >
+                  <span className="material-symbols-outlined text-xl text-[#1e0f0b]">{icon}</span>
                 </div>
               ))}
             </div>
           </div>
         )}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 24, marginBottom: 96 }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
           {links.length > 0 && (
-            <a href={`/api/click/${links[0].id}`} style={{ gridColumn: "1/-1", display: "block", position: "relative", minHeight: "55vh", borderRadius: "2rem", overflow: "hidden", ...s }}>
-              {links[0].imageUrl && <img src={links[0].imageUrl} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />}
-              <div style={{ position: "absolute", inset: 0, background: links[0].imageUrl ? "linear-gradient(to top, rgba(30,15,11,0.8), rgba(30,15,11,0.2), transparent)" : "#F2EFE9", display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "center", padding: 32, textAlign: "center" }}>
-                <h2 style={{ fontFamily: "EB Garamond, serif", fontSize: "3rem", fontWeight: 500, color: links[0].imageUrl ? "#fff" : "#1e0f0b", letterSpacing: "-0.02em", textShadow: links[0].imageUrl ? "0 2px 8px rgba(0,0,0,0.3)" : "none" }}>{links[0].title}</h2>
+            <a
+              href={`/api/click/${links[0].id}`}
+              style={s}
+              className="md:col-span-3 block relative min-h-[50vh] rounded-[2rem] overflow-hidden"
+            >
+              {links[0].imageUrl && (
+                <img
+                  src={links[0].imageUrl}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1e0f0b]/80 via-[#1e0f0b]/20 to-transparent flex flex-col justify-end items-center p-8 text-center">
+                <h2 className="font-serif text-4xl md:text-5xl text-white mb-2 leading-tight">
+                  {links[0].title}
+                </h2>
               </div>
             </a>
           )}
           {links.length > 1 && (
-            <a href={`/api/click/${links[1].id}`} style={{ gridColumn: "span 2", display: "block", position: "relative", height: 320, borderRadius: "2rem", overflow: "hidden", ...s, background: "#F2EFE9" }}>
-              {links[1].imageUrl && <img src={links[1].imageUrl} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.9 }} />}
-              <div style={{ position: "absolute", inset: 0, background: links[1].imageUrl ? "linear-gradient(to top, rgba(251,249,244,0.9), rgba(251,249,244,0.1))" : "transparent", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: 24 }}>
-                <h3 style={{ fontFamily: "EB Garamond, serif", fontSize: "1.5rem", fontWeight: 500, color: "#1e0f0b", marginBottom: 12 }}>{links[1].title}</h3>
-                <span style={{ display: "inline-flex", justifyContent: "center", background: "#1e0f0b", color: "#fff", padding: "12px 24px", borderRadius: 999, maxWidth: 160, fontSize: "0.85rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: 1 }}>ВИЖ ПОВЕЧЕ</span>
+            <a
+              href={`/api/click/${links[1].id}`}
+              style={s}
+              className="md:col-span-2 block relative h-80 rounded-[2rem] overflow-hidden bg-[#F2EFE9]"
+            >
+              {links[1].imageUrl && (
+                <img
+                  src={links[1].imageUrl}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover opacity-90"
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#fbf9f4]/90 to-transparent flex flex-col justify-end p-6">
+                <h3 className="font-serif text-2xl text-[#1e0f0b] mb-4">{links[1].title}</h3>
+                <span className="inline-flex justify-center bg-[#1e0f0b] text-white px-6 py-3 rounded-full w-max text-xs font-bold uppercase tracking-wider">
+                  ВИЖ ПОВЕЧЕ
+                </span>
               </div>
             </a>
           )}
           {links.length > 2 && (
-            <a href={`/api/click/${links[2].id}`} style={{ display: "block", position: "relative", height: 320, borderRadius: "40% 60% 70% 30% / 40% 50% 60% 50%", overflow: "hidden", ...s, background: "#F2EFE9" }}>
-              {links[2].imageUrl && <img src={links[2].imageUrl} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.8 }} />}
-              <div style={{ position: "relative", zIndex: 10, background: "rgba(242,239,233,0.4)", backdropFilter: "blur(12px)", borderRadius: "50%", padding: 24, textAlign: "center", width: "80%", height: "80%", margin: "10% auto", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", border: "1px solid rgba(30,15,11,0.15)" }}>
-                <span className="material-symbols-outlined" style={{ fontSize: 32, color: "#1e0f0b", marginBottom: 8 }}>auto_awesome</span>
-                <h3 style={{ fontFamily: "EB Garamond, serif", fontSize: "1.5rem", fontWeight: 500, color: "#1e0f0b", lineHeight: 1.3 }}>{links[2].title}</h3>
+            <a
+              href={`/api/click/${links[2].id}`}
+              style={s}
+              className="block relative h-80 organic-shape-1 overflow-hidden bg-[#F2EFE9]"
+            >
+              {links[2].imageUrl && (
+                <img
+                  src={links[2].imageUrl}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover opacity-80"
+                />
+              )}
+              <div className="relative z-10 bg-[#fbf9f4]/40 backdrop-blur-md rounded-full p-6 text-center w-[80%] h-[80%] m-[10%] flex flex-col items-center justify-center border border-[#1e0f0b]/15">
+                <span className="material-symbols-outlined text-3xl mb-2 text-[#1e0f0b]">auto_awesome</span>
+                <h3 className="font-serif text-xl text-[#1e0f0b] leading-snug">{links[2].title}</h3>
               </div>
             </a>
           )}
-          {links.slice(3).map((link, i) => {
-            const layouts = [
-              { dir: "column" as const, r: "2rem", col: "span 1", bg: "#F2EFE9", c: "#1e0f0b" },
-              { dir: "row" as const, r: "50%", col: "span 2", bg: "#F2EFE9", c: "#1e0f0b" },
-              { dir: "column" as const, r: "60% 40% 30% 70% / 60% 30% 70% 40%", col: "span 2", bg: "#b8ab83", c: "#483f20", badge: true },
-            ];
-            const lt = layouts[i % 3];
-            return (
-              <a key={link.id} href={`/api/click/${link.id}`} style={{
-                display: "flex", flexDirection: lt.dir, position: "relative", height: 256, overflow: "hidden",
-                borderRadius: lt.r, ...s, background: lt.bg, color: lt.c,
-                gridColumn: lt.col, alignItems: lt.dir === "row" ? "center" : "stretch",
-                paddingLeft: lt.dir === "row" ? 32 : 0, paddingRight: lt.dir === "row" ? 16 : 0,
-              }}>
-                {link.imageUrl && (
-                  <div style={{ overflow: "hidden", flexShrink: 0,
-                    width: lt.dir === "row" ? 160 : "100%", height: lt.dir === "row" ? 160 : "50%",
-                    borderRadius: lt.dir === "row" ? "50%" : "0", border: lt.dir === "row" ? "4px solid #fbf9f4" : "none",
-                    ...(lt.badge ? { position: "absolute", inset: 0 } : {}),
-                  }}>{<img src={link.imageUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: lt.badge ? 0.4 : 1 }} />}</div>
-                )}
-                <div style={{ padding: 20, flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", zIndex: lt.badge ? 10 : "auto", position: lt.badge ? "relative" : "static" }}>
-                  {lt.badge && <span style={{ padding: "4px 12px", background: "rgba(251,249,244,0.5)", borderRadius: 999, fontSize: "0.75rem", fontWeight: 500, marginBottom: 12, backdropFilter: "blur(4px)", display: "inline-block", width: "fit-content" }}>Ново</span>}
-                  <h4 style={{ fontFamily: "EB Garamond, serif", fontSize: "1.2rem", fontWeight: 500 }}>{link.title}</h4>
-                  {link.description && <p style={{ fontSize: "0.9rem", opacity: 0.7, marginTop: 8, lineHeight: 1.5 }}>{link.description}</p>}
-                </div>
-              </a>
-            );
-          })}
         </div>
-        {profile.bio && (
-          <div style={{ marginBottom: 48, borderRadius: "3rem", overflow: "hidden", position: "relative", ...s }}>
-            <div style={{ position: "absolute", inset: 0, background: "rgba(30,15,11,0.9)", zIndex: 0 }} />
-            <div style={{ position: "relative", zIndex: 10, padding: "80px 32px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", background: "rgba(242,239,233,0.4)", backdropFilter: "blur(12px)", borderRadius: "3rem", margin: 16, border: "1px solid rgba(251,249,244,0.2)" }}>
-              <h2 style={{ fontFamily: "EB Garamond, serif", fontSize: "3rem", fontWeight: 500, color: "#fff", letterSpacing: "-0.02em", marginBottom: 24 }}>СТАНИ ЕДНА ОТ НАС</h2>
-              <p style={{ fontSize: "1.1rem", color: "#e4e2dd", maxWidth: 480, marginBottom: 40 }}>{profile.bio}</p>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
 }
 
-/* ─── PINTEREST MASONRY ─── */
 function Pinterest({ profile, links }: { profile: Profile; links: Link[] }) {
   return (
-    <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "-apple-system, sans-serif" }}>
-      <div style={{ padding: "24px 16px", textAlign: "center" }}>
-        {profile.avatarUrl && (
-          <div style={{ width: 64, height: 64, borderRadius: "50%", overflow: "hidden", margin: "0 auto 8px" }}>
-            <Av p={profile} />
-          </div>
-        )}
-        <h1 style={{ fontSize: "1.4rem", fontWeight: 700, color: "#111" }}>{profile.displayName}</h1>
-        {profile.bio && <p style={{ color: "#767676", fontSize: "0.85rem", marginTop: 4 }}>{profile.bio}</p>}
+    <div className="min-h-screen bg-white font-sans antialiased pb-24">
+      <div className="padding-24 py-8 text-center flex flex-col items-center gap-2">
+        <div className="w-16 h-16 rounded-full overflow-hidden shadow-sm border border-gray-100 flex items-center justify-center bg-gray-50 mb-2">
+          <Av p={profile} />
+        </div>
+        <h1 className="text-xl font-bold text-gray-900">{profile.displayName}</h1>
+        {profile.bio && <p className="text-gray-500 text-sm">{profile.bio}</p>}
       </div>
-      <div style={{ maxWidth: 640, margin: "0 auto", padding: "0 12px", columns: "2 150px", columnGap: 12 }}>
+      <div className="max-w-2xl mx-auto px-3 columns-2 md:columns-3 gap-3">
         {links.map((link) => (
-          <a key={link.id} href={`/api/click/${link.id}`} style={{
-            display: "block", breakInside: "avoid", marginBottom: 12, borderRadius: 16, overflow: "hidden",
-            position: "relative", background: "#f0f0f0", textDecoration: "none",
-          }}>
-            {link.imageUrl && <img src={link.imageUrl} alt="" style={{ width: "100%", display: "block" }} />}
-            <div style={{ position: "absolute", top: 8, right: 8, width: 32, height: 32, borderRadius: "50%", background: "rgba(0,0,0,0.4)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: "1rem" }}>
+          <a
+            key={link.id}
+            href={`/api/click/${link.id}`}
+            className="block break-inside-avoid mb-3 rounded-2xl overflow-hidden relative bg-gray-100 shadow-sm hover:shadow-md transition-shadow group"
+          >
+            {link.imageUrl && <img src={link.imageUrl} alt="" className="w-full display-block" />}
+            <div className="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/40 flex items-center justify-center text-white text-base">
               ♡
             </div>
             {!link.imageUrl && (
-              <div style={{ padding: 16, minHeight: 80 }}>
-                <strong style={{ fontSize: "0.85rem", color: "#111" }}>{link.title}</strong>
+              <div className="p-4 min-h-[80px]">
+                <strong className="text-xs text-gray-950 font-bold uppercase tracking-wider">{link.title}</strong>
               </div>
             )}
           </a>
@@ -474,25 +2341,25 @@ function Pinterest({ profile, links }: { profile: Profile; links: Link[] }) {
   );
 }
 
-/* ─── APPLE NOTES ─── */
 function Notes({ profile, links }: { profile: Profile; links: Link[] }) {
   return (
-    <div style={{ minHeight: "100vh", background: "#fffef2", fontFamily: "Georgia, serif" }}>
-      <div style={{ maxWidth: 520, margin: "0 auto", padding: "32px 16px" }}>
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <h1 style={{ fontSize: "1.8rem", fontWeight: 400, color: "#2c2c2c", marginBottom: 4 }}>📝 {profile.displayName}</h1>
-          {profile.bio && <p style={{ color: "#888", fontSize: "0.9rem", fontStyle: "italic" }}>{profile.bio}</p>}
+    <div className="min-h-screen bg-[#fffef2] font-serif py-16 px-4">
+      <div className="max-w-lg mx-auto">
+        <div className="text-center mb-12">
+          <h1 className="text-3xl text-gray-800 font-bold mb-2">📝 {profile.displayName}</h1>
+          {profile.bio && <p className="text-gray-500 italic text-sm">{profile.bio}</p>}
         </div>
-        <div style={{ display: "grid", gap: 12 }}>
+        <div className="flex flex-col gap-1 border-t border-dashed border-gray-300">
           {links.map((link, i) => (
-            <a key={link.id} href={`/api/click/${link.id}`} style={{
-              display: "flex", alignItems: "flex-start", gap: 10, padding: "12px 0",
-              borderBottom: "1px dashed #ddd", textDecoration: "none", color: "#2c2c2c",
-            }}>
-              <span style={{ fontSize: "1.2rem", lineHeight: 1.4 }}>{i % 3 === 0 ? "☐" : i % 3 === 1 ? "★" : "•"}</span>
-              <div>
-                <strong style={{ fontSize: "0.95rem", display: "block" }}>{link.title}</strong>
-                {link.description && <small style={{ color: "#888", fontSize: "0.8rem" }}>{link.description}</small>}
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="flex items-start gap-3 py-4 border-b border-dashed border-gray-300 hover:bg-black/5 px-2 transition-all"
+            >
+              <span className="text-xl leading-none">{i % 3 === 0 ? "☐" : i % 3 === 1 ? "★" : "•"}</span>
+              <div className="flex-1">
+                <strong className="text-base text-gray-800 block font-bold leading-tight">{link.title}</strong>
+                {link.description && <small className="text-gray-500 text-xs mt-1 block">{link.description}</small>}
               </div>
             </a>
           ))}
@@ -502,39 +2369,41 @@ function Notes({ profile, links }: { profile: Profile; links: Link[] }) {
   );
 }
 
-/* ─── TWITTER/X FEED ─── */
 function Twitter({ profile, links }: { profile: Profile; links: Link[] }) {
   return (
-    <div style={{ minHeight: "100vh", background: "#000", color: "#e7e9ea", fontFamily: "-apple-system, sans-serif" }}>
-      <div style={{ maxWidth: 600, margin: "0 auto", padding: "12px 16px" }}>
-        <div style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "16px 0", borderBottom: "1px solid #2f3336" }}>
-          <div style={{ width: 48, height: 48, borderRadius: "50%", overflow: "hidden", flexShrink: 0, border: "2px solid #1d9bf0" }}>
+    <div className="min-h-screen bg-black text-[#e7e9ea] font-sans">
+      <div className="max-w-2xl mx-auto border-x border-[#2f3336] min-h-screen">
+        <div className="flex items-start gap-4 p-4 border-b border-[#2f3336]">
+          <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#1d9bf0] flex items-center justify-center bg-gray-800 flex-shrink-0">
             <Av p={profile} />
           </div>
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <strong style={{ fontSize: "0.95rem" }}>{profile.displayName}</strong>
-              <span style={{ background: "#1d9bf0", color: "#fff", borderRadius: "50%", width: 18, height: 18, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: "0.65rem", fontWeight: 700 }}>✓</span>
-              <span style={{ color: "#71767b", fontSize: "0.85rem", marginLeft: 4 }}>@{(profile.displayName || "").toLowerCase().replace(/\s/g,"")}</span>
+            <div className="flex items-center gap-1">
+              <strong className="font-bold text-base">{profile.displayName}</strong>
+              <span className="bg-[#1d9bf0] text-white rounded-full w-[16px] h-[16px] flex items-center justify-center text-[9px] font-bold">
+                ✓
+              </span>
+              <span className="text-[#71767b] text-sm ml-2">@{profile.displayName.toLowerCase().replace(/\s/g, "")}</span>
             </div>
-            {profile.bio && <p style={{ color: "#e7e9ea", fontSize: "0.9rem", marginTop: 4 }}>{profile.bio}</p>}
+            {profile.bio && <p className="text-[#e7e9ea] text-sm mt-1">{profile.bio}</p>}
           </div>
         </div>
-        <div style={{ display: "grid", gap: 1, background: "#16181c", borderRadius: 16, overflow: "hidden", marginTop: 8 }}>
-          {links.map((link, i) => (
-            <a key={link.id} href={`/api/click/${link.id}`} style={{
-              display: "block", padding: "14px 16px", background: "#000", textDecoration: "none", color: "#e7e9ea",
-              borderBottom: i < links.length - 1 ? "1px solid #2f3336" : "none",
-            }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <strong style={{ fontSize: "0.9rem" }}>{link.title}</strong>
-                <div style={{ display: "flex", gap: 20, color: "#71767b", fontSize: "0.8rem" }}>
-                  <span>💬 {Math.floor(Math.random()*99)}</span>
-                  <span>🔄 {Math.floor(Math.random()*99)}</span>
-                  <span>❤️ {Math.floor(Math.random()*999)}</span>
+        <div className="flex flex-col gap-px bg-[#2f3336]">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="block p-4 bg-black hover:bg-white/5 transition-all text-[#e7e9ea]"
+            >
+              <div className="flex justify-between items-center">
+                <strong className="font-bold text-base block">{link.title}</strong>
+                <div className="flex gap-4 text-[#71767b] text-xs">
+                  <span>💬 {Math.floor(Math.random() * 20)}</span>
+                  <span>🔄 {Math.floor(Math.random() * 50)}</span>
+                  <span>❤️ {Math.floor(Math.random() * 150)}</span>
                 </div>
               </div>
-              {link.description && <p style={{ color: "#71767b", fontSize: "0.8rem", marginTop: 4 }}>{link.description}</p>}
+              {link.description && <p className="text-[#71767b] text-xs mt-1">{link.description}</p>}
             </a>
           ))}
         </div>
@@ -543,76 +2412,86 @@ function Twitter({ profile, links }: { profile: Profile; links: Link[] }) {
   );
 }
 
-/* ─── NETFLIX CARD ROW ─── */
 function Netflix({ profile, links }: { profile: Profile; links: Link[] }) {
   return (
-    <div style={{ minHeight: "100vh", background: "#141414", color: "#fff", fontFamily: "-apple-system, sans-serif" }}>
-      <div style={{ padding: "16px 16px 8px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          {profile.avatarUrl && (
-            <div style={{ width: 36, height: 36, borderRadius: 4, overflow: "hidden" }}>
-              <Av p={profile} />
-            </div>
-          )}
-          <h1 style={{ fontSize: "1.3rem", fontWeight: 700, letterSpacing: "-0.02em" }}>{profile.displayName}</h1>
+    <div className="min-h-screen bg-[#141414] text-white font-sans pb-16">
+      <div className="p-4 flex items-center gap-3 border-b border-white/5">
+        <div className="w-10 h-10 rounded overflow-hidden flex items-center justify-center bg-[#e50914] flex-shrink-0 font-bold">
+          <Av p={profile} />
         </div>
-        {profile.bio && <p style={{ color: "#b3b3b3", fontSize: "0.85rem", marginTop: 8 }}>{profile.bio}</p>}
+        <h1 className="text-xl font-black tracking-tight">{profile.displayName}</h1>
       </div>
-      <div style={{ overflowX: "auto", padding: "8px 16px", display: "flex", gap: 8 }}>
-        {links.map((link) => (
-          <a key={link.id} href={`/api/click/${link.id}`} style={{
-            flexShrink: 0, width: 200, borderRadius: 6, overflow: "hidden", textDecoration: "none",
-            position: "relative", transition: "transform 0.2s",
-          }}>
-            <div style={{ position: "relative", height: 280, background: link.imageUrl ? "transparent" : "#333" }}>
-              {link.imageUrl ? <img src={link.imageUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                : <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}><strong style={{ fontSize: "0.9rem" }}>{link.title}</strong></div>
-              }
-              <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 48, height: 48, borderRadius: "50%", background: "rgba(229,9,20,0.9)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem" }}>
-                ▶
+      <div className="p-4 mt-4">
+        {profile.bio && <p className="text-gray-400 text-sm mb-6 max-w-md">{profile.bio}</p>}
+        <h2 className="text-lg font-bold mb-4">Препоръчано за Вас</h2>
+        <div className="overflow-x-auto flex gap-4 pb-4">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="flex-shrink-0 w-44 rounded overflow-hidden bg-[#2f2f2f] hover:scale-105 transition-transform relative group block"
+            >
+              <div className="relative aspect-[2/3] bg-gray-800 flex items-center justify-center text-center">
+                {link.imageUrl ? (
+                  <img src={link.imageUrl} alt="" className="w-full h-full object-cover" />
+                ) : (
+                  <strong className="p-2 text-xs text-white">{link.title}</strong>
+                )}
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                  <div className="w-12 h-12 rounded-full bg-[#e50914] flex items-center justify-center text-white text-xl">
+                    ▶
+                  </div>
+                </div>
               </div>
-            </div>
-            {link.imageUrl && <p style={{ marginTop: 6, fontSize: "0.8rem", color: "#b3b3b3" }}>{link.title}</p>}
-          </a>
-        ))}
+              <p className="p-3 text-xs font-bold leading-tight line-clamp-2">{link.title}</p>
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
-/* ─── DISCORD CHANNEL ─── */
 function Discord({ profile, links }: { profile: Profile; links: Link[] }) {
   return (
-    <div style={{ minHeight: "100vh", background: "#313338", color: "#dbdee1", fontFamily: "-apple-system, sans-serif" }}>
-      <div style={{ maxWidth: 640, margin: "0 auto" }}>
-        <div style={{ padding: "16px", borderBottom: "1px solid #1e1f22", display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ color: "#80848e", fontSize: "1.3rem" }}>#</span>
-          <h1 style={{ fontFamily: "monospace", fontSize: "1rem", fontWeight: 700, margin: 0 }}>{profile.displayName.toLowerCase().replace(/\s/g,"-")}</h1>
+    <div className="min-h-screen bg-[#313338] text-[#dbdee1] font-sans">
+      <div className="max-w-2xl mx-auto border-x border-[#1e1f22] min-h-screen flex flex-col">
+        <div className="p-4 border-b border-[#1e1f22] flex items-center gap-2">
+          <span className="text-[#80848e] text-2xl font-bold">#</span>
+          <h1 className="text-base font-bold text-white uppercase tracking-wider">
+            {profile.displayName.toLowerCase().replace(/\s/g, "-")}
+          </h1>
         </div>
-        <div style={{ padding: "16px" }}>
+        <div className="flex-1 p-4 flex flex-col gap-4">
           {profile.bio && (
-            <div style={{ padding: "12px 0", marginBottom: 8, borderBottom: "1px solid #1e1f22" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                <span style={{ width: 40, height: 40, borderRadius: "50%", overflow: "hidden", background: "#5865f2", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Av p={profile} /></span>
-                <div>
-                  <strong style={{ fontSize: "0.9rem" }}>{profile.displayName}</strong>
-                  <span style={{ color: "#80848e", fontSize: "0.75rem", marginLeft: 6 }}>днес в {new Date().getHours()}:{String(new Date().getMinutes()).padStart(2,'0')}</span>
-                </div>
+            <div className="flex items-start gap-4 pb-4 border-b border-[#1e1f22]">
+              <div className="w-10 h-10 rounded-full overflow-hidden bg-[#5865f2] flex items-center justify-center flex-shrink-0 text-white font-bold">
+                <Av p={profile} />
               </div>
-              <p style={{ color: "#dbdee1", fontSize: "0.85rem", marginLeft: 48, lineHeight: 1.5 }}>{profile.bio}</p>
+              <div>
+                <div className="flex items-center gap-2">
+                  <strong className="text-white text-sm font-semibold">{profile.displayName}</strong>
+                  <span className="text-[#80848e] text-xs">днес в {new Date().getHours()}:{String(new Date().getMinutes()).padStart(2, "0")}</span>
+                </div>
+                <p className="text-sm mt-1 leading-relaxed text-[#dbdee1]">{profile.bio}</p>
+              </div>
             </div>
           )}
-          {links.map((link, i) => (
-            <a key={link.id} href={`/api/click/${link.id}`} style={{
-              display: "flex", padding: "4px 8px", borderRadius: 4, textDecoration: "none", color: "#dbdee1",
-            }}>
-              <span style={{ color: "#80848e", fontSize: "0.75rem", width: 48, flexShrink: 0, textAlign: "right", paddingRight: 8, paddingTop: 4 }}>
-                {String(new Date().getHours()).padStart(2,'0')}:{String(Math.min(new Date().getMinutes()+i*3, 59)).padStart(2,'0')}
+          {links.map((link, idx) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="flex items-start gap-4 p-2 rounded hover:bg-white/5 transition-colors group"
+            >
+              <span className="text-[#80848e] text-xs w-10 text-right pt-1 flex-shrink-0">
+                {String(new Date().getHours()).padStart(2, "0")}:{String(Math.min(new Date().getMinutes() + idx * 3, 59)).padStart(2, "0")}
               </span>
               <div>
-                <strong style={{ fontSize: "0.82rem" }}>{link.title}</strong>
-                {link.imageUrl && <img src={link.imageUrl} alt="" style={{ maxWidth: 300, borderRadius: 4, marginTop: 4, display: "block" }} />}
-                {link.description && <p style={{ color: "#80848e", fontSize: "0.78rem", marginTop: 2 }}>{link.description}</p>}
+                <strong className="text-white text-sm font-semibold group-hover:underline block">{link.title}</strong>
+                {link.imageUrl && (
+                  <img src={link.imageUrl} alt="" className="max-w-[280px] rounded mt-2 border border-black/20" />
+                )}
+                {link.description && <p className="text-xs text-[#80848e] mt-1">{link.description}</p>}
               </div>
             </a>
           ))}
@@ -622,29 +2501,37 @@ function Discord({ profile, links }: { profile: Profile; links: Link[] }) {
   );
 }
 
-/* ─── SPOTIFY WRAPPED ─── */
 function SpotifyWrapped({ profile, links }: { profile: Profile; links: Link[] }) {
-  const gradients = ["linear-gradient(135deg, #1db954, #191414)", "linear-gradient(135deg, #e91e63, #ff9800)", "linear-gradient(135deg, #3f51b5, #00bcd4)", "linear-gradient(135deg, #ff5722, #ffc107)"];
+  const gradients = [
+    "linear-gradient(135deg, #1db954 0%, #191414 100%)",
+    "linear-gradient(135deg, #e91e63 0%, #ff9800 100%)",
+    "linear-gradient(135deg, #3f51b5 0%, #00bcd4 100%)",
+    "linear-gradient(135deg, #ff5722 0%, #ffc107 100%)",
+  ];
   return (
-    <div style={{ minHeight: "100vh", background: "#191414", color: "#fff", fontFamily: "-apple-system, sans-serif", paddingBottom: 48 }}>
-      <div style={{ textAlign: "center", padding: "48px 16px 32px" }}>
-        <h1 style={{ fontSize: "0.75rem", letterSpacing: 4, textTransform: "uppercase", opacity: 0.6, marginBottom: 8 }}>2024 Wrapped</h1>
-        <div style={{ width: 80, height: 80, borderRadius: "50%", overflow: "hidden", margin: "0 auto 12px", border: "3px solid #1db954" }}>
+    <div className="min-h-screen bg-[#191414] text-white font-sans pb-24">
+      <div className="text-center py-16 px-4">
+        <h1 className="text-xs tracking-[0.25em] text-white/50 uppercase font-black mb-4">Моят Топ Списък 2024</h1>
+        <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[#1db954] mx-auto mb-4 flex items-center justify-center bg-gray-900 shadow-md">
           <Av p={profile} />
         </div>
-        <h2 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.04em" }}>{profile.displayName}</h2>
-        {profile.bio && <p style={{ opacity: 0.5, fontSize: "0.9rem", marginTop: 4 }}>{profile.bio}</p>}
+        <h2 className="text-3xl font-black tracking-tight">{profile.displayName}</h2>
+        {profile.bio && <p className="text-white/60 text-sm mt-2">{profile.bio}</p>}
       </div>
-      <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 16px", display: "grid", gap: 12 }}>
+      <div className="max-w-md mx-auto px-4 flex flex-col gap-4">
         {links.map((link, i) => (
-          <a key={link.id} href={`/api/click/${link.id}`} style={{
-            display: "block", padding: 24, borderRadius: 16, textDecoration: "none", color: "#fff",
-            background: gradients[i % gradients.length], position: "relative", overflow: "hidden",
-          }}>
-            <div style={{ fontSize: "0.65rem", letterSpacing: 3, textTransform: "uppercase", opacity: 0.7, marginBottom: 4 }}>TOP {i+1}</div>
-            <strong style={{ fontSize: "1.4rem", fontWeight: 800 }}>{link.title}</strong>
-            {link.description && <p style={{ opacity: 0.6, fontSize: "0.8rem", marginTop: 4 }}>{link.description}</p>}
-            <div style={{ position: "absolute", right: -20, bottom: -10, fontSize: "8rem", fontWeight: 900, opacity: 0.1 }}>{i+1}</div>
+          <a
+            key={link.id}
+            href={`/api/click/${link.id}`}
+            style={{ background: gradients[i % gradients.length] }}
+            className="block p-6 rounded-2xl relative overflow-hidden shadow-lg hover:scale-[1.02] transition-all duration-300"
+          >
+            <div className="text-[10px] tracking-widest text-white/70 uppercase font-bold mb-1">№{i + 1} в моя списък</div>
+            <strong className="text-2xl font-black block tracking-tight leading-tight">{link.title}</strong>
+            {link.description && <p className="text-white/80 text-xs mt-2">{link.description}</p>}
+            <div className="absolute right-[-10px] bottom-[-20px] text-white/10 text-9xl font-black select-none pointer-events-none">
+              {i + 1}
+            </div>
           </a>
         ))}
       </div>
@@ -652,35 +2539,37 @@ function SpotifyWrapped({ profile, links }: { profile: Profile; links: Link[] })
   );
 }
 
-/* ─── GITHUB REPO CARDS ─── */
 function GitHub({ profile, links }: { profile: Profile; links: Link[] }) {
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1117", color: "#c9d1d9", fontFamily: "monospace" }}>
-      <div style={{ maxWidth: 640, margin: "0 auto", padding: "24px 16px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
-          <div style={{ width: 48, height: 48, borderRadius: "50%", overflow: "hidden", border: "1px solid #30363d" }}>
+    <div className="min-h-screen bg-[#0d1117] text-[#c9d1d9] font-mono py-12 px-4">
+      <div className="max-w-2xl mx-auto">
+        <div className="flex items-center gap-4 mb-8">
+          <div className="w-12 h-12 rounded-full overflow-hidden border border-[#30363d] bg-gray-900 flex items-center justify-center flex-shrink-0">
             <Av p={profile} />
           </div>
           <div>
-            <h1 style={{ fontSize: "1.2rem", fontWeight: 600, margin: 0 }}>{profile.displayName}</h1>
-            {profile.bio && <p style={{ color: "#8b949e", fontSize: "0.8rem", margin: 0 }}>{profile.bio}</p>}
+            <h1 className="text-lg font-bold text-white">{profile.displayName}</h1>
+            {profile.bio && <p className="text-[#8b949e] text-xs mt-0.5">{profile.bio}</p>}
           </div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {links.map((link) => (
-            <a key={link.id} href={`/api/click/${link.id}`} style={{
-              display: "block", padding: 16, borderRadius: 6, textDecoration: "none", color: "#c9d1d9",
-              border: "1px solid #30363d", background: "#161b22",
-            }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                <span style={{ color: "#8b949e", fontSize: "0.9rem" }}>📁</span>
-                <strong style={{ color: "#58a6ff", fontSize: "0.85rem" }}>{link.title}</strong>
-                <span style={{ marginLeft: "auto", border: "1px solid #30363d", borderRadius: 12, padding: "0 8px", fontSize: "0.7rem", color: "#8b949e" }}>Public</span>
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="block p-4 rounded-md border border-[#30363d] bg-[#161b22] hover:border-[#8b949e] transition-colors"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[#8b949e] text-sm">📁</span>
+                <strong className="text-[#58a6ff] text-sm font-semibold">{link.title}</strong>
+                <span className="ml-auto border border-[#30363d] rounded-full px-2 py-0.5 text-[10px] text-[#8b949e] uppercase">
+                  Public
+                </span>
               </div>
-              {link.description && <p style={{ color: "#8b949e", fontSize: "0.75rem", lineHeight: 1.4 }}>{link.description}</p>}
-              <div style={{ display: "flex", gap: 16, marginTop: 12, fontSize: "0.72rem", color: "#8b949e" }}>
-                <span>⭐ {Math.floor(Math.random()*999)}</span>
-                <span>⑂ {Math.floor(Math.random()*99)}</span>
+              {link.description && <p className="text-[#8b949e] text-[11px] leading-relaxed line-clamp-3">{link.description}</p>}
+              <div className="flex gap-4 mt-4 text-[10px] text-[#8b949e]">
+                <span>⭐ {Math.floor(Math.random() * 500)}</span>
+                <span>⑂ {Math.floor(Math.random() * 50)}</span>
               </div>
             </a>
           ))}
@@ -690,26 +2579,28 @@ function GitHub({ profile, links }: { profile: Profile; links: Link[] }) {
   );
 }
 
-/* ─── AIRBNB CARDS ─── */
 function Airbnb({ profile, links }: { profile: Profile; links: Link[] }) {
   return (
-    <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "-apple-system, sans-serif" }}>
-      <div style={{ padding: "24px 16px 8px", textAlign: "center" }}>
-        <h1 style={{ fontSize: "1.4rem", fontWeight: 600, color: "#222" }}>{profile.displayName}</h1>
-        {profile.bio && <p style={{ color: "#717171", fontSize: "0.85rem", marginTop: 4 }}>{profile.bio}</p>}
+    <div className="min-h-screen bg-white text-[#222222] font-sans pb-24">
+      <div className="p-6 text-center border-b border-gray-100 max-w-2xl mx-auto">
+        <h1 className="text-xl font-bold">{profile.displayName}</h1>
+        {profile.bio && <p className="text-gray-500 text-sm mt-1">{profile.bio}</p>}
       </div>
-      <div style={{ maxWidth: 640, margin: "0 auto", padding: "0 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+      <div className="max-w-2xl mx-auto px-4 mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
         {links.map((link) => (
-          <a key={link.id} href={`/api/click/${link.id}`} style={{ textDecoration: "none", color: "#222" }}>
-            <div style={{ position: "relative", borderRadius: 12, overflow: "hidden", aspectRatio: "1", background: link.imageUrl ? "transparent" : "#f7f7f7" }}>
-              {link.imageUrl ? <img src={link.imageUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                : <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center", padding: 12 }}><strong>{link.title}</strong></div>}
-              <div style={{ position: "absolute", top: 12, right: 12, fontSize: "1.4rem" }}>♡</div>
+          <a key={link.id} href={`/api/click/${link.id}`} className="block group">
+            <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-100 border border-gray-100 shadow-sm group-hover:shadow-md transition-shadow">
+              {link.imageUrl ? (
+                <img src={link.imageUrl} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-xs font-bold p-3 text-center">{link.title}</div>
+              )}
+              <div className="absolute top-3 right-3 text-white text-2xl drop-shadow-md">♡</div>
             </div>
             {link.imageUrl && (
-              <div style={{ padding: "8px 0" }}>
-                <strong style={{ fontSize: "0.85rem", display: "block" }}>{link.title}</strong>
-                {link.description && <span style={{ color: "#717171", fontSize: "0.78rem" }}>{link.description}</span>}
+              <div className="py-2">
+                <strong className="text-sm text-gray-900 block font-bold leading-snug">{link.title}</strong>
+                {link.description && <span className="text-xs text-gray-500 mt-0.5 block">{link.description}</span>}
               </div>
             )}
           </a>
@@ -719,66 +2610,86 @@ function Airbnb({ profile, links }: { profile: Profile; links: Link[] }) {
   );
 }
 
-/* ─── CHATGPT-STYLE ─── */
 function ChatGPT({ profile, links }: { profile: Profile; links: Link[] }) {
   return (
-    <div style={{ minHeight: "100vh", background: "#343541", color: "#ececf1", fontFamily: "-apple-system, sans-serif" }}>
-      <div style={{ maxWidth: 640, margin: "0 auto", padding: "16px" }}>
-        <div style={{ padding: "16px", borderRadius: 12, background: "#444654", marginBottom: 16, display: "flex", gap: 12 }}>
-          <div style={{ width: 32, height: 32, borderRadius: 4, background: "#19c37d", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: "0.9rem", color: "#fff" }}>🤖</div>
-          <div>
-            <p style={{ margin: 0, lineHeight: 1.6, fontSize: "0.9rem" }}>Здравей! Аз съм профилът на <strong style={{ color: "#19c37d" }}>{profile.displayName}</strong>. Ето какво мога да ти покажа:</p>
+    <div className="min-h-screen bg-[#343541] text-[#ececf1] font-sans">
+      <div className="max-w-2xl mx-auto p-4 flex flex-col min-h-screen justify-between">
+        <div className="flex-1">
+          <div className="p-4 rounded-xl bg-[#444654] border border-white/5 flex gap-4 items-start mb-6">
+            <div className="w-8 h-8 rounded bg-[#19c37d] flex items-center justify-center text-white text-base flex-shrink-0 shadow-sm font-bold">
+              🤖
+            </div>
+            <div>
+              <p className="text-sm leading-relaxed">
+                Здравей! Аз съм дигиталният асистент на <strong className="text-[#19c37d] font-bold">{profile.displayName}</strong>. 
+                Тук са събрани всички важни препратки и информация. Кликни на бутоните по-долу, за да разгледаш:
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-col gap-3">
+            {links.map((link) => (
+              <div key={link.id} className="p-4 rounded-xl bg-[#3e3f4b] hover:bg-[#4a4b57] transition-all border border-white/5 shadow-sm">
+                <a href={`/api/click/${link.id}`} className="flex items-start gap-3">
+                  <span className="text-[#19c37d] text-base leading-none">▸</span>
+                  <div>
+                    <strong className="text-sm text-[#ececf1] font-bold block">{link.title}</strong>
+                    {link.description && <p className="text-xs text-[#8e8ea0] mt-1 leading-relaxed">{link.description}</p>}
+                  </div>
+                </a>
+              </div>
+            ))}
           </div>
         </div>
-        {links.map((link, i) => (
-          <div key={link.id} style={{ padding: "12px 16px", borderRadius: 12, background: "#3e3f4b", marginBottom: 8 }}>
-            <a href={`/api/click/${link.id}`} style={{ textDecoration: "none", color: "#ececf1", display: "flex", alignItems: "flex-start", gap: 10 }}>
-              <span style={{ color: "#19c37d", fontSize: "0.9rem", flexShrink: 0 }}>▸</span>
-              <div>
-                <strong style={{ fontSize: "0.9rem", display: "block" }}>{link.title}</strong>
-                {link.description && <p style={{ color: "#8e8ea0", fontSize: "0.78rem", marginTop: 2, lineHeight: 1.4 }}>{link.description}</p>}
-              </div>
-            </a>
-          </div>
-        ))}
-        <div style={{ padding: "8px", opacity: 0.3, textAlign: "center", fontSize: "0.75rem" }}>
-          <span style={{ animation: "blink 1s infinite" }}>▌</span> Генериране...
+        <div className="py-6 opacity-30 text-center text-xs tracking-wider flex items-center justify-center gap-1.5">
+          <span className="w-1.5 h-3 bg-[#ececf1] inline-block animate-pulse" /> Генериране на съдържание...
         </div>
       </div>
     </div>
   );
 }
 
-/* ─── ARCADE / RETRO GAME ─── */
 function Arcade({ profile, links }: { profile: Profile; links: Link[] }) {
   return (
-    <div style={{ minHeight: "100vh", background: "#0a0a2e", color: "#0ff", fontFamily: "monospace", imageRendering: "pixelated", paddingBottom: 48 }}>
-      <div style={{ textAlign: "center", padding: "32px 16px 16px" }}>
-        <div style={{ width: 80, height: 80, margin: "0 auto 12px", border: "4px solid #f0f", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <div style={{ width: 56, height: 56, border: "4px solid #0ff", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <Av p={profile} />
-          </div>
-        </div>
-        <h1 style={{ fontSize: "1.8rem", fontWeight: 700, color: "#f0f", textShadow: "3px 3px 0 #0ff", letterSpacing: 2, textTransform: "uppercase" }}>{profile.displayName}</h1>
-        {profile.bio && <p style={{ color: "#0ff", fontSize: "0.8rem", marginTop: 8 }}>{profile.bio}</p>}
-        <div style={{ marginTop: 8, fontSize: "0.7rem", color: "#f0f", border: "2px solid #0ff", display: "inline-block", padding: "4px 12px" }}>
-          SCORE: {links.length.toString().padStart(6,"0")}
-        </div>
-      </div>
-      <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 16px", display: "grid", gap: 8 }}>
-        {links.map((link, i) => (
-          <a key={link.id} href={`/api/click/${link.id}`} style={{
-            display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", textDecoration: "none", color: "#0ff",
-            border: "3px solid #f0f", background: "rgba(255,0,255,0.05)", imageRendering: "pixelated",
-          }}>
-            <span style={{ fontSize: "1.3rem" }}>{i % 5 === 0 ? "💎" : i % 5 === 1 ? "👾" : i % 5 === 2 ? "🕹" : i % 5 === 3 ? "⭐" : "🎯"}</span>
-            <div style={{ flex: 1 }}>
-              <strong style={{ textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: 1, color: "#f0f", textShadow: "1px 1px 0 #0ff" }}>{link.title}</strong>
-              {link.description && <p style={{ color: "#0ff", fontSize: "0.72rem", marginTop: 2 }}>{link.description}</p>}
+    <div className="min-h-screen bg-[#0a0a2e] text-[#0ff] font-mono py-12 px-4 select-none">
+      <div className="max-w-lg mx-auto text-center border-4 border-[#f0f] bg-black/80 p-8 rounded-lg shadow-[0_0_20px_#f0f] relative overflow-hidden">
+        {/* Retro scanlines effect */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] pointer-events-none z-20" />
+        
+        <header className="mb-8 relative z-10">
+          <div className="w-20 h-20 rounded-none border-4 border-[#f0f] mx-auto mb-4 p-1 bg-black shadow-[0_0_10px_#f0f] flex items-center justify-center">
+            <div className="w-full h-full border-2 border-[#0ff] flex items-center justify-center overflow-hidden bg-gray-900">
+              <Av p={profile} />
             </div>
-            <span style={{ fontSize: "1.2rem" }}>▶</span>
-          </a>
-        ))}
+          </div>
+          <h1 className="text-2xl font-black text-[#f0f] tracking-widest uppercase [text-shadow:3px_3px_0_#0ff] mb-2">
+            {profile.displayName}
+          </h1>
+          {profile.bio && <p className="text-[#0ff] text-xs uppercase tracking-wider">{profile.bio}</p>}
+          <div className="inline-block border-2 border-[#0ff] px-4 py-1 text-xs text-[#f0f] font-bold mt-4 [text-shadow:1px_1px_0_#0ff] tracking-widest">
+            SCORE: {links.length.toString().padStart(6, "0")}
+          </div>
+        </header>
+
+        <nav className="flex flex-col gap-3 relative z-10">
+          {links.map((link, idx) => (
+            <a
+              key={link.id}
+              href={`/api/click/${link.id}`}
+              className="flex items-center gap-3 p-4 border-2 border-[#f0f] bg-[#f0f]/5 hover:bg-[#0ff]/10 hover:border-[#0ff] transition-all text-[#0ff] [text-shadow:1px_1px_0_#000]"
+            >
+              <span className="text-xl">
+                {idx % 5 === 0 ? "💎" : idx % 5 === 1 ? "👾" : idx % 5 === 2 ? "🕹" : idx % 5 === 3 ? "⭐" : "🎯"}
+              </span>
+              <div className="flex-1 text-left">
+                <strong className="text-xs uppercase tracking-widest text-[#f0f] group-hover:text-[#0ff] block font-bold leading-tight">
+                  {link.title}
+                </strong>
+                {link.description && <p className="text-[10px] text-[#0ff] lowercase mt-0.5">{link.description}</p>}
+              </div>
+              <span className="text-base">▶</span>
+            </a>
+          ))}
+        </nav>
       </div>
     </div>
   );

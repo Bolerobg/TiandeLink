@@ -101,7 +101,7 @@ export default async function PublicProfilePage({
     return (
       <StitchTemplate
         template={theme.template}
-        profile={{ displayName: profile.displayName, bio: profile.bio, avatarUrl: profile.avatarUrl }}
+        profile={profile}
         links={mainLinks.map((link) => ({
           id: link.id,
           title: link.title,
@@ -109,6 +109,7 @@ export default async function PublicProfilePage({
           description: link.description,
           imageUrl: link.imageUrl,
           icon: (link as any).icon,
+          type: link.type,
         }))}
       />
     );
