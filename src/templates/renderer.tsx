@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { createRoot } from "react-dom/client";
 import configs from "./configs_summary.json";
 import { EmailCapture } from "@/components/email-capture";
 
@@ -3969,11 +3970,26 @@ export function PremiumInteractiveEnhancer({ profile, links }: { profile: Profil
       const link = links.find((l) => l.id === linkId);
       if (!link) return;
       
+      if (link.type === "EMAIL_CAPTURE") {
+        const div = document.createElement("div");
+        div.className = "w-full my-4 rounded-xl border border-white/20 p-5 bg-white/5 backdrop-blur-md shadow-xl text-left";
+        div.style.color = "inherit";
+        div.innerHTML = `<h3 class="font-bold mb-2">${link.title || "Абонирай се"}</h3>${link.description ? `<p class="text-sm opacity-80 mb-3">${link.description}</p>` : ""}<div id="email-capture-root-${link.id}"></div>`;
+        a.parentNode?.replaceChild(div, a);
+        
+        const rootNode = div.querySelector(`#email-capture-root-${link.id}`);
+        if (rootNode) {
+          const root = createRoot(rootNode);
+          root.render(<EmailCapture linkId={link.id} />);
+        }
+        return;
+      }
+      
       // A. If it is an Embed
-      const isSpotify = link.url.includes("spotify.com");
-      const isYoutube = link.url.includes("youtube.com") || link.url.includes("youtu.be");
-      const isSoundcloud = link.url.includes("soundcloud.com");
-      const isCalendly = link.url.includes("calendly.com");
+      const isSpotify = (link.url || "").includes("spotify.com");
+      const isYoutube = (link.url || "").includes("youtube.com") || (link.url || "").includes("youtu.be");
+      const isSoundcloud = (link.url || "").includes("soundcloud.com");
+      const isCalendly = (link.url || "").includes("calendly.com");
       
       if (isSpotify || isYoutube || isSoundcloud || isCalendly) {
         const div = document.createElement("div");
@@ -3983,14 +3999,14 @@ export function PremiumInteractiveEnhancer({ profile, links }: { profile: Profil
         let height = "152";
         
         if (isSpotify) {
-          const spotifyMatch = link.url.match(/spotify\.com\/(?:embed\/)?(\w+)\/([\w]+)/);
+          const spotifyMatch = (link.url || "").match(/spotify\.com\/(?:embed\/)?(\w+)\/([\w]+)/);
           if (spotifyMatch) {
             iframeSrc = `https://open.spotify.com/embed/${spotifyMatch[1]}/${spotifyMatch[2]}`;
           } else {
             iframeSrc = link.url;
           }
         } else if (isYoutube) {
-          const ytMatch = link.url.match(/youtu\.be\/([\w-]+)/) || link.url.match(/youtube\.com\/watch\?v=([\w-]+)/) || link.url.match(/youtube\.com\/embed\/([\w-]+)/) || link.url.match(/youtube\.com\/shorts\/([\w-]+)/);
+          const ytMatch = (link.url || "").match(/youtu\.be\/([\w-]+)/) || (link.url || "").match(/youtube\.com\/watch\?v=([\w-]+)/) || (link.url || "").match(/youtube\.com\/embed\/([\w-]+)/) || (link.url || "").match(/youtube\.com\/shorts\/([\w-]+)/);
           if (ytMatch) {
             iframeSrc = `https://www.youtube.com/embed/${ytMatch[1]}`;
             height = "240";
