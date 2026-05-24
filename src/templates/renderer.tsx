@@ -4331,7 +4331,6 @@ export function PremiumInteractiveEnhancer({ profile, links }: { profile: Profil
             if (!toastContainer) {
               toastContainer = document.createElement("div");
               toastContainer.id = "saaslink-toast-container";
-              toastContainer.className = "fixed bottom-24 md:bottom-6 left-4 right-4 md:right-auto md:w-80 z-[9999] flex flex-col gap-2 pointer-events-none";
               document.body.appendChild(toastContainer);
             }
 
@@ -4343,31 +4342,29 @@ export function PremiumInteractiveEnhancer({ profile, links }: { profile: Profil
               toastIdx = (toastIdx + 1) % toastEvents.length;
               
               const toastCard = document.createElement("div");
-              toastCard.className = "w-full p-3.5 rounded-2xl bg-black/85 backdrop-blur-xl border border-white/10 shadow-2xl flex items-center gap-3 text-left transition-all duration-500 ease-out transform translate-x-[-120%] opacity-0 pointer-events-auto hover:border-lime-400/30";
+              toastCard.className = "saaslink-live-toast-card";
               
               const icons = ["🛍️", "✅", "🔥", "✨", "❤️"];
               const activeIcon = icons[Math.floor(Math.random() * icons.length)];
               
               toastCard.innerHTML = `
-                <div class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-lg shadow-inner shrink-0">
+                <div class="saaslink-live-toast-icon-wrapper">
                   ${activeIcon}
                 </div>
-                <div class="flex flex-col flex-1 min-w-0">
-                  <span class="text-[11px] font-semibold text-white/95 truncate">${link.title || "Активност на живо"}</span>
-                  <span class="text-[10px] text-white/80 font-light leading-snug mt-0.5 line-clamp-2">${eventText}</span>
+                <div class="saaslink-live-toast-content">
+                  <span class="saaslink-live-toast-title">${link.title || "Активност на живо"}</span>
+                  <span class="saaslink-live-toast-desc">${eventText}</span>
                 </div>
               `;
               
               toastContainer.appendChild(toastCard);
               
               setTimeout(() => {
-                toastCard.classList.remove("translate-x-[-120%]", "opacity-0");
-                toastCard.classList.add("translate-x-0", "opacity-100");
+                toastCard.classList.add("show");
               }, 100);
               
               setTimeout(() => {
-                toastCard.classList.remove("translate-x-0", "opacity-100");
-                toastCard.classList.add("translate-x-[-120%]", "opacity-0");
+                toastCard.classList.remove("show");
                 setTimeout(() => {
                   toastCard.remove();
                 }, 500);
@@ -4497,49 +4494,48 @@ export function PremiumInteractiveEnhancer({ profile, links }: { profile: Profil
       if (!toastContainer) {
         toastContainer = document.createElement("div");
         toastContainer.id = "saaslink-order-toast-container";
-        toastContainer.className = "fixed bottom-24 md:bottom-6 left-4 right-4 md:right-auto md:w-85 z-[9999] flex flex-col gap-2 pointer-events-none";
         document.body.appendChild(toastContainer);
       }
       
       const toastCard = document.createElement("div");
-      toastCard.className = "w-full p-3.5 rounded-2xl bg-zinc-950/90 backdrop-blur-xl border border-white/10 shadow-2xl flex items-center gap-3.5 text-left transition-all duration-700 ease-out transform translate-y-[150%] opacity-0 pointer-events-auto hover:border-lime-400/30 cursor-pointer relative";
+      toastCard.className = "saaslink-toast-card";
       
       toastCard.onclick = () => {
         window.open(`/api/click/${linkItem.id}`, '_blank');
       };
 
       toastCard.innerHTML = `
-        <div class="relative w-11 h-11 shrink-0">
-          <img src="${buyer.avatar}" class="w-full h-full rounded-full object-cover border border-white/20 shadow-sm" alt="${buyer.name}" />
-          <span class="absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 rounded-full border border-zinc-950 flex items-center justify-center text-[8px] text-white font-bold">✓</span>
+        <div class="saaslink-toast-avatar-wrapper">
+          <img src="${buyer.avatar}" class="saaslink-toast-avatar" alt="${buyer.name}" />
+          <span class="saaslink-toast-badge">✓</span>
         </div>
-        <div class="flex flex-col flex-1 min-w-0 pr-2">
-          <div class="flex items-center justify-between gap-2">
-            <span class="text-[11px] font-bold text-white">${buyer.name} <span class="text-white/60 font-normal">от ${buyer.city}</span></span>
-            <span class="text-[9px] text-emerald-400 font-medium tracking-wide flex items-center gap-0.5 shrink-0">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> на живо
+        <div class="saaslink-toast-content">
+          <div class="saaslink-toast-header">
+            <span class="saaslink-toast-buyer">${buyer.name} <span class="saaslink-toast-city">от ${buyer.city}</span></span>
+            <span class="saaslink-toast-live">
+              <span class="saaslink-toast-ping"></span> на живо
             </span>
           </div>
-          <div class="text-[11px] text-white/80 leading-snug mt-0.5 font-light">
-            току-що си купи <span class="text-lime-400 font-semibold hover:underline block line-clamp-2 mt-0.5">${linkItem.title}</span>
+          <div class="saaslink-toast-buy-text">
+            току-що си купи <span class="saaslink-toast-product">${linkItem.title}</span>
           </div>
-          <div class="text-[9px] text-white/40 mt-1 font-light flex items-center gap-1.5">
+          <div class="saaslink-toast-footer">
             <span>преди 3 сек</span>
             <span>•</span>
-            <span class="flex items-center gap-0.5 text-white/50">🛒 Сигурно плащане</span>
+            <span style="display: inline-flex; align-items: center; gap: 2px; color: rgba(255, 255, 255, 0.5);">🛒 Сигурно плащане</span>
           </div>
         </div>
-        <button class="toast-close absolute top-2 right-2 text-white/40 hover:text-white/80 transition-colors focus:outline-none p-1 z-10">
-          <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+        <button class="saaslink-toast-close">
+          <svg style="width: 12px; height: 12px;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
       `;
       
-      const closeBtn = toastCard.querySelector(".toast-close") as HTMLElement;
+      const closeBtn = toastCard.querySelector(".saaslink-toast-close") as HTMLElement;
       if (closeBtn) {
         closeBtn.onclick = (e) => {
           e.preventDefault();
           e.stopPropagation();
-          toastCard.classList.add("translate-y-[150%]", "opacity-0");
+          toastCard.classList.remove("show");
           setTimeout(() => toastCard.remove(), 700);
         };
       }
@@ -4547,13 +4543,12 @@ export function PremiumInteractiveEnhancer({ profile, links }: { profile: Profil
       toastContainer.appendChild(toastCard);
       
       setTimeout(() => {
-        toastCard.classList.remove("translate-y-[150%]", "opacity-0");
-        toastCard.classList.add("translate-y-0", "opacity-100");
+        toastCard.classList.add("show");
       }, 100);
       
       setTimeout(() => {
         if (document.body.contains(toastCard)) {
-          toastCard.classList.add("translate-y-[150%]", "opacity-0");
+          toastCard.classList.remove("show");
           setTimeout(() => {
             if (document.body.contains(toastCard)) toastCard.remove();
           }, 700);
@@ -4586,43 +4581,321 @@ export function PremiumInteractiveEnhancer({ profile, links }: { profile: Profil
     };
   }, [links, profile]);
 
-  return null;
+  return (
+    <style dangerouslySetInnerHTML={{ __html: `
+      #saaslink-toast-container {
+        position: fixed;
+        bottom: 96px;
+        left: 16px;
+        right: 16px;
+        z-index: 99999;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        pointer-events: none;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      }
+      @media (min-width: 768px) {
+        #saaslink-toast-container {
+          bottom: 24px;
+          left: 24px;
+          right: auto;
+          width: 320px;
+        }
+      }
+      .saaslink-live-toast-card {
+        width: 100%;
+        padding: 14px;
+        border-radius: 16px;
+        background-color: rgba(9, 9, 11, 0.9);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-align: left;
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transform: translateX(-120%);
+        opacity: 0;
+        pointer-events: auto;
+        color: #ffffff;
+        box-sizing: border-box;
+      }
+      .saaslink-live-toast-card.show {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      .saaslink-live-toast-card:hover {
+        border-color: rgba(163, 230, 53, 0.3);
+      }
+      .saaslink-live-toast-icon-wrapper {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1);
+        flex-shrink: 0;
+        box-sizing: border-box;
+      }
+      .saaslink-live-toast-content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width: 0;
+      }
+      .saaslink-live-toast-title {
+        font-size: 11px;
+        font-weight: 600;
+        color: #ffffff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .saaslink-live-toast-desc {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 300;
+        line-height: 1.4;
+        margin-top: 2px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      #saaslink-order-toast-container {
+        position: fixed;
+        bottom: 96px;
+        left: 16px;
+        right: 16px;
+        z-index: 99999;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        pointer-events: none;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      }
+      @media (min-width: 768px) {
+        #saaslink-order-toast-container {
+          bottom: 24px;
+          left: 24px;
+          right: auto;
+          width: 340px;
+        }
+      }
+      .saaslink-toast-card {
+        width: 100%;
+        padding: 14px;
+        border-radius: 18px;
+        background-color: rgba(9, 9, 11, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        text-align: left;
+        transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transform: translateY(150%);
+        opacity: 0;
+        pointer-events: auto;
+        cursor: pointer;
+        position: relative;
+        color: #ffffff;
+        box-sizing: border-box;
+      }
+      .saaslink-toast-card.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      .saaslink-toast-card:hover {
+        border-color: rgba(163, 230, 53, 0.4);
+      }
+      .saaslink-toast-avatar-wrapper {
+        position: relative;
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+      }
+      .saaslink-toast-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        display: block;
+        box-sizing: border-box;
+      }
+      .saaslink-toast-badge {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 16px;
+        height: 16px;
+        background-color: #10b981;
+        border-radius: 50%;
+        border: 1px solid #09090b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 8px;
+        font-weight: bold;
+        color: #ffffff;
+        box-sizing: border-box;
+      }
+      .saaslink-toast-content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width: 0;
+        padding-right: 8px;
+      }
+      .saaslink-toast-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .saaslink-toast-buyer {
+        font-size: 11px;
+        font-weight: bold;
+        color: #ffffff;
+      }
+      .saaslink-toast-city {
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: normal;
+      }
+      .saaslink-toast-live {
+        font-size: 9px;
+        color: #34d399;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-shrink: 0;
+      }
+      .saaslink-toast-ping {
+        width: 6px;
+        height: 6px;
+        background-color: #34d399;
+        border-radius: 50%;
+        display: inline-block;
+        animation: saaslink-ping 1.5s infinite;
+      }
+      .saaslink-toast-buy-text {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.4;
+        margin-top: 2px;
+        font-weight: 300;
+      }
+      .saaslink-toast-product {
+        color: #a3e635;
+        font-weight: 600;
+        display: block;
+        margin-top: 2px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+      .saaslink-toast-product:hover {
+        text-decoration: underline;
+      }
+      .saaslink-toast-footer {
+        font-size: 9px;
+        color: rgba(255, 255, 255, 0.4);
+        margin-top: 4px;
+        font-weight: 300;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .saaslink-toast-close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.4);
+        cursor: pointer;
+        padding: 4px;
+        outline: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s ease;
+      }
+      .saaslink-toast-close:hover {
+        color: rgba(255, 255, 255, 0.8);
+      }
+      @keyframes saaslink-ping {
+        0% { transform: scale(1); opacity: 1; }
+        100% { transform: scale(2.5); opacity: 0; }
+      }
+    `}} />
+  );
 }
 
 export function PremiumFloatingChatWidget({ profile }: { profile: Profile }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [hasSocials, setHasSocials] = useState(false);
   
-  useEffect(() => {
-    if (profile.socialInstagram || profile.socialFacebook || profile.socialWhatsapp || profile.socialViber) {
-      setHasSocials(true);
-    }
-  }, [profile]);
+  const hasSocials = !!(profile.socialInstagram || profile.socialFacebook || profile.socialWhatsapp || profile.socialViber);
   
   if (!hasSocials) return null;
   
   let viberLink = profile.socialViber || "";
-  if (viberLink && !viberLink.startsWith("viber://")) {
-    let digits = viberLink.replace(/\D/g, "");
-    if (digits.startsWith("0") && digits.length === 10) {
-      digits = "359" + digits.slice(1);
+  if (viberLink) {
+    let digits = "";
+    if (viberLink.startsWith("viber://")) {
+      const match = viberLink.match(/number=([^&]+)/);
+      if (match) {
+        digits = decodeURIComponent(match[1]).replace(/\D/g, "");
+      }
+    } else {
+      digits = viberLink.replace(/\D/g, "");
     }
-    viberLink = `viber://chat?number=${digits}`;
+    if (digits) {
+      if (digits.startsWith("0") && digits.length === 10) {
+        digits = "359" + digits.slice(1);
+      }
+      viberLink = `viber://chat?number=${digits}`;
+    }
   }
   
   let whatsappLink = profile.socialWhatsapp || "";
-  if (whatsappLink && !whatsappLink.startsWith("http")) {
-    let digits = whatsappLink.replace(/\D/g, "");
-    if (digits.startsWith("0") && digits.length === 10) {
-      digits = "359" + digits.slice(1);
+  if (whatsappLink) {
+    let digits = "";
+    if (whatsappLink.includes("wa.me/")) {
+      const parts = whatsappLink.split("wa.me/");
+      if (parts[1]) digits = parts[1].split(/[?&]/)[0].replace(/\D/g, "");
+    } else if (whatsappLink.includes("whatsapp.com/")) {
+      const match = whatsappLink.match(/phone=([^&]+)/);
+      if (match) {
+        digits = match[1].replace(/\D/g, "");
+      }
+    } else {
+      digits = whatsappLink.replace(/\D/g, "");
     }
-    whatsappLink = `https://wa.me/${digits}?text=${encodeURIComponent("Здравейте! Пиша Ви от SaasLink.")}`;
+    if (digits) {
+      if (digits.startsWith("0") && digits.length === 10) {
+        digits = "359" + digits.slice(1);
+      }
+      whatsappLink = `https://wa.me/${digits}?text=${encodeURIComponent("Здравейте! Пиша Ви от SaasLink.")}`;
+    }
   }
   
   return (
-    <div className="fixed bottom-6 right-6 z-[9999] font-sans antialiased text-white">
+    <div className="saaslink-chat-container">
       <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes chatFadeIn {
+        @keyframes saaslink-chat-fade-in {
           from {
             opacity: 0;
             transform: translateY(12px) scale(0.95);
@@ -4632,66 +4905,301 @@ export function PremiumFloatingChatWidget({ profile }: { profile: Profile }) {
             transform: translateY(0) scale(1);
           }
         }
-        .chat-card-animate {
-          animation: chatFadeIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        .saaslink-chat-container {
+          position: fixed;
+          bottom: 24px;
+          right: 24px;
+          z-index: 99999;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+          color: #ffffff;
+          display: block;
+          box-sizing: border-box;
+        }
+        .saaslink-chat-glow {
+          position: absolute;
+          top: -4px;
+          left: -4px;
+          right: -4px;
+          bottom: -4px;
+          border-radius: 50%;
+          background: rgba(163, 230, 53, 0.35);
+          filter: blur(8px);
+          animation: saaslink-chat-pulse 2s infinite;
+          pointer-events: none;
+          z-index: 1;
+        }
+        .saaslink-chat-btn {
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #a3e635, #10b981);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+          border: none;
+          cursor: pointer;
+          outline: none;
+          position: relative;
+          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+          padding: 0;
+        }
+        .saaslink-chat-btn:hover {
+          transform: scale(1.08);
+        }
+        .saaslink-chat-btn:active {
+          transform: scale(0.92);
+        }
+        .saaslink-chat-icon {
+          font-family: 'Material Symbols Outlined' !important;
+          font-size: 24px !important;
+          color: #ffffff !important;
+          position: relative;
+          z-index: 2;
+          display: inline-block;
+          font-style: normal;
+          font-weight: normal;
+        }
+        .saaslink-chat-btn-badge {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 14px;
+          height: 14px;
+          background-color: #22c55e;
+          border: 2px solid #ffffff;
+          border-radius: 50%;
+          z-index: 3;
+          box-sizing: border-box;
+        }
+        .saaslink-chat-card {
+          position: absolute;
+          bottom: 76px;
+          right: 0;
+          width: 320px;
+          max-width: calc(100vw - 2rem);
+          border-radius: 24px;
+          background-color: rgba(9, 9, 11, 0.96);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+          overflow: hidden;
+          transform-origin: bottom right;
+          z-index: 10;
+          animation: saaslink-chat-fade-in 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          box-sizing: border-box;
+        }
+        .saaslink-chat-header {
+          padding: 16px;
+          background-color: rgba(255, 255, 255, 0.05);
+          border-b: 1px solid rgba(255, 255, 255, 0.1);
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          box-sizing: border-box;
+        }
+        .saaslink-chat-avatar-wrapper {
+          position: relative;
+          width: 40px;
+          height: 40px;
+          flex-shrink: 0;
+        }
+        .saaslink-chat-avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          display: block;
+          box-sizing: border-box;
+        }
+        .saaslink-chat-avatar-placeholder {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: #a3e635;
+          color: #000000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 14px;
+          box-sizing: border-box;
+        }
+        .saaslink-chat-avatar-status {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          width: 12px;
+          height: 12px;
+          background-color: #22c55e;
+          border: 2px solid #09090b;
+          border-radius: 50%;
+          box-sizing: border-box;
+        }
+        .saaslink-chat-header-info {
+          display: flex;
+          flex-direction: column;
+          text-align: left;
+        }
+        .saaslink-chat-name {
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 1.2;
+          color: #ffffff;
+        }
+        .saaslink-chat-status-text {
+          font-size: 10px;
+          color: #4ade80;
+          font-weight: 500;
+          margin-top: 2px;
+        }
+        .saaslink-chat-message-area {
+          padding: 16px;
+          text-align: left;
+          box-sizing: border-box;
+        }
+        .saaslink-chat-bubble {
+          background-color: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 16px;
+          padding: 12px;
+          font-size: 12px;
+          line-height: 1.5;
+          max-width: 85%;
+          color: rgba(255, 255, 255, 0.9);
+          box-sizing: border-box;
+        }
+        .saaslink-chat-channels {
+          padding: 0 16px 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          box-sizing: border-box;
+        }
+        .saaslink-chat-btn-channel {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 12px;
+          border-radius: 16px;
+          font-weight: 500;
+          font-size: 12px;
+          transition: all 0.28s ease;
+          text-decoration: none;
+          color: #ffffff;
+          box-sizing: border-box;
+        }
+        .saaslink-chat-btn-whatsapp {
+          background-color: rgba(37, 211, 102, 0.1);
+          border: 1px solid rgba(37, 211, 102, 0.2);
+        }
+        .saaslink-chat-btn-whatsapp:hover {
+          background-color: rgba(37, 211, 102, 0.2);
+        }
+        .saaslink-chat-btn-viber {
+          background-color: rgba(115, 96, 242, 0.1);
+          border: 1px solid rgba(115, 96, 242, 0.2);
+        }
+        .saaslink-chat-btn-viber:hover {
+          background-color: rgba(115, 96, 242, 0.2);
+        }
+        .saaslink-chat-btn-instagram {
+          background-color: rgba(225, 48, 108, 0.1);
+          border: 1px solid rgba(225, 48, 108, 0.2);
+        }
+        .saaslink-chat-btn-instagram:hover {
+          background-color: rgba(225, 48, 108, 0.2);
+        }
+        .saaslink-chat-btn-facebook {
+          background-color: rgba(24, 119, 242, 0.1);
+          border: 1px solid rgba(24, 119, 242, 0.2);
+        }
+        .saaslink-chat-btn-facebook:hover {
+          background-color: rgba(24, 119, 242, 0.2);
+        }
+        .saaslink-chat-channel-left {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .saaslink-chat-channel-icon {
+          width: 24px;
+          height: 24px;
+          object-fit: contain;
+          display: block;
+        }
+        .saaslink-chat-arrow {
+          font-size: 12px;
+          opacity: 0.6;
+          transition: transform 0.2s ease;
+        }
+        .saaslink-chat-btn-channel:hover .saaslink-chat-arrow {
+          transform: translateX(3px);
+        }
+        @keyframes saaslink-chat-pulse {
+          0% { transform: scale(1); opacity: 0.3; }
+          50% { transform: scale(1.05); opacity: 0.6; }
+          100% { transform: scale(1); opacity: 0.3; }
         }
       `}} />
 
       {/* Floating Badge Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 rounded-full bg-gradient-to-tr from-lime-400 to-emerald-500 flex items-center justify-center shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none relative group"
+        className="saaslink-chat-btn"
         aria-label="Chat"
       >
-        <span className="absolute -inset-1 rounded-full bg-lime-400/30 blur animate-pulse"></span>
-        <span className="material-symbols-outlined text-2xl relative z-10">
+        <span className="saaslink-chat-glow"></span>
+        <span className="saaslink-chat-icon">
           {isOpen ? "close" : "chat"}
         </span>
-        <span className="absolute top-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full"></span>
+        <span className="saaslink-chat-btn-badge"></span>
       </button>
       
       {/* Premium Chat Card */}
       {isOpen && (
-        <div className="absolute bottom-[76px] right-0 w-80 max-w-[calc(100vw-2rem)] rounded-3xl bg-zinc-950/95 border border-white/10 backdrop-blur-2xl shadow-2xl overflow-hidden chat-card-animate origin-bottom-right">
+        <div className="saaslink-chat-card">
           {/* Header */}
-          <div className="p-4 bg-white/5 border-b border-white/10 flex items-center gap-3">
-            <div className="relative">
+          <div className="saaslink-chat-header">
+            <div className="saaslink-chat-avatar-wrapper">
               {profile.avatarUrl ? (
-                <img src={profile.avatarUrl} alt="" className="w-10 h-10 rounded-full object-cover border border-white/20" />
+                <img src={profile.avatarUrl} alt="" className="saaslink-chat-avatar" />
               ) : (
-                <div className="w-10 h-10 rounded-full bg-lime-400 flex items-center justify-center font-bold text-black text-sm">
+                <div className="saaslink-chat-avatar-placeholder">
                   {profile.displayName.slice(0, 1).toUpperCase()}
                 </div>
               )}
-              <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-zinc-900 rounded-full"></span>
+              <span className="saaslink-chat-avatar-status"></span>
             </div>
-            <div className="flex flex-col text-left">
-              <span className="font-semibold text-sm leading-tight text-white">{profile.displayName}</span>
-              <span className="text-[10px] text-green-400 font-medium">На линия съм • Свържи се с мен</span>
+            <div className="saaslink-chat-header-info">
+              <span className="saaslink-chat-name">{profile.displayName}</span>
+              <span className="saaslink-chat-status-text">На линия съм • Свържи се с мен</span>
             </div>
           </div>
           
           {/* Message Area */}
-          <div className="p-4 text-left">
-            <div className="bg-white/5 rounded-2xl p-3 text-xs leading-relaxed max-w-[85%] border border-white/5 shadow-inner text-white/90">
+          <div className="saaslink-chat-message-area">
+            <div className="saaslink-chat-bubble">
               Здравейте! 👋 С какво мога да Ви помогна? Изберете предпочитания от Вас чат канал по-долу:
             </div>
           </div>
           
           {/* Action Channels */}
-          <div className="px-4 pb-5 flex flex-col gap-2">
+          <div className="saaslink-chat-channels">
             {profile.socialWhatsapp && (
               <a
                 href={whatsappLink}
                 target="_blank"
                 rel="nofollow noopener"
-                className="flex items-center justify-between p-3 rounded-2xl bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/20 text-white font-medium text-xs transition-colors group/btn"
+                className="saaslink-chat-btn-channel saaslink-chat-btn-whatsapp"
               >
-                <div className="flex items-center gap-3">
-                  <img src="/socials/whatsapp.png" alt="WhatsApp" className="w-6 h-6 object-contain" />
+                <div className="saaslink-chat-channel-left">
+                  <img src="/socials/whatsapp.png" alt="WhatsApp" className="saaslink-chat-channel-icon" />
                   <span>WhatsApp</span>
                 </div>
-                <span className="text-xs opacity-60 group-hover/btn:translate-x-1 transition-transform">➔</span>
+                <span className="saaslink-chat-arrow">➔</span>
               </a>
             )}
             
@@ -4700,13 +5208,13 @@ export function PremiumFloatingChatWidget({ profile }: { profile: Profile }) {
                 href={viberLink}
                 target="_blank"
                 rel="nofollow noopener"
-                className="flex items-center justify-between p-3 rounded-2xl bg-[#7309F3]/10 hover:bg-[#7309F3]/20 border border-[#7309F3]/20 text-white font-medium text-xs transition-colors group/btn"
+                className="saaslink-chat-btn-channel saaslink-chat-btn-viber"
               >
-                <div className="flex items-center gap-3">
-                  <img src="/socials/viber.png" alt="Viber" className="w-6 h-6 object-contain" />
+                <div className="saaslink-chat-channel-left">
+                  <img src="/socials/viber.png" alt="Viber" className="saaslink-chat-channel-icon" />
                   <span>Viber Chat</span>
                 </div>
-                <span className="text-xs opacity-60 group-hover/btn:translate-x-1 transition-transform">➔</span>
+                <span className="saaslink-chat-arrow">➔</span>
               </a>
             )}
             
@@ -4715,13 +5223,13 @@ export function PremiumFloatingChatWidget({ profile }: { profile: Profile }) {
                 href={profile.socialInstagram}
                 target="_blank"
                 rel="nofollow noopener"
-                className="flex items-center justify-between p-3 rounded-2xl bg-[#E1306C]/10 hover:bg-[#E1306C]/20 border border-[#E1306C]/20 text-white font-medium text-xs transition-colors group/btn"
+                className="saaslink-chat-btn-channel saaslink-chat-btn-instagram"
               >
-                <div className="flex items-center gap-3">
-                  <img src="/socials/instagram.png" alt="Instagram" className="w-6 h-6 object-contain" />
+                <div className="saaslink-chat-channel-left">
+                  <img src="/socials/instagram.png" alt="Instagram" className="saaslink-chat-channel-icon" />
                   <span>Instagram Direct</span>
                 </div>
-                <span className="text-xs opacity-60 group-hover/btn:translate-x-1 transition-transform">➔</span>
+                <span className="saaslink-chat-arrow">➔</span>
               </a>
             )}
             
@@ -4730,13 +5238,13 @@ export function PremiumFloatingChatWidget({ profile }: { profile: Profile }) {
                 href={profile.socialFacebook}
                 target="_blank"
                 rel="nofollow noopener"
-                className="flex items-center justify-between p-3 rounded-2xl bg-[#1877F2]/10 hover:bg-[#1877F2]/20 border border-[#1877F2]/20 text-white font-medium text-xs transition-colors group/btn"
+                className="saaslink-chat-btn-channel saaslink-chat-btn-facebook"
               >
-                <div className="flex items-center gap-3">
-                  <img src="/socials/facebook.png" alt="Facebook" className="w-6 h-6 object-contain" />
+                <div className="saaslink-chat-channel-left">
+                  <img src="/socials/facebook.png" alt="Facebook" className="saaslink-chat-channel-icon" />
                   <span>Messenger</span>
                 </div>
-                <span className="text-xs opacity-60 group-hover/btn:translate-x-1 transition-transform">➔</span>
+                <span className="saaslink-chat-arrow">➔</span>
               </a>
             )}
           </div>

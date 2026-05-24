@@ -261,6 +261,7 @@ export default async function PublicProfilePage({
           </section>
         </div>
       </main>
+      <script src="/tailwind.js"></script>
       <PremiumInteractiveEnhancer
         profile={profile as any}
         links={mainLinks.map((link) => ({
